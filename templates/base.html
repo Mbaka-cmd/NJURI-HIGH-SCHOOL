@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ school.name|default:"Chuka Girls Secondary School" }}{% endblock %}</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --school-red: #C0392B;
+            --school-dark-red: #922B21;
+            --school-white: #FFFFFF;
+            --school-gray: #f8f9fa;
+        }
+
+        * { font-family: 'Poppins', sans-serif; }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, var(--school-red), var(--school-dark-red));
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            padding: 0.8rem 0;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white !important;
+        }
+        .navbar-brand img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background: rgba(255,255,255,0.15);
+            border-radius: 5px;
+        }
+        .navbar-toggler { border-color: rgba(255,255,255,0.5); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .btn-login {
+            background: white;
+            color: var(--school-red) !important;
+            border-radius: 25px;
+            padding: 0.4rem 1.2rem !important;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-login:hover {
+            background: var(--school-red);
+            color: white !important;
+            border: 1px solid white;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            background: var(--school-dark-red);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.78rem;
+            padding: 5px 0;
+        }
+        .top-bar a { color: rgba(255,255,255,0.85); text-decoration: none; }
+        .top-bar a:hover { color: white; }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: rgba(255,255,255,0.8);
+            padding: 3rem 0 1rem;
+        }
+        footer h5 {
+            color: var(--school-red);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        footer a:hover { color: var(--school-red); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* GENERAL */
+        .section-title {
+            color: var(--school-red);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--school-red);
+            border-radius: 2px;
+        }
+        .section-title.text-center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .btn-primary {
+            background: var(--school-red);
+            border-color: var(--school-red);
+        }
+        .btn-primary:hover {
+            background: var(--school-dark-red);
+            border-color: var(--school-dark-red);
+        }
+        .text-primary { color: var(--school-red) !important; }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar d-none d-md-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <i class="bi bi-telephone-fill me-1"></i>
+                <a href="tel:064630001">064-630001</a>
+                <span class="mx-2">|</span>
+                <i class="bi bi-envelope-fill me-1"></i>
+                <a href="mailto:chukaagirls3@gmail.com">chukaagirls3@gmail.com</a>
+            </div>
+            <div class="col-md-6 text-end">
+                <i class="bi bi-geo-alt-fill me-1"></i>
+                Kiagondu Forest Road, Karingari, Chuka
+                <span class="mx-2">|</span>
+                <i class="bi bi-clock-fill me-1"></i>
+                Mon–Fri: 8AM–5PM
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            {% if school.logo %}
+                <img src="{{ school.logo.url }}" alt="Logo">
+            {% else %}
+                <img src="https://ui-avatars.com/api/?name=CG&background=C0392B&color=fff&size=45" alt="Logo">
+            {% endif %}
+            <span>{{ school.name|default:"Chuka Girls Secondary School" }}</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                       href="{% url 'home' %}">
+                        <i class="bi bi-house-fill me-1"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                       href="{% url 'about' %}">
+                        <i class="bi bi-info-circle-fill me-1"></i>About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'academics' %}active{% endif %}"
+                       href="{% url 'academics' %}">
+                        <i class="bi bi-book-fill me-1"></i>Academics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'co_curricular' %}active{% endif %}"
+                       href="{% url 'co_curricular' %}">
+                        <i class="bi bi-trophy-fill me-1"></i>Co-curricular
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
+                       href="{% url 'gallery' %}">
+                        <i class="bi bi-images me-1"></i>Gallery
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'kcse_results' %}active{% endif %}"
+                       href="{% url 'kcse_results' %}">
+                        <i class="bi bi-award-fill me-1"></i>KCSE Results
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+                       href="{% url 'contact' %}">
+                        <i class="bi bi-chat-dots-fill me-1"></i>Contact
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link btn-login" href="{% url 'login' %}">
+                        <i class="bi bi-person-fill me-1"></i>Portal Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- MESSAGES -->
+{% if messages %}
+<div class="container mt-2">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <h5><i class="bi bi-mortarboard-fill me-2"></i>Chuka Girls Secondary School</h5>
+                <p style="font-size:0.9rem;">
+                    Officially St. Bakhita Chuka Girls High School. 
+                    An Extra County girls boarding school committed to academic excellence 
+                    and holistic development.
+                </p>
+                <p class="fst-italic" style="color: #C0392B; font-weight: 600;">
+                    "{{ school.motto|default:"Today's Effort is Tomorrow's Success" }}"
+                </p>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled" style="font-size:0.9rem;">
+                    <li><a href="{% url 'home' %}"><i class="bi bi-chevron-right"></i> Home</a></li>
+                    <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right"></i> About Us</a></li>
+                    <li><a href="{% url 'academics' %}"><i class="bi bi-chevron-right"></i> Academics</a></li>
+                    <li><a href="{% url 'kcse_results' %}"><i class="bi bi-chevron-right"></i> KCSE Results</a></li>
+                    <li><a href="{% url 'gallery' %}"><i class="bi bi-chevron-right"></i> Gallery</a></li>
+                    <li><a href="{% url 'contact' %}"><i class="bi bi-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled" style="font-size:0.9rem;">
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt-fill me-2" style="color:#C0392B;"></i>
+                        Kiagondu Forest Road,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Karingari, Chuka
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-mailbox-fill me-2" style="color:#C0392B;"></i>
+                        P.O. Box 3, Chuka 60400
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-telephone-fill me-2" style="color:#C0392B;"></i>
+                        064-630001
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-envelope-fill me-2" style="color:#C0392B;"></i>
+                        chukaagirls3@gmail.com
+                    </li>
+                    <li>
+                        <i class="bi bi-hash me-2" style="color:#C0392B;"></i>
+                        KNEC Code: 19308304
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <h5>Portal Access</h5>
+                <p style="font-size:0.9rem;">Access the school management portal for students, parents and staff.</p>
+                <a href="{% url 'login' %}" class="btn btn-sm mb-2 w-100" 
+                   style="background:#C0392B; color:white; border-radius:25px;">
+                    <i class="bi bi-person-fill me-1"></i> Parent Portal
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-sm mb-2 w-100"
+                   style="background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.3); border-radius:25px;">
+                    <i class="bi bi-person-badge-fill me-1"></i> Staff Portal
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-sm w-100"
+                   style="background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.3); border-radius:25px;">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Student Portal
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p class="mb-0">
+                © 2026 Chuka Girls Secondary School. All rights reserved. |
+                Powered by <span style="color:#C0392B; font-weight:600;">SchoolSaaS</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

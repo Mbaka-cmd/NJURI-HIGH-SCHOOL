@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}{{ student.get_full_name }} — {{ request.user.school.name }}{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div style="width:70px; height:70px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:800; border:3px solid rgba(255,255,255,0.4);">
+                    {{ student.first_name|first }}{{ student.last_name|first }}
+                </div>
+            </div>
+            <div class="col">
+                <h4 style="font-weight:800; margin:0;">{{ student.get_full_name }}</h4>
+                <p style="opacity:0.75; margin:0; font-size:0.9rem;">
+                    {{ student.admission_number }} &nbsp;|&nbsp;
+                    {% if student.current_stream %}{{ student.current_stream.full_name }}{% endif %}
+                </p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+                <a href="{% url 'student_edit' student.id %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
+                    <i class="bi bi-pencil-fill me-1"></i>Edit
+                </a>
+                <a href="{% url 'student_list' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETAILS -->
+<section style="padding: 3rem 0 5rem; background:#f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+            <!-- PERSONAL INFO -->
+            <div class="col-lg-6">
+                <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <i class="bi bi-person-fill me-2"></i>Personal Information
+                    </h5>
+                    <table class="table table-borderless" style="font-size:0.9rem;">
+                        <tr><td style="color:#666; width:40%;">Full Name</td><td style="font-weight:600;">{{ student.get_full_name }}</td></tr>
+                        <tr><td style="color:#666;">Date of Birth</td><td style="font-weight:600;">{{ student.date_of_birth }}</td></tr>
+                        <tr><td style="color:#666;">Gender</td><td style="font-weight:600;">{{ student.get_gender_display }}</td></tr>
+                        <tr><td style="color:#666;">NEMIS No.</td><td style="font-weight:600;">{{ student.nemis_number|default:"—" }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ACADEMIC INFO -->
+            <div class="col-lg-6">
+                <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <i class="bi bi-book-fill me-2"></i>Academic Information
+                    </h5>
+                    <table class="table table-borderless" style="font-size:0.9rem;">
+                        <tr><td style="color:#666; width:40%;">Admission No.</td><td style="font-weight:600;">{{ student.admission_number }}</td></tr>
+                        <tr><td style="color:#666;">Admission Date</td><td style="font-weight:600;">{{ student.admission_date }}</td></tr>
+                        <tr><td style="color:#666;">Current Stream</td><td style="font-weight:600;">{{ student.current_stream.full_name|default:"Not assigned" }}</td></tr>
+                        <tr><td style="color:#666;">KCPE Marks</td><td style="font-weight:600;">{{ student.kcpe_marks|default:"—" }}</td></tr>
+                        <tr><td style="color:#666;">Status</td>
+                            <td><span style="background:#f0fff5; color:#2ecc71; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">{{ student.get_status_display }}</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- BOARDING INFO -->
+            <div class="col-lg-6">
+                <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <i class="bi bi-house-fill me-2"></i>Boarding Information
+                    </h5>
+                    <table class="table table-borderless" style="font-size:0.9rem;">
+                        <tr><td style="color:#666; width:40%;">Type</td>
+                            <td style="font-weight:600;">
+                                {% if student.is_boarder %}
+                                <span style="background:#f0fff5; color:#2ecc71; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Boarder</span>
+                                {% else %}
+                                <span style="background:#f8f9fa; color:#666; padding:3px 10px; border-radius:20px; font-size:0.8rem;">Day Scholar</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td style="color:#666;">Dormitory</td><td style="font-weight:600;">{{ student.dormitory|default:"—" }}</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

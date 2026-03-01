@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — {{ school.name }}{% endblock %}
+
+{% block content %}
+
+<!-- DASHBOARD HEADER -->
+<section style="background: linear-gradient(135deg, #C0392B 0%, #922B21 60%, #1a1a1a 100%); padding: 2rem 0; color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800; margin:0;">
+                    <i class="bi bi-speedometer2 me-2"></i>School Admin Dashboard
+                </h4>
+                <p style="opacity:0.75; margin:0; font-size:0.9rem;">
+                    {{ school.name }} &nbsp;|&nbsp; 
+                    Welcome back, <strong>{{ request.user.get_full_name }}</strong>
+                </p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+                <a href="{% url 'home' %}" class="btn btn-sm" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-globe me-1"></i>View Website
+                </a>
+                <a href="{% url 'admin:index' %}" class="btn btn-sm" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-gear-fill me-1"></i>Django Admin
+                </a>
+                <a href="{% url 'logout' %}" class="btn btn-sm" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-box-arrow-right me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS CARDS -->
+<section style="background:#f8f9fa; padding: 2rem 0;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #C0392B; display:flex; align-items:center; gap:1rem;">
+                    <div style="width:55px; height:55px; background:#fff0f0; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="bi bi-people-fill" style="color:#C0392B; font-size:1.5rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:#1a1a1a; line-height:1;">{{ total_students }}</div>
+                        <div style="font-size:0.85rem; color:#666;">Total Students</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #2ecc71; display:flex; align-items:center; gap:1rem;">
+                    <div style="width:55px; height:55px; background:#f0fff5; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="bi bi-person-badge-fill" style="color:#2ecc71; font-size:1.5rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:#1a1a1a; line-height:1;">{{ total_teachers }}</div>
+                        <div style="font-size:0.85rem; color:#666;">Teachers</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #3498db; display:flex; align-items:center; gap:1rem;">
+                    <div style="width:55px; height:55px; background:#f0f8ff; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="bi bi-grid-fill" style="color:#3498db; font-size:1.5rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:#1a1a1a; line-height:1;">{{ total_streams }}</div>
+                        <div style="font-size:0.85rem; color:#666;">Class Streams</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #e67e22; display:flex; align-items:center; gap:1rem;">
+                    <div style="width:55px; height:55px; background:#fff8f0; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <i class="bi bi-receipt" style="color:#e67e22; font-size:1.5rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:#1a1a1a; line-height:1;">{{ pending_fees }}</div>
+                        <div style="font-size:0.85rem; color:#666;">Pending Fee Invoices</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN DASHBOARD CONTENT -->
+<section style="padding: 2rem 0 4rem; background:#f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- QUICK ACTIONS -->
+            <div class="col-lg-4">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.2rem;">
+                        <i class="bi bi-lightning-fill me-2" style="color:#C0392B;"></i>Quick Actions
+                    </h5>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn text-start" style="background:#fff0f0; color:#C0392B; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-person-plus-fill me-2"></i>Add New Student
+                        </a>
+                        <a href="#" class="btn text-start" style="background:#f0fff5; color:#2ecc71; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-person-badge me-2"></i>Add New Teacher
+                        </a>
+                        <a href="#" class="btn text-start" style="background:#f0f8ff; color:#3498db; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-journal-plus me-2"></i>Create New Exam
+                        </a>
+                        <a href="#" class="btn text-start" style="background:#fff8f0; color:#e67e22; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-receipt me-2"></i>Generate Fee Invoices
+                        </a>
+                        <a href="#" class="btn text-start" style="background:#f5f0ff; color:#9b59b6; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-file-earmark-pdf me-2"></i>Generate Report Cards
+                        </a>
+                        <a href="#" class="btn text-start" style="background:#f0fff8; color:#1abc9c; border-radius:10px; font-weight:600; padding:0.8rem 1rem;">
+                            <i class="bi bi-megaphone me-2"></i>Send Announcement
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECENT EXAMS -->
+            <div class="col-lg-4">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.2rem;">
+                        <i class="bi bi-journal-check me-2" style="color:#C0392B;"></i>Recent Exams
+                    </h5>
+                    {% if recent_exams %}
+                        {% for exam in recent_exams %}
+                        <div style="padding:0.8rem; border-radius:10px; background:#f8f9fa; margin-bottom:0.5rem; display:flex; align-items:center; justify-content:between; gap:1rem;">
+                            <div style="flex:1;">
+                                <div style="font-weight:600; font-size:0.9rem;">{{ exam.name }}</div>
+                                <div style="font-size:0.78rem; color:#666;">{{ exam.get_exam_type_display }} — {{ exam.academic_year.year }}</div>
+                            </div>
+                            <span style="background:{% if exam.is_published %}#f0fff5; color:#2ecc71;{% else %}#fff8f0; color:#e67e22;{% endif %} padding:3px 10px; border-radius:20px; font-size:0.75rem; font-weight:600; white-space:nowrap;">
+                                {% if exam.is_published %}Published{% else %}Draft{% endif %}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align:center; padding:2rem; color:#aaa;">
+                            <i class="bi bi-journal-x" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+                            No exams yet
+                        </div>
+                    {% endif %}
+                    <a href="#" class="btn btn-sm w-100 mt-2" style="background:#fff0f0; color:#C0392B; border-radius:10px;">
+                        View All Exams
+                    </a>
+                </div>
+            </div>
+
+            <!-- SCHOOL INFO -->
+            <div class="col-lg-4">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.2rem;">
+                        <i class="bi bi-building me-2" style="color:#C0392B;"></i>School Info
+                    </h5>
+                    <div style="font-size:0.9rem;">
+                        <div style="padding:0.6rem 0; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">School</span>
+                            <span style="font-weight:600; text-align:right; max-width:60%;">{{ school.name }}</span>
+                        </div>
+                        <div style="padding:0.6rem 0; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">Category</span>
+                            <span style="font-weight:600;">{{ school.get_category_display }}</span>
+                        </div>
+                        <div style="padding:0.6rem 0; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">Current Year</span>
+                            <span style="font-weight:600;">{{ school.current_year }}</span>
+                        </div>
+                        <div style="padding:0.6rem 0; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">Current Term</span>
+                            <span style="font-weight:600;">Term {{ school.current_term }}</span>
+                        </div>
+                        <div style="padding:0.6rem 0; border-bottom:1px solid #f0f0f0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">Plan</span>
+                            <span style="background:#fff0f0; color:#C0392B; padding:2px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">{{ school.get_subscription_plan_display }}</span>
+                        </div>
+                        <div style="padding:0.6rem 0; display:flex; justify-content:space-between;">
+                            <span style="color:#666;">KNEC Code</span>
+                            <span style="font-weight:600;">{{ school.knec_code }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION MODULES -->
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-top:1rem;">
+                    <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.2rem;">
+                        <i class="bi bi-grid-3x3-gap-fill me-2" style="color:#C0392B;"></i>Modules
+                    </h5>
+                    <div class="row g-2">
+                        {% for module in modules %}
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.background='#fff0f0'" onmouseout="this.style.background='#f8f9fa'">
+                                <i class="bi bi-{{ module.icon }}" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600; text-align:center;">{{ module.name }}</span>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-people-fill" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Students</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-journal-text" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Exams</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-cash-coin" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Fees</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-calendar3" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Timetable</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-chat-dots" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Messages</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-bar-chart-fill" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Reports</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-images" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Gallery</span>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" style="background:#f8f9fa; border-radius:10px; padding:0.8rem 0.5rem; display:flex; flex-direction:column; align-items:center; text-decoration:none;">
+                                <i class="bi bi-gear-fill" style="color:#C0392B; font-size:1.3rem; margin-bottom:0.3rem;"></i>
+                                <span style="font-size:0.72rem; color:#333; font-weight:600;">Settings</span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

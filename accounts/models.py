@@ -96,13 +96,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_dashboard_url(self):
         if self.is_platform_admin:
-            return "/platform/dashboard/"
+            return "/admin/"
         if self.is_school_admin:
-            return "/admin-dashboard/"
+            return "/school-admin/dashboard/"
         if self.is_teacher:
-            return "/teacher/dashboard/"
+            return "/school-admin/dashboard/"
         if self.is_parent:
-            return "/parent/dashboard/"
+            return "/school-admin/dashboard/"
         if self.is_student:
-            return "/student/dashboard/"
+            return "/school-admin/dashboard/"
         return "/"

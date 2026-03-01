@@ -158,9 +158,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # ─────────────────────────────────────────────────────────────────
 # AUTH REDIRECTS
 # ─────────────────────────────────────────────────────────────────
-LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/dashboard/"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/school-admin/dashboard/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 
 # ─────────────────────────────────────────────────────────────────

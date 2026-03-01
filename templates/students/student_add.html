@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Add Student — {{ request.user.school.name }}{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800; margin:0;">
+                    <i class="bi bi-person-plus-fill me-2"></i>Add New Student
+                </h4>
+                <p style="opacity:0.75; margin:0; font-size:0.9rem;">Fill in the student's details below</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'student_list' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Students
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FORM -->
+<section style="padding: 3rem 0 5rem; background:#f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show mb-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- PERSONAL INFO -->
+                    <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                            <i class="bi bi-person-fill me-2"></i>Personal Information
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">First Name <span style="color:#C0392B;">*</span></label>
+                                <input type="text" name="first_name" class="form-control" required placeholder="e.g. Jane">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Middle Name</label>
+                                <input type="text" name="middle_name" class="form-control" placeholder="Optional">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Last Name <span style="color:#C0392B;">*</span></label>
+                                <input type="text" name="last_name" class="form-control" required placeholder="e.g. Wanjiku">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Date of Birth <span style="color:#C0392B;">*</span></label>
+                                <input type="date" name="date_of_birth" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Gender</label>
+                                <select name="gender" class="form-select">
+                                    <option value="female" selected>Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">NEMIS Number</label>
+                                <input type="text" name="nemis_number" class="form-control" placeholder="National ID for students">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADMISSION INFO -->
+                    <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                            <i class="bi bi-card-text me-2"></i>Admission Details
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Admission Number <span style="color:#C0392B;">*</span></label>
+                                <input type="text" name="admission_number" class="form-control" required placeholder="e.g. CGS/2026/001">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Admission Date <span style="color:#C0392B;">*</span></label>
+                                <input type="date" name="admission_date" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Admission Type</label>
+                                <select name="admission_type" class="form-select">
+                                    <option value="form1">Form 1 (New)</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="readmission">Readmission</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Current Stream <span style="color:#C0392B;">*</span></label>
+                                <select name="current_stream" class="form-select" required>
+                                    <option value="">-- Select Stream --</option>
+                                    {% for stream in streams %}
+                                    <option value="{{ stream.id }}">{{ stream.full_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">KCPE Marks</label>
+                                <input type="number" name="kcpe_marks" class="form-control" placeholder="e.g. 380" min="0" max="500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOARDING INFO -->
+                    <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                            <i class="bi bi-house-fill me-2"></i>Boarding Information
+                        </h5>
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="is_boarder" id="is_boarder" checked style="width:3rem; height:1.5rem;">
+                                    <label class="form-check-label ms-2 fw-semibold" for="is_boarder">Is Boarder?</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Dormitory</label>
+                                <input type="text" name="dormitory" class="form-control" placeholder="e.g. Dorm A">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <div class="d-flex gap-3 justify-content-end">
+                        <a href="{% url 'student_list' %}" class="btn btn-lg" style="border-radius:10px; border:2px solid #ddd; color:#666; padding:0.8rem 2rem;">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg, #C0392B, #922B21); color:white; border-radius:10px; padding:0.8rem 3rem; font-weight:600;">
+                            <i class="bi bi-person-plus-fill me-2"></i>Add Student
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
