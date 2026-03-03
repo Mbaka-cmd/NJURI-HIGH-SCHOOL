@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Invoices — {{ request.user.school.name }}{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800; margin:0;"><i class="bi bi-receipt me-2"></i>Fee Invoices</h4>
+                <p style="opacity:0.75; margin:0; font-size:0.9rem;">All student fee invoices</p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+                <a href="{% url 'generate_invoices' %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
+                    <i class="bi bi-plus-circle-fill me-1"></i>Generate
+                </a>
+                <a href="{% url 'fee_dashboard' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FILTERS -->
+<section style="background:#f8f9fa; padding:1.5rem 0; border-bottom:1px solid #e0e0e0;">
+    <div class="container">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-lg-5">
+                <input type="text" name="search" class="form-control" placeholder="Search by name or admission number..." value="{{ search }}">
+            </div>
+            <div class="col-lg-3">
+                <select name="status" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="partial" {% if status_filter == 'partial' %}selected{% endif %}>Partial</option>
+                    <option value="paid" {% if status_filter == 'paid' %}selected{% endif %}>Paid</option>
+                    <option value="overdue" {% if status_filter == 'overdue' %}selected{% endif %}>Overdue</option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="btn w-100" style="background:#C0392B; color:white; border-radius:8px;">
+                    <i class="bi bi-funnel-fill me-1"></i>Filter
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- INVOICES TABLE -->
+<section style="padding:2rem 0 4rem; background:#f8f9fa;">
+    <div class="container">
+        {% if invoices %}
+        <div style="background:white; border-radius:15px; box-shadow:0 3px 15px rgba(0,0,0,0.07); overflow:hidden;">
+            <div style="overflow-x:auto;">
+                <table class="table table-hover mb-0">
+                    <thead style="background:linear-gradient(135deg, #C0392B, #922B21); color:white;">
+                        <tr>
+                            <th style="padding:1rem; border:none;">Student</th>
+                            <th style="padding:1rem; border:none;">Stream</th>
+                            <th style="padding:1rem; border:none;">Term/Year</th>
+                            <th style="padding:1rem; border:none;">Amount Due</th>
+                            <th style="padding:1rem; border:none;">Amount Paid</th>
+                            <th style="padding:1rem; border:none;">Balance</th>
+                            <th style="padding:1rem; border:none;">Status</th>
+                            <th style="padding:1rem; border:none;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice in invoices %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:0.9rem 1rem;">
+                                <div style="font-weight:600; font-size:0.9rem;">{{ invoice.student.get_full_name }}</div>
+                                <div style="font-size:0.75rem; color:#999;">{{ invoice.student.admission_number }}</div>
+                            </td>
+                            <td style="padding:0.9rem 1rem; font-size:0.85rem;">
+                                {{ invoice.student.current_stream.full_name|default:"—" }}
+                            </td>
+                            <td style="padding:0.9rem 1rem; font-size:0.85rem;">
+                                Term {{ invoice.term }} / {{ invoice.academic_year }}
+                            </td>
+                            <td style="padding:0.9rem 1rem; font-weight:600;">
+                                KES {{ invoice.amount_due|floatformat:0 }}
+                            </td>
+                            <td style="padding:0.9rem 1rem; font-weight:600; color:#2ecc71;">
+                                KES {{ invoice.amount_paid|floatformat:0 }}
+                            </td>
+                            <td style="padding:0.9rem 1rem; font-weight:700; color:#C0392B;">
+                                KES {{ invoice.balance|floatformat:0 }}
+                            </td>
+                            <td style="padding:0.9rem 1rem;">
+                                {% if invoice.status == 'paid' %}
+                                <span style="background:#f0fff5; color:#2ecc71; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Paid</span>
+                                {% elif invoice.status == 'partial' %}
+                                <span style="background:#fff8f0; color:#e67e22; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Partial</span>
+                                {% elif invoice.status == 'overdue' %}
+                                <span style="background:#fff0f0; color:#C0392B; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Overdue</span>
+                                {% else %}
+                                <span style="background:#f0f8ff; color:#3498db; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding:0.9rem 1rem;">
+                                <div class="d-flex gap-1">
+                                    <a href="{% url 'invoice_detail' invoice.id %}" class="btn btn-sm" style="background:#f0f8ff; color:#3498db; border-radius:8px;">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a href="{% url 'record_payment' invoice.id %}" class="btn btn-sm" style="background:#f0fff5; color:#2ecc71; border-radius:8px;">
+                                        <i class="bi bi-cash"></i>
+                                    </a>
+                                    <a href="{% url 'mpesa_stk_push' invoice.id %}" class="btn btn-sm" style="background:#fff0f0; color:#C0392B; border-radius:8px;">
+                                        <i class="bi bi-phone-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div style="background:white; border-radius:15px; padding:4rem; text-align:center; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-receipt" style="font-size:4rem; color:#ddd; display:block; margin-bottom:1rem;"></i>
+            <h5 style="color:#aaa;">No invoices found</h5>
+            <a href="{% url 'generate_invoices' %}" class="btn mt-2" style="background:#C0392B; color:white; border-radius:20px;">
+                <i class="bi bi-plus-circle-fill me-2"></i>Generate Invoices
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
