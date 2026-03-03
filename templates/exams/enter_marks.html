@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load exam_tags %}
+{% block title %}Enter Marks — {{ exam.name }}{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-pencil-fill me-2"></i>Enter Marks</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ exam.name }}</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'exam_detail' exam.id %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+
+        <!-- SELECT STREAM & SUBJECT -->
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Select Stream</label>
+                    <select name="stream" class="form-select" required>
+                        <option value="">-- Select Stream --</option>
+                        {% for stream in streams %}
+                        <option value="{{ stream.id }}" {% if selected_stream.id == stream.id %}selected{% endif %}>
+                            {{ stream.full_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Select Subject</label>
+                    <select name="subject" class="form-select" required>
+                        <option value="">-- Select Subject --</option>
+                        {% for subject in subjects %}
+                        <option value="{{ subject.id }}" {% if selected_subject.id == subject.id %}selected{% endif %}>
+                            {{ subject.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn w-100" style="background:#C0392B;color:white;border-radius:8px;padding:0.6rem;">
+                        <i class="bi bi-arrow-right-circle-fill me-1"></i>Load Students
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- MARKS ENTRY TABLE -->
+        {% if students %}
+        <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 style="font-weight:700;color:#1a1a1a;margin:0;">
+                    {{ selected_stream.full_name }} — {{ selected_subject.name }}
+                    <span style="font-size:0.85rem;color:#666;font-weight:400;">({{ students.count }} students)</span>
+                </h5>
+                {% if messages %}{% for message in messages %}
+                <span style="background:#f0fff5;color:#2ecc71;padding:6px 16px;border-radius:20px;font-size:0.85rem;font-weight:600;">
+                    <i class="bi bi-check-circle-fill me-1"></i>{{ message }}
+                </span>
+                {% endfor %}{% endif %}
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="stream" value="{{ stream_id }}">
+                <input type="hidden" name="subject" value="{{ subject_id }}">
+                <input type="hidden" name="save_marks" value="1">
+
+                <div style="overflow-x:auto;">
+                    <table class="table table-hover mb-0">
+                        <thead style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;">
+                            <tr>
+                                <th style="padding:1rem;border:none;">#</th>
+                                <th style="padding:1rem;border:none;">Student</th>
+                                <th style="padding:1rem;border:none;">Adm No.</th>
+                                <th style="padding:1rem;border:none;width:150px;">Score (0-100)</th>
+                                <th style="padding:1rem;border:none;">Absent</th>
+                                <th style="padding:1rem;border:none;">Grade</th>
+                                <th style="padding:1rem;border:none;">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            {% with result=existing_results|get_item:student.id %}
+                            <tr style="border-bottom:1px solid #f0f0f0;">
+                                <td style="padding:0.8rem 1rem;color:#666;">{{ forloop.counter }}</td>
+                                <td style="padding:0.8rem 1rem;font-weight:600;">{{ student.get_full_name }}</td>
+                                <td style="padding:0.8rem 1rem;font-size:0.85rem;color:#666;">{{ student.admission_number }}</td>
+                                <td style="padding:0.8rem 1rem;">
+                                    <input type="number" name="score_{{ student.id }}"
+                                           class="form-control form-control-sm"
+                                           min="0" max="100" step="0.5"
+                                           value="{% if result and result.raw_score %}{{ result.raw_score }}{% endif %}"
+                                           style="width:100px;">
+                                </td>
+                                <td style="padding:0.8rem 1rem;">
+                                    <input type="checkbox" name="absent_{{ student.id }}"
+                                           {% if result and result.is_absent %}checked{% endif %}
+                                           style="width:20px;height:20px;cursor:pointer;">
+                                </td>
+                                <td style="padding:0.8rem 1rem;">
+                                    {% if result and result.grade %}
+                                    <span style="background:#fff0f0;color:#C0392B;padding:3px 10px;border-radius:20px;font-size:0.85rem;font-weight:700;">
+                                        {{ result.grade }}
+                                    </span>
+                                    {% else %}—{% endif %}
+                                </td>
+                                <td style="padding:0.8rem 1rem;font-weight:600;">
+                                    {% if result %}{{ result.points|default:"—" }}{% else %}—{% endif %}
+                                </td>
+                            </tr>
+                            {% endwith %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;border-radius:10px;padding:0.8rem 3rem;font-weight:600;">
+                        <i class="bi bi-check-circle-fill me-2"></i>Save Marks
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% elif stream_id and subject_id %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-people" style="font-size:3rem;color:#ddd;display:block;margin-bottom:1rem;"></i>
+            <h5 style="color:#aaa;">No students found in this stream</h5>
+        </div>
+        {% else %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-arrow-up-circle" style="font-size:3rem;color:#ddd;display:block;margin-bottom:1rem;"></i>
+            <h5 style="color:#aaa;">Select a stream and subject to start entering marks</h5>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}{{ exam.name }}{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;">{{ exam.name }}</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">
+                    {{ exam.get_exam_type_display }} &nbsp;·&nbsp; {{ exam.academic_year.year }}
+                    {% if exam.term %} &nbsp;·&nbsp; {{ exam.term.name }}{% endif %}
+                </p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+                <a href="{% url 'enter_marks' exam.id %}" class="btn" style="background:white;color:#C0392B;border-radius:20px;font-weight:600;">
+                    <i class="bi bi-pencil-fill me-1"></i>Enter Marks
+                </a>
+                <a href="{% url 'exam_results' exam.id %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-bar-chart-fill me-1"></i>Results
+                </a>
+                <a href="{% url 'exam_list' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700;color:#C0392B;margin-bottom:1.5rem;">Exam Info</h5>
+                    <table class="table table-borderless" style="font-size:0.9rem;">
+                        <tr><td style="color:#666;">Type</td><td style="font-weight:600;">{{ exam.get_exam_type_display }}</td></tr>
+                        <tr><td style="color:#666;">Year</td><td style="font-weight:600;">{{ exam.academic_year.year }}</td></tr>
+                        <tr><td style="color:#666;">Term</td><td style="font-weight:600;">{{ exam.term.name|default:"—" }}</td></tr>
+                        <tr><td style="color:#666;">Start</td><td style="font-weight:600;">{{ exam.start_date|default:"—" }}</td></tr>
+                        <tr><td style="color:#666;">End</td><td style="font-weight:600;">{{ exam.end_date|default:"—" }}</td></tr>
+                        <tr><td style="color:#666;">Results</td><td style="font-weight:600;">{{ results_count }} entries</td></tr>
+                        <tr><td style="color:#666;">Status</td>
+                            <td>
+                                <span style="background:{% if exam.is_published %}#f0fff5;color:#2ecc71;{% else %}#fff8f0;color:#e67e22;{% endif %};padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;">
+                                    {% if exam.is_published %}Published{% else %}Draft{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h5 style="font-weight:700;color:#C0392B;margin-bottom:1.5rem;">Streams in this Exam</h5>
+                    {% if streams %}
+                    <div class="row g-3">
+                        {% for stream in streams %}
+                        <div class="col-md-4">
+                            <div style="background:#f8f9fa;border-radius:10px;padding:1rem;text-align:center;">
+                                <div style="font-weight:700;font-size:1rem;">{{ stream.full_name }}</div>
+                                <div style="font-size:0.8rem;color:#666;margin:0.5rem 0;">
+                                    {{ stream.students.filter.count|default:"" }} students
+                                </div>
+                                <div class="d-flex gap-2 justify-content-center mt-2">
+                                    <a href="{% url 'enter_marks' exam.id %}?stream={{ stream.id }}" 
+                                       class="btn btn-sm" style="background:#fff0f0;color:#C0392B;border-radius:8px;font-size:0.8rem;">
+                                        <i class="bi bi-pencil-fill me-1"></i>Enter Marks
+                                    </a>
+                                    <a href="{% url 'exam_results' exam.id %}?stream={{ stream.id }}"
+                                       class="btn btn-sm" style="background:#f0fff5;color:#2ecc71;border-radius:8px;font-size:0.8rem;">
+                                        <i class="bi bi-bar-chart-fill me-1"></i>Results
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="color:#aaa;">No streams assigned to this exam.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

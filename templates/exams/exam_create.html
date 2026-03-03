@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Create Exam{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-plus-circle-fill me-2"></i>Create Exam</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">Set up a new exam for students</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'exam_list' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:3rem 0 5rem;background:#f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% if messages %}{% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show mb-4">
+                    {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}{% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700;color:#C0392B;margin-bottom:1.5rem;">Exam Details</h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Exam Name <span style="color:#C0392B;">*</span></label>
+                                <input type="text" name="name" class="form-control" placeholder="e.g. End of Term 1 2026" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Exam Type <span style="color:#C0392B;">*</span></label>
+                                <select name="exam_type" class="form-select" required>
+                                    <option value="cat1">CAT 1</option>
+                                    <option value="cat2">CAT 2</option>
+                                    <option value="midterm">Mid-Term</option>
+                                    <option value="endterm" selected>End of Term</option>
+                                    <option value="mock">Mock KCSE</option>
+                                    <option value="kcse">KCSE</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Academic Year <span style="color:#C0392B;">*</span></label>
+                                <select name="academic_year" class="form-select" required>
+                                    <option value="">-- Select Year --</option>
+                                    {% for year in years %}
+                                    <option value="{{ year.id }}">{{ year.year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Term</label>
+                                <select name="term" class="form-select">
+                                    <option value="">-- Select Term --</option>
+                                    {% for term in terms %}
+                                    <option value="{{ term.id }}">{{ term.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">Start Date</label>
+                                <input type="date" name="start_date" class="form-control">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold">End Date</label>
+                                <input type="date" name="end_date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700;color:#C0392B;margin-bottom:1rem;">Select Streams</h5>
+                        <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Select which streams are sitting this exam</p>
+                        <div class="row g-2">
+                            {% for stream in streams %}
+                            <div class="col-md-3 col-6">
+                                <div class="form-check" style="background:#f8f9fa;border-radius:8px;padding:0.7rem 1rem;">
+                                    <input class="form-check-input" type="checkbox" name="streams" value="{{ stream.id }}" id="stream_{{ stream.id }}" checked>
+                                    <label class="form-check-label fw-semibold" for="stream_{{ stream.id }}" style="font-size:0.85rem;">
+                                        {{ stream.full_name }}
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-end">
+                        <a href="{% url 'exam_list' %}" class="btn btn-lg" style="border-radius:10px;border:2px solid #ddd;color:#666;padding:0.8rem 2rem;">Cancel</a>
+                        <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;border-radius:10px;padding:0.8rem 3rem;font-weight:600;">
+                            <i class="bi bi-plus-circle-fill me-2"></i>Create Exam
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
