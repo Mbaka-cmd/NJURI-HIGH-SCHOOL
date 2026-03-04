@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Exam, ExamResult, ReportCard, score_to_grade, GRADE_POINTS
+from .models import Exam, ExamResult, ReportCard, score_to_grade, GRADE_POINTS
+from fees.models import FeeInvoice
 from students.models import Student
 from academics.models import Subject, Stream
 from schools.models import AcademicYear, Term
@@ -266,6 +268,98 @@ def generate_report_cards(request, pk):
             )
             generated += 1
 
+        all_reports = ReportCard.objects.filter(
+            exam=exam, stream=stream
+        ).order_by("-total_points")
+        for i, report in enumerate(all_reports):
+            report.stream_position = i + 1
+            report.save(update_fields=["stream_position"])
+
+        messages.success(request, f"Generated {generated} report cards for {stream.full_name}!")
+        return redirect("report_card_list", pk=exam.id)
+
+    return redirect("exam_detail", pk=exam.id)
+
+
+@login_required
+def report_card_view(request, pk):
+    report = get_object_or_404(ReportCard, id=pk)
+    school = request.user.school
+    results = ExamResult.objects.filter(
+        exam=report.exam, student=report.student
+    ).select_related("subject").order_by("subject__name")
+    context = {
+        "report": report,
+        "school": school,
+        "results": results,
+    }
+    return render(request, "exams/report_card_view.html", context)
+@login_required
+def report_card_list(request, pk):
+    school = request.user.school
+    exam = get_object_or_404(Exam, id=pk, school=school)
+    stream_id = request.GET.get("stream")
+    streams = exam.streams.all()
+    selected_stream = None
+    report_cards = []
+
+    if stream_id:
+        selected_stream = get_object_or_404(Stream, id=stream_id, school=school)
+        report_cards = ReportCard.objects.filter(
+            exam=exam, stream=selected_stream
+        ).select_related("student").order_by("stream_position")
+
+    context = {
+        "exam": exam,
+        "streams": streams,
+        "selected_stream": selected_stream,
+        "report_cards": report_cards,
+    }
+    return render(request, "exams/report_card_list.html", context)
+
+
+@login_required
+def generate_report_cards(request, pk):
+    school = request.user.school
+    exam = get_object_or_404(Exam, id=pk, school=school)
+    stream_id = request.POST.get("stream")
+
+    if request.method == "POST" and stream_id:
+        stream = get_object_or_404(Stream, id=stream_id, school=school)
+        students = Student.objects.filter(
+            school=school, current_stream=stream, is_active=True
+        )
+        generated = 0
+        for student in students:
+            results = ExamResult.objects.filter(exam=exam, student=student)
+            total_score = sum(float(r.raw_score or 0) for r in results)
+            total_points = sum(r.points or 0 for r in results)
+            subjects_sat = results.filter(is_absent=False).count()
+            mean_score = total_score / subjects_sat if subjects_sat > 0 else 0
+            mean_grade = score_to_grade(mean_score) if subjects_sat > 0 else "E"
+
+            fee_invoices = school.feeinvoices.filter(student=student)
+            fee_balance = sum(
+                float(inv.total_expected - inv.total_paid) for inv in fee_invoices
+            )
+
+            report, created = ReportCard.objects.update_or_create(
+                student=student,
+                exam=exam,
+                defaults={
+                    "stream": stream,
+                    "total_marks": total_score,
+                    "total_points": total_points,
+                    "mean_score": mean_score,
+                    "mean_grade": mean_grade,
+                    "subjects_sat": subjects_sat,
+                    "stream_size": students.count(),
+                    "fee_balance": fee_balance,
+                },
+            )
+            generated += 1
+
+        # Calculate positions
         all_reports = ReportCard.objects.filter(
             exam=exam, stream=stream
         ).order_by("-total_points")
