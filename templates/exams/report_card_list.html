@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Report Cards — {{ exam.name }}{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-file-earmark-person-fill me-2"></i>Report Cards</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ exam.name }}</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'exam_detail' exam.id %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+
+        <!-- GENERATE FORM -->
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <h6 style="font-weight:700;color:#C0392B;margin-bottom:1rem;"><i class="bi bi-gear-fill me-2"></i>Generate Report Cards</h6>
+            <form method="post" action="{% url 'generate_report_cards' exam.id %}" class="row g-3 align-items-end">
+                {% csrf_token %}
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold">Select Stream</label>
+                    <select name="stream" class="form-select" required>
+                        <option value="">-- Select Stream --</option>
+                        {% for stream in streams %}
+                        <option value="{{ stream.id }}">{{ stream.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn w-100" style="background:#C0392B;color:white;border-radius:8px;padding:0.6rem;">
+                        <i class="bi bi-lightning-fill me-1"></i>Generate Report Cards
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- VIEW FILTER -->
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold">View Stream</label>
+                    <select name="stream" class="form-select">
+                        <option value="">-- Select Stream --</option>
+                        {% for stream in streams %}
+                        <option value="{{ stream.id }}" {% if selected_stream.id == stream.id %}selected{% endif %}>
+                            {{ stream.full_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn w-100" style="background:#3498db;color:white;border-radius:8px;padding:0.6rem;">
+                        <i class="bi bi-eye-fill me-1"></i>View
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if messages %}{% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show mb-3">
+            <i class="bi bi-check-circle-fill me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}{% endif %}
+
+        <!-- REPORT CARDS LIST -->
+        {% if report_cards %}
+        <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <h5 style="font-weight:700;color:#1a1a1a;margin-bottom:1.5rem;">
+                {{ selected_stream.full_name }} — {{ report_cards|length }} Report Cards
+            </h5>
+            <div style="overflow-x:auto;">
+                <table class="table table-hover mb-0">
+                    <thead style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;">
+                        <tr>
+                            <th style="padding:1rem;border:none;">Pos</th>
+                            <th style="padding:1rem;border:none;">Student</th>
+                            <th style="padding:1rem;border:none;">Total Marks</th>
+                            <th style="padding:1rem;border:none;">Mean Score</th>
+                            <th style="padding:1rem;border:none;">Mean Grade</th>
+                            <th style="padding:1rem;border:none;">Subjects</th>
+                            <th style="padding:1rem;border:none;">Fee Balance</th>
+                            <th style="padding:1rem;border:none;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in report_cards %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:0.8rem 1rem;">
+                                <span style="background:{% if report.stream_position == 1 %}#FFD700{% elif report.stream_position == 2 %}#C0C0C0{% elif report.stream_position == 3 %}#CD7F32{% else %}#f0f0f0{% endif %};color:{% if report.stream_position <= 3 %}white{% else %}#666{% endif %};padding:3px 10px;border-radius:20px;font-weight:700;font-size:0.85rem;">
+                                    {{ report.stream_position }}
+                                </span>
+                            </td>
+                            <td style="padding:0.8rem 1rem;font-weight:600;">{{ report.student.get_full_name }}</td>
+                            <td style="padding:0.8rem 1rem;">{{ report.total_marks|floatformat:1 }}</td>
+                            <td style="padding:0.8rem 1rem;">{{ report.mean_score|floatformat:1 }}</td>
+                            <td style="padding:0.8rem 1rem;">
+                                <span style="background:#fff0f0;color:#C0392B;padding:3px 10px;border-radius:20px;font-weight:700;">
+                                    {{ report.mean_grade }}
+                                </span>
+                            </td>
+                            <td style="padding:0.8rem 1rem;">{{ report.subjects_sat }}</td>
+                            <td style="padding:0.8rem 1rem;color:{% if report.fee_balance > 0 %}#e74c3c{% else %}#2ecc71{% endif %};font-weight:600;">
+                                KES {{ report.fee_balance|floatformat:0 }}
+                            </td>
+                            <td style="padding:0.8rem 1rem;">
+                                <a href="{% url 'report_card_view' report.id %}" class="btn btn-sm" style="background:#f0f8ff;color:#3498db;border-radius:8px;" target="_blank">
+                                    <i class="bi bi-printer-fill me-1"></i>View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% elif selected_stream %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-file-earmark-x" style="font-size:3rem;color:#ddd;display:block;margin-bottom:1rem;"></i>
+            <h5 style="color:#aaa;">No report cards generated yet for {{ selected_stream.full_name }}</h5>
+            <p style="color:#bbb;">Use the Generate form above to create report cards</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
