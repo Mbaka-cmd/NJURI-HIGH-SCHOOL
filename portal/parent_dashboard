@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Parent Dashboard{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#2ecc71,#27ae60);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-people-fill me-2"></i>Parent Portal</h4>
+                <p style="opacity:0.75;margin:0;">Welcome, <strong>{{ parent.first_name }} {{ parent.last_name }}</strong></p>
+            </div>
+            <div class="col-auto">
+                <span style="background:rgba(255,255,255,0.2);padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">
+                    {{ parent.get_relationship_display }}
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+
+        {% if not students_data %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-person-x" style="font-size:3rem;color:#ccc;"></i>
+            <h5 style="color:#999;margin-top:1rem;">No students linked to your account</h5>
+            <p style="color:#aaa;">Contact the school office to link your children to this account.</p>
+        </div>
+        {% endif %}
+
+        {% for data in students_data %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#2ecc71,#27ae60);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.2rem;">
+                        {{ data.student.first_name|first }}{{ data.student.last_name|first }}
+                    </div>
+                </div>
+                <div class="col">
+                    <h5 style="font-weight:700;margin:0;">{{ data.student.get_full_name }}</h5>
+                    <p style="color:#999;margin:0;font-size:0.85rem;">{{ data.student.current_stream.full_name|default:"—" }} · Adm: {{ data.student.admission_number }}</p>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'parent_student_detail' data.student.id %}" class="btn" style="background:#2ecc71;color:white;border-radius:20px;font-weight:600;">
+                        <i class="bi bi-eye me-1"></i>View Details
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-md-4">
+                    <div style="background:#f8f9fa;border-radius:10px;padding:1rem;text-align:center;">
+                        <div style="font-size:1.3rem;font-weight:800;color:{% if data.fee_balance > 0 %}#e74c3c{% else %}#2ecc71{% endif %};">KES {{ data.fee_balance|floatformat:0 }}</div>
+                        <div style="font-size:0.8rem;color:#999;">Fee Balance</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="background:#f8f9fa;border-radius:10px;padding:1rem;text-align:center;">
+                        <div style="font-size:1.3rem;font-weight:800;color:#3498db;">KES {{ data.total_paid|floatformat:0 }}</div>
+                        <div style="font-size:0.8rem;color:#999;">Total Paid</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="background:#f8f9fa;border-radius:10px;padding:1rem;text-align:center;">
+                        {% if data.latest_report %}
+                        <div style="font-size:1.3rem;font-weight:800;color:#9b59b6;">{{ data.latest_report.mean_grade }}</div>
+                        <div style="font-size:0.8rem;color:#999;">Latest Mean Grade</div>
+                        {% else %}
+                        <div style="font-size:1.3rem;font-weight:800;color:#ccc;">—</div>
+                        <div style="font-size:0.8rem;color:#999;">No Reports Yet</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}

@@ -23,11 +23,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # Auth
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True)
 
-    # Profile
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     profile_photo = models.ImageField(upload_to="users/photos/", null=True, blank=True)
@@ -39,7 +37,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     national_id = models.CharField(max_length=20, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
 
-    # Tenant Link
     school = models.ForeignKey(
         "schools.School",
         on_delete=models.SET_NULL,
@@ -47,18 +44,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         related_name="users",
     )
 
-    # Roles
     is_platform_admin = models.BooleanField(default=False)
     is_school_admin = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_parent = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
 
-    # Django internals
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
-    # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_login_ip = models.GenericIPAddressField(null=True, blank=True)
@@ -102,7 +96,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.is_teacher:
             return "/school-admin/dashboard/"
         if self.is_parent:
-            return "/school-admin/dashboard/"
+            return "/portal/parent/"
         if self.is_student:
-            return "/school-admin/dashboard/"
+            return "/portal/student/"
         return "/"

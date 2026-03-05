@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Student Dashboard — {{ student.get_full_name }}{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#3498db,#2980b9);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-mortarboard-fill me-2"></i>Student Portal</h4>
+                <p style="opacity:0.75;margin:0;">Welcome back, <strong>{{ student.first_name }}</strong> — {{ student.current_stream.full_name|default:"—" }}</p>
+            </div>
+            <div class="col-auto">
+                <span style="background:rgba(255,255,255,0.2);padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">
+                    Adm: {{ student.admission_number }}
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+
+        <!-- QUICK STATS -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid #3498db;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:#3498db;">{{ student.current_stream.full_name|default:"—" }}</div>
+                    <div style="font-size:0.8rem;color:#999;">Current Class</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid {% if fee_balance > 0 %}#e74c3c{% else %}#2ecc71{% endif %};text-align:center;">
+                    <div style="font-size:1.5rem;font-weight:800;color:{% if fee_balance > 0 %}#e74c3c{% else %}#2ecc71{% endif %};">KES {{ fee_balance|floatformat:0 }}</div>
+                    <div style="font-size:0.8rem;color:#999;">Fee Balance</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid #9b59b6;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:#9b59b6;">{{ report_cards.count }}</div>
+                    <div style="font-size:0.8rem;color:#999;">Report Cards</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid #e67e22;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:800;color:#e67e22;">{{ student.kcpe_marks|default:"—" }}</div>
+                    <div style="font-size:0.8rem;color:#999;">KCPE Marks</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- REPORT CARDS -->
+            <div class="col-lg-8">
+                <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 style="font-weight:700;margin:0;"><i class="bi bi-file-earmark-text me-2" style="color:#3498db;"></i>My Report Cards</h6>
+                        <a href="{% url 'student_results' %}" style="font-size:0.85rem;color:#3498db;">View Results</a>
+                    </div>
+                    {% for report in report_cards %}
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:#f8f9fa;border-radius:10px;margin-bottom:0.5rem;">
+                        <div>
+                            <div style="font-weight:600;font-size:0.9rem;">{{ report.exam.name }}</div>
+                            <div style="font-size:0.75rem;color:#999;">{{ report.exam.get_exam_type_display }} · Position {{ report.stream_position }}/{{ report.stream_size }}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:1.2rem;font-weight:800;color:#3498db;">{{ report.mean_grade }}</div>
+                            <div style="font-size:0.75rem;color:#999;">{{ report.mean_score|floatformat:1 }} pts</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="color:#aaa;text-align:center;padding:2rem;">No report cards yet</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- QUICK LINKS + PROFILE -->
+            <div class="col-lg-4">
+                <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1rem;">
+                    <h6 style="font-weight:700;margin-bottom:1rem;"><i class="bi bi-lightning-fill me-2" style="color:#3498db;"></i>Quick Links</h6>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'student_results' %}" class="btn" style="background:#f0f8ff;color:#3498db;border-radius:10px;text-align:left;font-weight:600;">
+                            <i class="bi bi-graph-up me-2"></i>My Results
+                        </a>
+                        <a href="{% url 'student_fees' %}" class="btn" style="background:#f0fff5;color:#2ecc71;border-radius:10px;text-align:left;font-weight:600;">
+                            <i class="bi bi-cash-stack me-2"></i>Fee Statement
+                        </a>
+                        <a href="{% url 'home' %}" class="btn" style="background:#fff0f0;color:#C0392B;border-radius:10px;text-align:left;font-weight:600;">
+                            <i class="bi bi-globe me-2"></i>School Website
+                        </a>
+                    </div>
+                </div>
+
+                <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <h6 style="font-weight:700;margin-bottom:1rem;"><i class="bi bi-person-fill me-2" style="color:#3498db;"></i>My Profile</h6>
+                    <div style="font-size:0.85rem;">
+                        <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
+                            <span style="color:#999;">Full Name</span>
+                            <span style="font-weight:600;">{{ student.get_full_name }}</span>
+                        </div>
+                        <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
+                            <span style="color:#999;">Adm No.</span>
+                            <span style="font-weight:600;">{{ student.admission_number }}</span>
+                        </div>
+                        <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
+                            <span style="color:#999;">Stream</span>
+                            <span style="font-weight:600;">{{ student.current_stream.full_name|default:"—" }}</span>
+                        </div>
+                        <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
+                            <span style="color:#999;">Admitted</span>
+                            <span style="font-weight:600;">{{ student.admission_date }}</span>
+                        </div>
+                        <div style="padding:0.5rem 0;display:flex;justify-content:space-between;">
+                            <span style="color:#999;">Boarder</span>
+                            <span style="font-weight:600;">{% if student.is_boarder %}Yes{% else %}No{% endif %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
