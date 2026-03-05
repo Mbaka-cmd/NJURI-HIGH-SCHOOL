@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Search: {{ query }}{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+    <div class="container">
+        <h4 style="font-weight:800;margin:0 0 1rem;"><i class="bi bi-search me-2"></i>Global Search</h4>
+        <form method="get" action="{% url 'global_search' %}">
+            <div class="input-group" style="max-width:600px;">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search students, exams, staff, invoices..."
+                    class="form-control" style="border-radius:10px 0 0 10px;padding:0.7rem 1rem;font-size:1rem;border:none;">
+                <button type="submit" class="btn" style="background:white;color:#C0392B;border-radius:0 10px 10px 0;font-weight:700;padding:0 1.5rem;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+        {% if query %}
+        <p style="opacity:0.75;margin:0.5rem 0 0;font-size:0.9rem;">{{ total }} result{{ total|pluralize }} for "<strong>{{ query }}</strong>"</p>
+        {% endif %}
+    </div>
+</section>
+
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+
+        {% if not query %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-search" style="font-size:3rem;color:#ccc;"></i>
+            <h5 style="color:#999;margin-top:1rem;">Type something to search</h5>
+        </div>
+
+        {% elif total == 0 %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <i class="bi bi-emoji-frown" style="font-size:3rem;color:#ccc;"></i>
+            <h5 style="color:#999;margin-top:1rem;">No results found for "{{ query }}"</h5>
+            <p style="color:#bbb;">Try a different name, admission number or invoice number</p>
+        </div>
+
+        {% else %}
+
+        <!-- STUDENTS -->
+        {% if results.students %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <h6 style="font-weight:700;margin-bottom:1rem;color:#3498db;"><i class="bi bi-people-fill me-2"></i>Students ({{ results.students|length }})</h6>
+            {% for student in results.students %}
+            <a href="{% url 'student_detail' student.id %}" style="text-decoration:none;">
+                <div style="display:flex;align-items:center;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;transition:background 0.2s;" onmouseover="this.style.background='#f0f8ff'" onmouseout="this.style.background='transparent'">
+                    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#3498db,#2980b9);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;margin-right:1rem;flex-shrink:0;">
+                        {{ student.first_name|first }}{{ student.last_name|first }}
+                    </div>
+                    <div class="flex-grow-1">
+                        <div style="font-weight:600;color:#1a1a1a;">{{ student.get_full_name }}</div>
+                        <div style="font-size:0.8rem;color:#999;">{{ student.admission_number }} · {{ student.current_stream.full_name|default:"No Stream" }}</div>
+                    </div>
+                    <i class="bi bi-chevron-right" style="color:#ccc;"></i>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- STAFF -->
+        {% if results.staff %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <h6 style="font-weight:700;margin-bottom:1rem;color:#2ecc71;"><i class="bi bi-person-badge-fill me-2"></i>Staff ({{ results.staff|length }})</h6>
+            {% for teacher in results.staff %}
+            <div style="display:flex;align-items:center;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;">
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2ecc71,#27ae60);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;margin-right:1rem;flex-shrink:0;">
+                    {{ teacher.first_name|first }}{{ teacher.last_name|first }}
+                </div>
+                <div>
+                    <div style="font-weight:600;color:#1a1a1a;">{{ teacher.get_full_name }}</div>
+                    <div style="font-size:0.8rem;color:#999;">{{ teacher.email }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- EXAMS -->
+        {% if results.exams %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <h6 style="font-weight:700;margin-bottom:1rem;color:#9b59b6;"><i class="bi bi-journal-text me-2"></i>Exams ({{ results.exams|length }})</h6>
+            {% for exam in results.exams %}
+            <a href="{% url 'exam_detail' exam.id %}" style="text-decoration:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;" onmouseover="this.style.background='#f5f0ff'" onmouseout="this.style.background='transparent'">
+                    <div>
+                        <div style="font-weight:600;color:#1a1a1a;">{{ exam.name }}</div>
+                        <div style="font-size:0.8rem;color:#999;">{{ exam.get_exam_type_display }} · {{ exam.academic_year.year }}</div>
+                    </div>
+                    <i class="bi bi-chevron-right" style="color:#ccc;"></i>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- INVOICES -->
+        {% if results.invoices %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <h6 style="font-weight:700;margin-bottom:1rem;color:#e67e22;"><i class="bi bi-receipt me-2"></i>Fee Invoices ({{ results.invoices|length }})</h6>
+            {% for invoice in results.invoices %}
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;background:#f8f9fa;">
+                <div>
+                    <div style="font-weight:600;color:#1a1a1a;">{{ invoice.student.get_full_name }}</div>
+                    <div style="font-size:0.8rem;color:#999;">{{ invoice.invoice_number }} · KES {{ invoice.total_expected|floatformat:0 }}</div>
+                </div>
+                <span style="background:{% if invoice.status == 'paid' %}#f0fff5;color:#2ecc71;{% else %}#fff0f0;color:#e74c3c;{% endif %};padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;">
+                    {{ invoice.get_status_display }}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

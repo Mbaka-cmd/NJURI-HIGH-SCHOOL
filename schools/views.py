@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from students.models import Student
 from exams.models import Exam, ExamResult, ReportCard, score_to_grade
 from fees.models import FeeInvoice
@@ -60,3 +60,58 @@ def admin_dashboard(request):
         "recent_students": recent_students,
     }
     return render(request, "schools/admin_dashboard.html", context)
+
+
+@login_required
+def global_search(request):
+    query = request.GET.get('q', '').strip()
+    school = request.user.school
+    results = {
+        'students': [],
+        'exams': [],
+        'staff': [],
+        'invoices': [],
+    }
+
+    if query:
+        results['students'] = Student.objects.filter(
+            school=school, is_active=True
+        ).filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(middle_name__icontains=query) |
+            Q(admission_number__icontains=query) |
+            Q(nemis_number__icontains=query)
+        )[:10]
+
+        results['exams'] = Exam.objects.filter(
+            school=school
+        ).filter(
+            Q(name__icontains=query) |
+            Q(exam_type__icontains=query)
+        )[:5]
+
+        results['staff'] = User.objects.filter(
+            school=school, is_teacher=True, is_active=True
+        ).filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query)
+        )[:5]
+
+        results['invoices'] = FeeInvoice.objects.filter(
+            school=school
+        ).filter(
+            Q(invoice_number__icontains=query) |
+            Q(student__first_name__icontains=query) |
+            Q(student__last_name__icontains=query)
+        ).select_related('student')[:5]
+
+    total = sum(len(v) for v in results.values())
+
+    context = {
+        'query': query,
+        'results': results,
+        'total': total,
+    }
+    return render(request, 'schools/search_results.html', context)
