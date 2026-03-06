@@ -1,0 +1,99 @@
+﻿{% extends "base.html" %}
+{% block title %}Bulk Import Students{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+<div class="container">
+<div class="d-flex justify-content-between align-items-center">
+<div>
+<h4 style="font-weight:800;margin:0;"><i class="bi bi-upload me-2"></i>Bulk Import Students</h4>
+<p style="opacity:0.8;margin:0;font-size:0.9rem;">Upload Excel file to import multiple students at once</p>
+</div>
+<a href="{% url 'student_list' %}" class="btn" style="background:white;color:#C0392B;font-weight:700;border-radius:25px;">
+<i class="bi bi-arrow-left me-1"></i>Back to Students
+</a>
+</div>
+</div>
+</section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+<div class="container">
+{% if messages %}{% for message in messages %}
+<div class="alert alert-{% if 'Successfully' in message.message %}success{% elif 'Skipped' in message.message %}warning{% else %}danger{% endif %} alert-dismissible fade show">
+{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>{% endfor %}{% endif %}
+
+<div class="row g-4">
+<div class="col-md-5">
+<div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+<h5 style="font-weight:700;color:#C0392B;margin-bottom:1rem;"><i class="bi bi-download me-2"></i>Step 1: Download Template</h5>
+<p style="color:#666;font-size:0.9rem;">Download the Excel template, fill in student data, then upload below.</p>
+<a href="{% url 'download_import_template' %}" class="btn w-100 mb-3" style="background:#C0392B;color:white;border-radius:10px;font-weight:600;">
+<i class="bi bi-file-earmark-excel me-2"></i>Download Excel Template
+</a>
+<div style="background:#f8f9fa;border-radius:10px;padding:1rem;font-size:0.82rem;color:#666;">
+<strong>Required columns:</strong><br>
+<code>admission_number</code>, <code>first_name</code>, <code>last_name</code><br><br>
+<strong>Optional columns:</strong><br>
+<code>middle_name</code>, <code>gender</code>, <code>date_of_birth</code>,
+<code>stream</code>, <code>kcpe_marks</code>, <code>admission_date</code>, <code>is_boarder</code><br><br>
+<strong>Notes:</strong><br>
+- Date format: YYYY-MM-DD<br>
+- Gender: male or female<br>
+- Stream: e.g. "Form 1 East"<br>
+- is_boarder: yes or no
+</div>
+</div>
+</div>
+
+<div class="col-md-7">
+<div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+<h5 style="font-weight:700;color:#C0392B;margin-bottom:1rem;"><i class="bi bi-upload me-2"></i>Step 2: Upload File</h5>
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="mb-3">
+<label style="font-weight:600;margin-bottom:0.5rem;display:block;">Select Excel File</label>
+<input type="file" name="excel_file" accept=".xlsx,.xls" class="form-control" style="border-radius:10px;" required>
+<small style="color:#999;">Accepted formats: .xlsx, .xls</small>
+</div>
+<button type="submit" class="btn w-100" style="background:#C0392B;color:white;border-radius:10px;font-weight:600;padding:0.8rem;">
+<i class="bi bi-upload me-2"></i>Import Students
+</button>
+</form>
+</div>
+
+{% if done %}
+<div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-top:1rem;">
+<h6 style="font-weight:700;margin-bottom:1rem;">Import Results</h6>
+<div class="row g-2 mb-3">
+<div class="col-6">
+<div style="background:#f0fff5;border-radius:10px;padding:1rem;text-align:center;">
+<div style="font-size:1.8rem;font-weight:800;color:#2ecc71;">{{ created }}</div>
+<div style="font-size:0.8rem;color:#666;">Imported</div>
+</div>
+</div>
+<div class="col-6">
+<div style="background:#fff8f0;border-radius:10px;padding:1rem;text-align:center;">
+<div style="font-size:1.8rem;font-weight:800;color:#e67e22;">{{ skipped }}</div>
+<div style="font-size:0.8rem;color:#666;">Skipped</div>
+</div>
+</div>
+</div>
+{% if errors %}
+<div style="background:#fff5f5;border-radius:10px;padding:1rem;max-height:200px;overflow-y:auto;">
+<strong style="color:#e74c3c;font-size:0.85rem;">Errors:</strong>
+{% for error in errors %}
+<div style="font-size:0.8rem;color:#666;padding:0.2rem 0;border-bottom:1px solid #f0f0f0;">{{ error }}</div>
+{% endfor %}
+</div>
+{% endif %}
+{% if created > 0 %}
+<a href="{% url 'student_list' %}" class="btn w-100 mt-3" style="background:#2ecc71;color:white;border-radius:10px;font-weight:600;">
+<i class="bi bi-people-fill me-2"></i>View Imported Students
+</a>
+{% endif %}
+</div>
+{% endif %}
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

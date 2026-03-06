@@ -1,0 +1,294 @@
+# Template 1: timetable_list.html
+$timetable_list = @'
+{% extends "base.html" %}
+{% load timetable_tags %}
+{% block title %}Timetable{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-calendar3 me-2"></i>Class Timetable</h4>
+                <p style="opacity:0.8;margin:0;font-size:0.9rem;">View timetable per stream</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label style="font-weight:600;font-size:0.85rem;color:#666;">Select Stream</label>
+                    <select name="stream" class="form-select" style="border-radius:10px;">
+                        <option value="">-- Select Stream --</option>
+                        {% for stream in streams %}
+                        <option value="{{ stream.id }}" {% if selected_stream.id == stream.id %}selected{% endif %}>{{ stream.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label style="font-weight:600;font-size:0.85rem;color:#666;">Academic Year</label>
+                    <select name="year" class="form-select" style="border-radius:10px;">
+                        <option value="">-- Select Year --</option>
+                        {% for year in years %}
+                        <option value="{{ year.id }}" {% if selected_year.id == year.id %}selected{% endif %}>{{ year.year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn w-100" style="background:#8e44ad;color:white;border-radius:10px;font-weight:600;">
+                        <i class="bi bi-eye me-1"></i>View
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% if selected_stream and grid %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 style="font-weight:700;margin:0;color:#8e44ad;"><i class="bi bi-calendar3 me-2"></i>{{ selected_stream.full_name }} - {{ selected_year.year }}</h5>
+                <a href="{% url 'timetable_edit' selected_stream.id selected_year.id %}" class="btn btn-sm" style="background:#8e44ad;color:white;border-radius:20px;font-weight:600;">
+                    <i class="bi bi-pencil-fill me-1"></i>Edit Timetable
+                </a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered" style="min-width:900px;font-size:0.82rem;">
+                    <thead>
+                        <tr style="background:#8e44ad;color:white;">
+                            <th style="width:120px;padding:0.7rem;">Period</th>
+                            {% for day, day_label in days %}<th style="text-align:center;padding:0.7rem;">{{ day_label }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for period, period_label in periods %}
+                        <tr {% if period in break_periods %}style="background:#fff9e6;"{% endif %}>
+                            <td style="font-weight:600;font-size:0.78rem;color:#666;padding:0.5rem;">{{ period_label }}</td>
+                            {% for day, day_label in days %}
+                            {% with slot=grid|dict_key:day %}{% with cell=slot|dict_key:period %}
+                            <td style="text-align:center;padding:0.4rem;vertical-align:middle;">
+                                {% if period in break_periods %}
+                                <span style="color:#e67e22;font-weight:600;font-size:0.78rem;">{% if period == '5' %}BREAK{% else %}LUNCH{% endif %}</span>
+                                {% elif cell and cell.subject %}
+                                <div style="background:#f0e6ff;border-radius:8px;padding:0.3rem 0.4rem;">
+                                    <div style="font-weight:700;color:#6c3483;font-size:0.82rem;">{{ cell.subject.name }}</div>
+                                    {% if cell.teacher %}<div style="color:#999;font-size:0.72rem;">{{ cell.teacher.get_full_name }}</div>{% endif %}
+                                </div>
+                                {% else %}<span style="color:#ddd;">-</span>{% endif %}
+                            </td>
+                            {% endwith %}{% endwith %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% elif selected_stream %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;">
+            <h5 style="color:#999;">No timetable found for {{ selected_stream.full_name }}</h5>
+            <a href="{% url 'timetable_edit' selected_stream.id selected_year.id %}" class="btn mt-2" style="background:#8e44ad;color:white;border-radius:20px;">Create Timetable</a>
+        </div>
+        {% else %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;">
+            <h5 style="color:#999;">Select a stream and year to view timetable</h5>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+'@
+Set-Content "templates\timetable\timetable_list.html" -Value $timetable_list -Encoding UTF8
+
+# Template 2: timetable_edit.html
+$timetable_edit = @'
+{% extends "base.html" %}
+{% load timetable_tags %}
+{% block title %}Edit Timetable - {{ stream.full_name }}{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-pencil-fill me-2"></i>Edit Timetable</h4>
+                <p style="opacity:0.8;margin:0;font-size:0.9rem;">{{ stream.full_name }} - {{ academic_year.year }}</p>
+            </div>
+            <a href="{% url 'timetable_list' %}?stream={{ stream.id }}&year={{ academic_year.id }}" class="btn" style="background:white;color:#8e44ad;font-weight:700;border-radius:25px;">
+                <i class="bi bi-eye me-1"></i>View
+            </a>
+        </div>
+    </div>
+</section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container-fluid px-4">
+        {% if messages %}{% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        {% endfor %}{% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {% if selected_term %}<input type="hidden" name="term" value="{{ selected_term.id }}">{% endif %}
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered" style="min-width:1100px;font-size:0.8rem;background:white;border-radius:15px;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <thead>
+                        <tr style="background:#8e44ad;color:white;">
+                            <th style="width:130px;padding:0.8rem;">Period</th>
+                            {% for day, day_label in days %}<th style="text-align:center;padding:0.8rem;">{{ day_label }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for period, period_label in periods %}
+                        <tr {% if period in break_periods %}style="background:#fff9e6;"{% endif %}>
+                            <td style="font-weight:600;font-size:0.75rem;color:#666;padding:0.5rem;vertical-align:middle;">{{ period_label }}</td>
+                            {% for day, day_label in days %}
+                            {% with slot=grid|dict_key:day %}{% with cell=slot|dict_key:period %}
+                            <td style="padding:0.3rem;vertical-align:middle;">
+                                {% if period in break_periods %}
+                                <div style="text-align:center;color:#e67e22;font-weight:600;font-size:0.78rem;">{% if period == '5' %}BREAK{% else %}LUNCH{% endif %}</div>
+                                {% else %}
+                                <div style="display:flex;flex-direction:column;gap:2px;">
+                                    <select name="subject_{{ day }}_{{ period }}" class="form-select form-select-sm" style="font-size:0.75rem;border-radius:6px;">
+                                        <option value="">-- Subject --</option>
+                                        {% for subject in subjects %}
+                                        <option value="{{ subject.id }}" {% if cell and cell.subject.id == subject.id %}selected{% endif %}>{{ subject.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="teacher_{{ day }}_{{ period }}" class="form-select form-select-sm" style="font-size:0.72rem;border-radius:6px;color:#666;">
+                                        <option value="">-- Teacher --</option>
+                                        {% for teacher in teachers %}
+                                        <option value="{{ teacher.id }}" {% if cell and cell.teacher.id == teacher.id %}selected{% endif %}>{{ teacher.get_full_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% endif %}
+                            </td>
+                            {% endwith %}{% endwith %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align:center;margin-top:1.5rem;">
+                <button type="submit" name="save_timetable" class="btn btn-lg px-5" style="background:#8e44ad;color:white;border-radius:25px;font-weight:700;">
+                    <i class="bi bi-save-fill me-2"></i>Save Timetable
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+'@
+Set-Content "templates\timetable\timetable_edit.html" -Value $timetable_edit -Encoding UTF8
+
+# Template 3: teacher_timetable.html
+$teacher_timetable = @'
+{% extends "base.html" %}
+{% block title %}My Timetable{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#2980b9,#1a5276);padding:2rem 0;color:white;">
+    <div class="container">
+        <h4 style="font-weight:800;margin:0;"><i class="bi bi-calendar-week me-2"></i>My Teaching Timetable</h4>
+        <p style="opacity:0.8;margin:0.3rem 0 0;font-size:0.9rem;">{{ request.user.get_full_name }} - {{ total_lessons }} lessons/week</p>
+    </div>
+</section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+        <div style="background:white;border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 3px 10px rgba(0,0,0,0.07);">
+            <form method="get" class="d-flex align-items-center gap-3">
+                <label style="font-weight:600;color:#666;margin:0;">Year:</label>
+                <select name="year" class="form-select" style="border-radius:10px;max-width:200px;" onchange="this.form.submit()">
+                    {% for year in years %}<option value="{{ year.id }}" {% if selected_year.id == year.id %}selected{% endif %}>{{ year.year }}</option>{% endfor %}
+                </select>
+            </form>
+        </div>
+        {% for day, day_data in schedule.items %}
+        {% if day_data.slots %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1rem;">
+            <h6 style="font-weight:700;color:#2980b9;margin-bottom:1rem;"><i class="bi bi-calendar-day me-2"></i>{{ day_data.label }}</h6>
+            <div class="row g-2">
+                {% for slot in day_data.slots %}
+                <div class="col-md-3 col-sm-4 col-6">
+                    <div style="background:#e8f4fd;border-radius:10px;padding:0.7rem;border-left:4px solid #2980b9;">
+                        <div style="font-weight:700;color:#1a5276;font-size:0.85rem;">{{ slot.subject.name }}</div>
+                        <div style="color:#2980b9;font-size:0.78rem;font-weight:600;">{{ slot.stream.full_name }}</div>
+                        <div style="color:#999;font-size:0.72rem;">{{ slot.get_period_time }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% if total_lessons == 0 %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;">
+            <h5 style="color:#999;">No timetable assigned yet</h5>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+'@
+Set-Content "templates\timetable\teacher_timetable.html" -Value $teacher_timetable -Encoding UTF8
+
+# Template 4: student_timetable.html
+$student_timetable = @'
+{% extends "base.html" %}
+{% load timetable_tags %}
+{% block title %}My Timetable{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
+    <div class="container">
+        <h4 style="font-weight:800;margin:0;"><i class="bi bi-calendar3 me-2"></i>My Class Timetable</h4>
+        <p style="opacity:0.8;margin:0.3rem 0 0;font-size:0.9rem;">{{ stream.full_name }} - {{ selected_year.year }}</p>
+    </div>
+</section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+    <div class="container">
+        {% if grid %}
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered" style="min-width:700px;font-size:0.82rem;">
+                    <thead>
+                        <tr style="background:#8e44ad;color:white;">
+                            <th style="width:120px;padding:0.7rem;">Period</th>
+                            {% for day, day_label in days %}<th style="text-align:center;padding:0.7rem;">{{ day_label }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for period, period_label in periods %}
+                        <tr {% if period in break_periods %}style="background:#fff9e6;"{% endif %}>
+                            <td style="font-weight:600;font-size:0.75rem;color:#666;padding:0.5rem;">{{ period_label }}</td>
+                            {% for day, day_label in days %}
+                            {% with slot=grid|dict_key:day %}{% with cell=slot|dict_key:period %}
+                            <td style="text-align:center;padding:0.4rem;vertical-align:middle;">
+                                {% if period in break_periods %}
+                                <span style="color:#e67e22;font-weight:600;font-size:0.78rem;">{% if period == '5' %}BREAK{% else %}LUNCH{% endif %}</span>
+                                {% elif cell and cell.subject %}
+                                <div style="background:#f0e6ff;border-radius:8px;padding:0.3rem;">
+                                    <div style="font-weight:700;color:#6c3483;font-size:0.82rem;">{{ cell.subject.name }}</div>
+                                    {% if cell.teacher %}<div style="color:#999;font-size:0.7rem;">{{ cell.teacher.get_full_name }}</div>{% endif %}
+                                </div>
+                                {% else %}<span style="color:#ddd;">-</span>{% endif %}
+                            </td>
+                            {% endwith %}{% endwith %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;">
+            <h5 style="color:#999;">No timetable available yet</h5>
+        </div>
+        {% endif %}
+        <div style="margin-top:1rem;">
+            <a href="{% url 'student_portal' %}" style="color:#8e44ad;text-decoration:none;"><i class="bi bi-arrow-left me-1"></i>Back to Portal</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+'@
+Set-Content "templates\timetable\student_timetable.html" -Value $student_timetable -Encoding UTF8
+
+Write-Host "All 4 templates created!"

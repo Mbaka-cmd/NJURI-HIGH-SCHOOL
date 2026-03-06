@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}Students — {{ request.user.school.name }}{% endblock %}
 
 {% block content %}
@@ -19,6 +19,9 @@
                 <a href="{% url 'student_add' %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
                     <i class="bi bi-person-plus-fill me-1"></i>Add Student
                 </a>
+                <a href="{% url 'student_bulk_import' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
+                    <i class="bi bi-upload me-1"></i>Bulk Import
+                </a>
                 <a href="{% url 'admin_dashboard' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
                     <i class="bi bi-arrow-left me-1"></i>Dashboard
                 </a>
@@ -37,7 +40,7 @@
                     <span class="input-group-text" style="background:#fff0f0; border-color:#dee2e6;">
                         <i class="bi bi-search" style="color:#C0392B;"></i>
                     </span>
-                    <input type="text" name="search" class="form-control" 
+                    <input type="text" name="search" class="form-control"
                            placeholder="Name or admission number..."
                            value="{{ search }}">
                 </div>
@@ -140,11 +143,11 @@
                             </td>
                             <td style="padding:0.9rem 1rem;">
                                 <div class="d-flex gap-1">
-                                    <a href="{% url 'student_detail' student.id %}" 
+                                    <a href="{% url 'student_detail' student.id %}"
                                        class="btn btn-sm" style="background:#f0f8ff; color:#3498db; border-radius:8px;">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <a href="{% url 'student_edit' student.id %}" 
+                                    <a href="{% url 'student_edit' student.id %}"
                                        class="btn btn-sm" style="background:#fff8f0; color:#e67e22; border-radius:8px;">
                                         <i class="bi bi-pencil-fill"></i>
                                     </a>

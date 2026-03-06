@@ -106,3 +106,169 @@ def student_edit(request, pk):
     streams = Stream.objects.filter(school=school).order_by("class_level__level_order", "name")
     context = {"student": student, "streams": streams}
     return render(request, "students/student_edit.html", context)
+
+@admin_required
+def student_bulk_import(request):
+    """Bulk import students from Excel file"""
+    school = request.user.school
+    streams = Stream.objects.filter(school=school).order_by('class_level__level_order', 'name')
+
+    if request.method == 'POST':
+        excel_file = request.FILES.get('excel_file')
+        if not excel_file:
+            messages.error(request, "Please upload an Excel file.")
+            return render(request, 'students/bulk_import.html', {'streams': streams})
+
+        if not excel_file.name.endswith(('.xlsx', '.xls')):
+            messages.error(request, "Please upload a valid Excel file (.xlsx or .xls).")
+            return render(request, 'students/bulk_import.html', {'streams': streams})
+
+        try:
+            import openpyxl
+            from datetime import datetime
+
+            wb = openpyxl.load_workbook(excel_file)
+            ws = wb.active
+
+            created = 0
+            skipped = 0
+            errors = []
+
+            for row_num, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+                if not any(row):
+                    continue
+
+                try:
+                    admission_number = str(row[0]).strip() if row[0] else None
+                    first_name = str(row[1]).strip() if row[1] else None
+                    last_name = str(row[2]).strip() if row[2] else None
+                    middle_name = str(row[3]).strip() if row[3] else ''
+                    gender = str(row[4]).strip().lower() if row[4] else 'female'
+                    dob = row[5]
+                    stream_name = str(row[6]).strip() if row[6] else None
+                    kcpe_marks = row[7] if row[7] else None
+                    admission_date = row[8] if row[8] else None
+                    is_boarder = str(row[9]).strip().lower() in ['yes', 'true', '1'] if row[9] else False
+
+                    if not admission_number or not first_name or not last_name:
+                        errors.append(f"Row {row_num}: Missing required fields (admission number, first name, last name)")
+                        skipped += 1
+                        continue
+
+                    if Student.objects.filter(admission_number=admission_number, school=school).exists():
+                        errors.append(f"Row {row_num}: Admission number {admission_number} already exists")
+                        skipped += 1
+                        continue
+
+                    stream = None
+                    if stream_name:
+                        stream = Stream.objects.filter(
+                            school=school,
+                            name__icontains=stream_name
+                        ).first()
+                        if not stream:
+                            stream = Stream.objects.filter(
+                                school=school,
+                                class_level__name__icontains=stream_name
+                            ).first()
+
+                    if isinstance(dob, str):
+                        try:
+                            dob = datetime.strptime(dob, '%Y-%m-%d').date()
+                        except:
+                            dob = None
+                    elif hasattr(dob, 'date'):
+                        dob = dob.date()
+
+                    if isinstance(admission_date, str):
+                        try:
+                            admission_date = datetime.strptime(admission_date, '%Y-%m-%d').date()
+                        except:
+                            admission_date = None
+                    elif hasattr(admission_date, 'date'):
+                        admission_date = admission_date.date()
+
+                    if gender not in ['male', 'female']:
+                        gender = 'female'
+
+                    student = Student.objects.create(
+                        school=school,
+                        admission_number=admission_number,
+                        first_name=first_name,
+                        last_name=last_name,
+                        middle_name=middle_name,
+                        gender=gender,
+                        date_of_birth=dob,
+                        current_stream=stream,
+                        kcpe_marks=kcpe_marks,
+                        admission_date=admission_date,
+                        is_boarder=is_boarder,
+                        is_active=True,
+                    )
+                    created += 1
+
+                except Exception as e:
+                    errors.append(f"Row {row_num}: {str(e)}")
+                    skipped += 1
+
+            if created > 0:
+                messages.success(request, f"Successfully imported {created} students!")
+            if skipped > 0:
+                messages.warning(request, f"Skipped {skipped} rows. Check errors below.")
+
+            context = {
+                'streams': streams,
+                'created': created,
+                'skipped': skipped,
+                'errors': errors,
+                'done': True,
+            }
+            return render(request, 'students/bulk_import.html', context)
+
+        except Exception as e:
+            messages.error(request, f"Error reading file: {str(e)}")
+
+    return render(request, 'students/bulk_import.html', {'streams': streams})
+
+
+@admin_required
+def download_import_template(request):
+    """Download Excel template for bulk import"""
+    import openpyxl
+    from django.http import HttpResponse
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Students Import"
+
+    headers = [
+        'admission_number', 'first_name', 'last_name', 'middle_name',
+        'gender', 'date_of_birth', 'stream', 'kcpe_marks',
+        'admission_date', 'is_boarder'
+    ]
+    ws.append(headers)
+
+    # Sample row
+    ws.append([
+        'CGS001/2026', 'Jane', 'Doe', 'Mary',
+        'female', '2010-01-15', 'Form 1 East', 380,
+        '2026-01-10', 'yes'
+    ])
+
+    # Style header row
+    from openpyxl.styles import Font, PatternFill
+    for cell in ws[1]:
+        cell.font = Font(bold=True, color='FFFFFF')
+        cell.fill = PatternFill(start_color='C0392B', end_color='C0392B', fill_type='solid')
+
+    # Auto width
+    for col in ws.columns:
+        max_len = max(len(str(cell.value or '')) for cell in col)
+        ws.column_dimensions[col[0].column_letter].width = max_len + 4
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="students_import_template.xlsx"'
+    wb.save(response)
+    return response

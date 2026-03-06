@@ -1,0 +1,51 @@
+﻿{% extends "base.html" %}
+{% load timetable_tags %}
+{% block title %}Edit Timetable{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
+<div class="container"><div class="d-flex justify-content-between align-items-center">
+<div><h4 style="font-weight:800;margin:0;">Edit Timetable</h4>
+<p style="opacity:0.8;margin:0;">{{ stream.full_name }} - {{ academic_year.year }}</p></div>
+<a href="{% url 'timetable_list' %}?stream={{ stream.id }}&year={{ academic_year.id }}" class="btn" style="background:white;color:#8e44ad;font-weight:700;border-radius:25px;">View</a>
+</div></div></section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+<div class="container-fluid px-4">
+{% if messages %}{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+{% endfor %}{% endif %}
+<form method="post">{% csrf_token %}
+{% if selected_term %}<input type="hidden" name="term" value="{{ selected_term.id }}">{% endif %}
+<div style="overflow-x:auto;">
+<table class="table table-bordered" style="min-width:1100px;font-size:0.8rem;background:white;border-radius:15px;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+<thead><tr style="background:#8e44ad;color:white;">
+<th style="width:130px;">Period</th>
+{% for day, day_label in days %}<th style="text-align:center;">{{ day_label }}</th>{% endfor %}
+</tr></thead>
+<tbody>
+{% for period, period_label in periods %}
+<tr {% if period in break_periods %}style="background:#fff9e6;"{% endif %}>
+<td style="font-weight:600;font-size:0.75rem;color:#666;vertical-align:middle;">{{ period_label }}</td>
+{% for day, day_label in days %}
+{% with slot=grid|dict_key:day %}{% with cell=slot|dict_key:period %}
+<td style="padding:0.3rem;vertical-align:middle;">
+{% if period in break_periods %}
+<div style="text-align:center;color:#e67e22;font-weight:600;">{% if period == '5' %}BREAK{% else %}LUNCH{% endif %}</div>
+{% else %}
+<select name="subject_{{ day }}_{{ period }}" class="form-select form-select-sm mb-1">
+<option value="">-- Subject --</option>
+{% for subject in subjects %}<option value="{{ subject.id }}" {% if cell and cell.subject.id == subject.id %}selected{% endif %}>{{ subject.name }}</option>{% endfor %}
+</select>
+<select name="teacher_{{ day }}_{{ period }}" class="form-select form-select-sm">
+<option value="">-- Teacher --</option>
+{% for teacher in teachers %}<option value="{{ teacher.id }}" {% if cell and cell.teacher.id == teacher.id %}selected{% endif %}>{{ teacher.get_full_name }}</option>{% endfor %}
+</select>
+{% endif %}
+</td>
+{% endwith %}{% endwith %}
+{% endfor %}
+</tr>{% endfor %}
+</tbody></table></div>
+<div style="text-align:center;margin-top:1.5rem;">
+<button type="submit" name="save_timetable" class="btn btn-lg px-5" style="background:#8e44ad;color:white;border-radius:25px;font-weight:700;">Save Timetable</button>
+</div></form></div></section>
+{% endblock %}

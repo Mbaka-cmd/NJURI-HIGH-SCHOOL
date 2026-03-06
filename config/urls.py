@@ -13,8 +13,8 @@ urlpatterns = [
     path("exams/", include("exams.urls")),
     path("staff/", include("staff.urls")),
     path("portal/", include("portal.urls")),
+    path("timetable/", include("timetable.urls")),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+{% load timetable_tags %}
+{% block title %}My Timetable{% endblock %}
+{% block content %}
+<section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
+<div class="container">
+<h4 style="font-weight:800;margin:0;">My Class Timetable</h4>
+<p style="opacity:0.8;margin:0.3rem 0 0;">{{ stream.full_name }} - {{ selected_year.year }}</p>
+</div></section>
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
+<div class="container">
+{% if grid %}
+<div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+<div style="overflow-x:auto;">
+<table class="table table-bordered" style="min-width:700px;font-size:0.82rem;">
+<thead><tr style="background:#8e44ad;color:white;">
+<th style="width:120px;">Period</th>
+{% for day, day_label in days %}<th style="text-align:center;">{{ day_label }}</th>{% endfor %}
+</tr></thead>
+<tbody>
+{% for period, period_label in periods %}
+<tr {% if period in break_periods %}style="background:#fff9e6;"{% endif %}>
+<td style="font-weight:600;font-size:0.75rem;color:#666;">{{ period_label }}</td>
+{% for day, day_label in days %}
+{% with slot=grid|dict_key:day %}{% with cell=slot|dict_key:period %}
+<td style="text-align:center;padding:0.4rem;vertical-align:middle;">
+{% if period in break_periods %}
+<span style="color:#e67e22;font-weight:600;">{% if period == '5' %}BREAK{% else %}LUNCH{% endif %}</span>
+{% elif cell and cell.subject %}
+<div style="background:#f0e6ff;border-radius:8px;padding:0.3rem;">
+<div style="font-weight:700;color:#6c3483;font-size:0.82rem;">{{ cell.subject.name }}</div>
+{% if cell.teacher %}<div style="color:#999;font-size:0.7rem;">{{ cell.teacher.get_full_name }}</div>{% endif %}
+</div>
+{% else %}<span style="color:#ddd;">-</span>{% endif %}
+</td>
+{% endwith %}{% endwith %}
+{% endfor %}
+</tr>{% endfor %}
+</tbody></table></div></div>
+{% else %}
+<div style="background:white;border-radius:15px;padding:3rem;text-align:center;">
+<h5 style="color:#999;">No timetable available yet</h5>
+</div>{% endif %}
+<div style="margin-top:1rem;">
+<a href="{% url 'student_portal' %}" style="color:#8e44ad;text-decoration:none;">
+<i class="bi bi-arrow-left me-1"></i>Back to Portal</a>
+</div>
+</div></section>
+{% endblock %}
