@@ -21,6 +21,9 @@
                 <a href="{% url 'timetable_list' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
                     <i class="bi bi-calendar3 me-1"></i>Timetable
                 </a>
+                <a href="{% url 'bulk_sms' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
+                    <i class="bi bi-chat-dots-fill me-1"></i>SMS
+                </a>
                 <a href="{% url 'fee_dashboard' %}" class="btn" style="background:white;color:#C0392B;border-radius:20px;font-weight:600;">
                     <i class="bi bi-cash-stack me-1"></i>Fees
                 </a>
@@ -128,6 +131,9 @@
                         <a href="{% url 'student_add' %}" class="btn" style="background:#fff0f0;color:#C0392B;border-radius:10px;text-align:left;font-weight:600;">
                             <i class="bi bi-person-plus-fill me-2"></i>Add Student
                         </a>
+                        <a href="{% url 'student_bulk_import' %}" class="btn" style="background:#fff0f0;color:#C0392B;border-radius:10px;text-align:left;font-weight:600;">
+                            <i class="bi bi-upload me-2"></i>Bulk Import Students
+                        </a>
                         <a href="{% url 'staff_add' %}" class="btn" style="background:#f0fff5;color:#2ecc71;border-radius:10px;text-align:left;font-weight:600;">
                             <i class="bi bi-person-badge-fill me-2"></i>Add Teacher
                         </a>
@@ -142,6 +148,9 @@
                         </a>
                         <a href="{% url 'timetable_list' %}" class="btn" style="background:#f0e6ff;color:#8e44ad;border-radius:10px;text-align:left;font-weight:600;">
                             <i class="bi bi-calendar3 me-2"></i>Timetable
+                        </a>
+                        <a href="{% url 'bulk_sms' %}" class="btn" style="background:#f0fff5;color:#27ae60;border-radius:10px;text-align:left;font-weight:600;">
+                            <i class="bi bi-chat-dots-fill me-2"></i>Bulk SMS
                         </a>
                     </div>
                 </div>

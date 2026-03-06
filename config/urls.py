@@ -1,4 +1,4 @@
-from django.contrib import admin
+﻿from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,6 +13,7 @@ urlpatterns = [
     path("exams/", include("exams.urls")),
     path("staff/", include("staff.urls")),
     path("portal/", include("portal.urls")),
+    path("communications/", include("communications.urls")),
     path("timetable/", include("timetable.urls")),
 ]
 

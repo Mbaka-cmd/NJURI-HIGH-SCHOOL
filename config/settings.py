@@ -1,4 +1,4 @@
-from pathlib import Path
+﻿from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -105,3 +105,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mercykathomi428@gmail.com'
 EMAIL_HOST_PASSWORD = 'mmdz zdvz flvu xsnx'
 DEFAULT_FROM_EMAIL = 'Chuka Girls School <mercykathomi428@gmail.com>'
+# Africa's Talking
+import os as _os
+AT_USERNAME = _os.environ.get('AT_USERNAME', 'sandbox')
+AT_API_KEY = _os.environ.get('AT_API_KEY', '')
+AT_USERNAME = 'sandbox'
+AT_API_KEY = 'r1V8BzM3e'
