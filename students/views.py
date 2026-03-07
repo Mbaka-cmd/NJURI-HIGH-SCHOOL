@@ -107,6 +107,38 @@ def student_edit(request, pk):
     context = {"student": student, "streams": streams}
     return render(request, "students/student_edit.html", context)
 
+
+def resolve_stream(school, stream_name):
+    """Resolve stream name like 'Form 1 East' to Stream object"""
+    if not stream_name:
+        return None
+    parts = stream_name.strip().split()
+    # Handle "Form 1 East" format (3+ parts)
+    if len(parts) >= 3:
+        level_name = ' '.join(parts[:2])  # "Form 1"
+        name = parts[2]                    # "East"
+        stream = Stream.objects.filter(
+            school=school,
+            name__iexact=name,
+            class_level__name__iexact=level_name
+        ).first()
+        if stream:
+            return stream
+    # Fallback: search by stream name only
+    stream = Stream.objects.filter(
+        school=school,
+        name__icontains=stream_name
+    ).first()
+    if stream:
+        return stream
+    # Fallback: search by class level name
+    stream = Stream.objects.filter(
+        school=school,
+        class_level__name__icontains=stream_name
+    ).first()
+    return stream
+
+
 @admin_required
 def student_bulk_import(request):
     """Bulk import students from Excel file"""
@@ -160,17 +192,7 @@ def student_bulk_import(request):
                         skipped += 1
                         continue
 
-                    stream = None
-                    if stream_name:
-                        stream = Stream.objects.filter(
-                            school=school,
-                            name__icontains=stream_name
-                        ).first()
-                        if not stream:
-                            stream = Stream.objects.filter(
-                                school=school,
-                                class_level__name__icontains=stream_name
-                            ).first()
+                    stream = resolve_stream(school, stream_name)
 
                     if isinstance(dob, str):
                         try:
@@ -191,7 +213,7 @@ def student_bulk_import(request):
                     if gender not in ['male', 'female']:
                         gender = 'female'
 
-                    student = Student.objects.create(
+                    Student.objects.create(
                         school=school,
                         admission_number=admission_number,
                         first_name=first_name,
@@ -255,13 +277,11 @@ def download_import_template(request):
         '2026-01-10', 'yes'
     ])
 
-    # Style header row
     from openpyxl.styles import Font, PatternFill
     for cell in ws[1]:
         cell.font = Font(bold=True, color='FFFFFF')
         cell.fill = PatternFill(start_color='C0392B', end_color='C0392B', fill_type='solid')
 
-    # Auto width
     for col in ws.columns:
         max_len = max(len(str(cell.value or '')) for cell in col)
         ws.column_dimensions[col[0].column_letter].width = max_len + 4

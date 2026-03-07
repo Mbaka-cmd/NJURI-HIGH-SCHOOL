@@ -1,7 +1,5 @@
-import json
+﻿import json
 import uuid as uuid_lib
-import base64
-from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
@@ -68,19 +66,16 @@ def generate_invoices(request):
         year_id = request.POST.get("year")
         description = request.POST.get("description", "")
         due_date = request.POST.get("due_date") or None
-
         try:
             term = Term.objects.get(id=term_id)
             academic_year = AcademicYear.objects.get(id=year_id, school=school)
         except Exception as e:
             messages.error(request, f"Invalid term or year: {e}")
             return redirect("generate_invoices")
-
         students = Student.objects.filter(school=school, is_active=True)
         stream_id = request.POST.get("stream")
         if stream_id:
             students = students.filter(current_stream_id=stream_id)
-
         created = 0
         for student in students:
             existing = FeeInvoice.objects.filter(
@@ -96,7 +91,6 @@ def generate_invoices(request):
                 created += 1
         messages.success(request, f"Generated {created} invoices successfully!")
         return redirect("invoice_list")
-
     streams = Stream.objects.filter(school=school)
     terms = Term.objects.filter(academic_year__school=school)
     years = AcademicYear.objects.filter(school=school)
@@ -135,6 +129,22 @@ def record_payment(request, pk):
             invoice.status = "partial"
         invoice.save()
         messages.success(request, f"Payment of KES {amount:,.0f} recorded!")
+        try:
+            from communications.sms_utils import send_bulk_sms, format_phone
+            balance = float(invoice.total_expected) - float(invoice.total_paid)
+            student = invoice.student
+            parent = student.parents.filter(
+                phone_primary__isnull=False
+            ).exclude(phone_primary='').first()
+            if parent:
+                sms_message = (
+                    f"Dear {parent.first_name}, KES {amount:,.0f} received for "
+                    f"{student.first_name} {student.last_name}. "
+                    f"Balance: KES {balance:,.0f}. Thank you. Chuka Girls"
+                )
+                send_bulk_sms([format_phone(parent.phone_primary)], sms_message)
+        except Exception:
+            pass
         return redirect("invoice_detail", pk=invoice.id)
     context = {"invoice": invoice}
     return render(request, "fees/record_payment.html", context)
