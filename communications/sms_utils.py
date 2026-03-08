@@ -6,7 +6,8 @@ from django.conf import settings
 
 def send_bulk_sms(recipients, message):
     results = {'sent': 0, 'failed': 0, 'errors': []}
-url = "https://api.africastalking.com/version1/messaging"    headers = {
+    url = "https://api.africastalking.com/version1/messaging"
+    headers = {
         'apiKey': settings.AT_API_KEY,
         'Accept': 'application/json',
     }

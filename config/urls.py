@@ -13,6 +13,7 @@ urlpatterns = [
     path("exams/", include("exams.urls")),
     path("staff/", include("staff.urls")),
     path("portal/", include("portal.urls")),
+    path("library/", include("library.urls")),
     path("communications/", include("communications.urls")),
     path("timetable/", include("timetable.urls")),
 ]

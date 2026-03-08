@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'exams',
     'fees',
     'communications',
+    'library',
     'website',
     'staff',
     'timetable',
@@ -107,7 +108,7 @@ EMAIL_HOST_PASSWORD = 'mmdz zdvz flvu xsnx'
 DEFAULT_FROM_EMAIL = 'Chuka Girls School <mercykathomi428@gmail.com>'
 # Africa's Talking
 import os as _os
-AT_USERNAME = _os.environ.get('AT_USERNAME', 'sandbox')
-AT_API_KEY = _os.environ.get('AT_API_KEY', '')
+# AT_USERNAME env
+# AT_API_KEY env
 AT_USERNAME = 'chukagirls2026'
 AT_API_KEY = 'atsk_2a150f67801936b8f18ac47d0848677b9084609aa562597290844d728d764342fb649ee8'
