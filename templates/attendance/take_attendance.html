@@ -1,0 +1,111 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% block title %}Take Attendance — {{ school.name }}{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#2ecc71,#27ae60);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-pencil-square me-2"></i>Take Attendance</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ school.name }}</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'attendance_dashboard' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;"><i class="bi bi-arrow-left me-1"></i>Back</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0;background:#f8f9fa;">
+    <div class="container">
+        {% if not selected_stream %}
+        <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);max-width:500px;margin:0 auto;">
+            <h6 style="font-weight:700;margin-bottom:1.5rem;color:#1a1a1a;"><i class="bi bi-funnel me-2" style="color:#2ecc71;"></i>Select Stream & Date</h6>
+            <form method="get">
+                <div class="mb-3">
+                    <label style="font-size:0.85rem;font-weight:600;color:#555;">Stream</label>
+                    <select name="stream" class="form-select" style="border-radius:10px;" required>
+                        <option value="">-- Choose Stream --</option>
+                        {% for stream in streams %}
+                        <option value="{{ stream.id }}">{{ stream.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn w-100" style="background:#2ecc71;color:white;border-radius:10px;font-weight:600;">Load Students</button>
+            </form>
+        </div>
+        {% else %}
+        <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 style="font-weight:700;margin:0;color:#1a1a1a;"><i class="bi bi-people-fill me-2" style="color:#2ecc71;"></i>{{ selected_stream.full_name }} — {{ students.count }} Students</h6>
+                <div>
+                    <button onclick="markAll('present')" class="btn btn-sm" style="background:#f0fff5;color:#27ae60;border-radius:8px;font-weight:600;">All Present</button>
+                    <button onclick="markAll('absent')" class="btn btn-sm" style="background:#fff0f0;color:#e74c3c;border-radius:8px;font-weight:600;">All Absent</button>
+                </div>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="stream" value="{{ selected_stream.id }}">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label style="font-size:0.85rem;font-weight:600;color:#555;">Date</label>
+                        <input type="date" name="date" value="{{ today }}" class="form-control" style="border-radius:10px;" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label style="font-size:0.85rem;font-weight:600;color:#555;">Session</label>
+                        <select name="session" class="form-select" style="border-radius:10px;">
+                            <option value="full_day">Full Day</option>
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" style="font-size:0.9rem;">
+                        <thead style="background:#f8f9fa;">
+                            <tr>
+                                <th>#</th>
+                                <th>Student</th>
+                                <th>Adm No</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><strong>{{ student.get_full_name }}</strong></td>
+                                <td style="color:#888;">{{ student.admission_number }}</td>
+                                <td>
+                                    <select name="student_{{ student.id }}" class="form-select form-select-sm status-select" style="border-radius:8px;width:120px;">
+                                        <option value="present">Present</option>
+                                        <option value="absent">Absent</option>
+                                        <option value="late">Late</option>
+                                        <option value="excused">Excused</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="remarks_{{ student.id }}" class="form-control form-control-sm" placeholder="Optional..." style="border-radius:8px;width:150px;"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-lg" style="background:#2ecc71;color:white;border-radius:12px;font-weight:600;padding:0.7rem 2rem;"><i class="bi bi-check-circle-fill me-2"></i>Save Attendance</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+function markAll(status) {
+    document.querySelectorAll('.status-select').forEach(sel => sel.value = status);
+}
+</script>
+{% endblock %}
+{% endblock %}

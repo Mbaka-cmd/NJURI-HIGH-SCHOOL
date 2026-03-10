@@ -1,0 +1,80 @@
+﻿{% extends "base.html" %}
+{% block title %}View Attendance — {{ school.name }}{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#2ecc71,#27ae60);padding:2rem 0;color:white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col">
+                <h4 style="font-weight:800;margin:0;"><i class="bi bi-eye-fill me-2"></i>{{ session.stream }} — {{ session.date }}</h4>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ session.get_session_display }} Session · Taken by {{ session.taken_by|default:"Admin" }}</p>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'attendance_dashboard' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;"><i class="bi bi-arrow-left me-1"></i>Back</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding:2rem 0;background:#f8f9fa;">
+    <div class="container">
+        <div class="row g-3 mb-4">
+            <div class="col-4">
+                <div style="background:white;border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);">
+                    <div style="font-size:2rem;font-weight:800;color:#27ae60;">{{ session.total_present }}</div>
+                    <div style="font-size:0.8rem;color:#888;">Present</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div style="background:white;border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);">
+                    <div style="font-size:2rem;font-weight:800;color:#e74c3c;">{{ session.total_absent }}</div>
+                    <div style="font-size:0.8rem;color:#888;">Absent</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div style="background:white;border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);">
+                    <div style="font-size:2rem;font-weight:800;color:#3498db;">{{ session.total_students }}</div>
+                    <div style="font-size:0.8rem;color:#888;">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background:white;border-radius:15px;padding:1.5rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+            <div class="table-responsive">
+                <table class="table" style="font-size:0.9rem;">
+                    <thead style="background:#f8f9fa;">
+                        <tr>
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Adm No</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><strong>{{ record.student.get_full_name }}</strong></td>
+                            <td style="color:#888;">{{ record.student.admission_number }}</td>
+                            <td>
+                                {% if record.status == 'present' %}
+                                <span style="background:#f0fff5;color:#27ae60;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Present</span>
+                                {% elif record.status == 'absent' %}
+                                <span style="background:#fff0f0;color:#e74c3c;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Absent</span>
+                                {% elif record.status == 'late' %}
+                                <span style="background:#fffbf0;color:#e67e22;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Late</span>
+                                {% else %}
+                                <span style="background:#f0f4ff;color:#3498db;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Excused</span>
+                                {% endif %}
+                            </td>
+                            <td style="color:#888;">{{ record.remarks|default:"—" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

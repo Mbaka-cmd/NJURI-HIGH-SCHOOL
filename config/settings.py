@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'website',
     'staff',
     'timetable',
+    'attendance',
 ]
 
 MIDDLEWARE = [
@@ -112,3 +113,4 @@ import os as _os
 # AT_API_KEY env
 AT_USERNAME = 'chukagirls2026'
 AT_API_KEY = 'atsk_2a150f67801936b8f18ac47d0848677b9084609aa562597290844d728d764342fb649ee8'
+
