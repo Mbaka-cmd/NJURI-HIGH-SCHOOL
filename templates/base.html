@@ -1,5 +1,5 @@
-﻿{% load static %}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,9 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --school-red: #C0392B; --school-dark-red: #922B21; }
-        * { font-family: 'Poppins', sans-serif; }
-        body { overflow-x: hidden; margin: 0 !important; padding: 0 !important; } .top-bar { margin-top: 0 !important; } nav { margin-top: 0 !important; } section:first-of-type { margin-top: 0 !important; }
-        .navbar { background: linear-gradient(135deg, var(--school-red), var(--school-dark-red)); box-shadow: 0 2px 15px rgba(0,0,0,0.2); padding: 0.8rem 0; margin-bottom: 0 !important; }
+        * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+        html, body { margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
+        .navbar { background: linear-gradient(135deg, var(--school-red), var(--school-dark-red)); box-shadow: 0 2px 15px rgba(0,0,0,0.2); padding: 0.8rem 0; margin: 0 !important; }
         .navbar-brand { font-weight: 700; font-size: 1.1rem; color: white !important; }
         .navbar-brand img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid white; margin-right: 10px; object-fit: cover; }
         .nav-link { color: rgba(255,255,255,0.9) !important; font-weight: 500; font-size: 0.9rem; padding: 0.5rem 1rem !important; transition: all 0.3s; }
@@ -24,7 +24,7 @@
         .search-input::placeholder { color: rgba(255,255,255,0.7); }
         .search-input { color: white !important; }
         .search-input:focus { background: rgba(255,255,255,0.25) !important; color: white !important; outline: none; box-shadow: none; border-color: rgba(255,255,255,0.8) !important; }
-        .top-bar { background: var(--school-dark-red); color: rgba(255,255,255,0.85); font-size: 0.78rem; padding: 5px 0; }
+        .top-bar { background: var(--school-dark-red); color: rgba(255,255,255,0.85); font-size: 0.78rem; padding: 5px 0; margin: 0; }
         .top-bar a { color: rgba(255,255,255,0.85); text-decoration: none; }
         .top-bar a:hover { color: white; }
         footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
@@ -35,7 +35,7 @@
         .btn-primary { background: var(--school-red); border-color: var(--school-red); }
         .btn-primary:hover { background: var(--school-dark-red); border-color: var(--school-dark-red); }
         .text-primary { color: var(--school-red) !important; }
-        html, body { margin: 0 !important; padding: 0 !important; } * { box-sizing: border-box; } {% block extra_css %}{% endblock %}
+        {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
@@ -173,6 +173,3 @@
 {% block extra_js %}{% endblock %}
 </body>
 </html>
-
-
-
