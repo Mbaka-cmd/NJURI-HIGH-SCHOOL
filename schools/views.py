@@ -311,7 +311,7 @@ def super_admin_dashboard(request):
         "total_revenue": total_revenue,
         "schools_data": schools_data,
     }
-    return render(request, "schools/super_admin_dashboard.html", context)
+    return render(request, "schools/admin_dashboard.html", context)
 
 
 # â”€â”€ GLOBAL SEARCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -364,3 +364,4 @@ def kcse_upload(request):
     from website.models import KCSEResult
     results = KCSEResult.objects.filter(school=school).order_by("-year")
     return render(request, "schools/kcse_upload.html", {"results": results, "school": school})
+
