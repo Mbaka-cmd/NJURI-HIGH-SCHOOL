@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Staff — {{ request.user.school.name }}{% endblock %}
+﻿{% extends "base.html" %}
+{% block title %}Staff â€” {{ request.user.school.name }}{% endblock %}
 {% block content %}
 <section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
     <div class="container">
@@ -88,7 +88,7 @@
                             </div>
                         </td>
                         <td style="padding:0.9rem 1rem;font-size:0.9rem;">{{ teacher.email }}</td>
-                        <td style="padding:0.9rem 1rem;font-size:0.9rem;">{{ teacher.phone_number|default:"—" }}</td>
+                        <td style="padding:0.9rem 1rem;font-size:0.9rem;">{{ teacher.phone_number|default:"â€”" }}</td>
                         <td style="padding:0.9rem 1rem;">
                             <span style="background:{% if teacher.is_active %}#f0fff5;color:#2ecc71;{% else %}#fff0f0;color:#C0392B;{% endif %};padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;">
                                 {% if teacher.is_active %}Active{% else %}Inactive{% endif %}
