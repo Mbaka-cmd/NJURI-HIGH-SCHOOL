@@ -68,7 +68,7 @@ class Command(BaseCommand):
         year, created = AcademicYear.objects.get_or_create(
             school=school,
             year=2026,
-            defaults={"is_current": True, "name": "2026"}
+            defaults={"is_current": True}
         )
         if created:
             self.stdout.write("Academic year 2026 created.")
