@@ -30,35 +30,32 @@ class Command(BaseCommand):
 
     def _create_school(self):
         from schools.models import School
-        if not School.objects.exists():
-            school = School.objects.create(
-                name="St. Bakhita Chuka Girls High School",
-                slug="chuka-girls",
-                motto="Today's Effort is Tomorrow's Success",
-                address="Kiagondu Forest Road, Karingari",
-                county="Tharaka-Nithi",
-                town="Chuka",
-                phone="0115388019",
-                email="chukagirls@gmail.com",
-                po_box="3-60400",
-                knec_code="19308304",
-                school_type="boarding",
-                gender_type="girls",
-                category="extra_county",
-                is_active=True,
-            )
-            self.stdout.write(f"School created: {school.name}")
-
-            # Link admin to school
-            from accounts.models import User
-            admin = User.objects.filter(is_platform_admin=True).first()
-            if admin:
-                admin.school = school
-                admin.is_school_admin = True
-                admin.save()
-                self.stdout.write("Admin linked to school.")
-        else:
+        if School.objects.exists():
             self.stdout.write("School already exists.")
+            return
+        school = School.objects.create(
+            name="St. Bakhita Chuka Girls High School",
+            slug="chuka-girls",
+            motto="Today's Effort is Tomorrow's Success",
+            address="Kiagondu Forest Road, Karingari",
+            county="Tharaka-Nithi",
+            town="Chuka",
+            phone="0115388019",
+            email="chukagirls@gmail.com",
+            po_box="3-60400",
+            knec_code="19308304",
+            school_type="boarding",
+            gender_type="girls",
+            category="extra_county",
+            is_active=True,
+        )
+        self.stdout.write(f"School created: {school.name}")
+        admin = User.objects.filter(is_platform_admin=True).first()
+        if admin:
+            admin.school = school
+            admin.is_school_admin = True
+            admin.save()
+            self.stdout.write("Admin linked to school.")
 
     def _create_academic_year(self):
         from schools.models import School, AcademicYear, Term
@@ -68,21 +65,29 @@ class Command(BaseCommand):
         year, created = AcademicYear.objects.get_or_create(
             school=school,
             year=2026,
-            defaults={"is_current": True, "start_date": "2026-01-06", "end_date": "2026-11-30"}
+            defaults={
+                "is_current": True,
+                "start_date": "2026-01-06",
+                "end_date": "2026-11-30",
+            }
         )
         if created:
             self.stdout.write("Academic year 2026 created.")
         term_dates = [
-    (1, "2026-01-06", "2026-04-04"),
-    (2, "2026-05-05", "2026-08-07"),
-    (3, "2026-09-01", "2026-11-06"),
-]
-for number, start, end in term_dates:
-    Term.objects.get_or_create(
-        academic_year=year,
-        number=number,
-        defaults={"start_date": start, "end_date": end, "is_current": number == 1}
-    )
+            (1, "2026-01-06", "2026-04-04"),
+            (2, "2026-05-05", "2026-08-07"),
+            (3, "2026-09-01", "2026-11-06"),
+        ]
+        for number, start, end in term_dates:
+            Term.objects.get_or_create(
+                academic_year=year,
+                number=number,
+                defaults={
+                    "start_date": start,
+                    "end_date": end,
+                    "is_current": number == 1,
+                }
+            )
         self.stdout.write("Terms ready.")
 
     def _create_streams(self):
@@ -139,8 +144,6 @@ for number, start, end in term_dates:
             count_c_minus=2,
             count_d_plus=1,
             is_published=True,
-            summary="In 2024 KCSE, 133 candidates sat the exam with 85 qualifying for university admission. The school posted a mean grade of B-.",
+            summary="In 2024 KCSE, 133 candidates sat the exam with 85 qualifying for university admission. Mean grade B-.",
         )
         self.stdout.write("KCSE 2024 results seeded.")
-
-
