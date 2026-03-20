@@ -114,7 +114,7 @@ class Command(BaseCommand):
                     school=school,
                     class_level=level,
                     name=stream_name,
-                    defaults={"full_name": f"{class_name} {stream_name}"}
+                    defaults={}
                 )
         self.stdout.write("16 streams created.")
 
