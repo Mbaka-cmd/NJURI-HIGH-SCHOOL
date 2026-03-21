@@ -6,4 +6,5 @@ urlpatterns = [
     path("add/", views.staff_add, name="staff_add"),
     path("<str:pk>/", views.staff_detail, name="staff_detail"),
     path("<str:pk>/edit/", views.staff_edit, name="staff_edit"),
+    path("<str:pk>/send-timetable/", views.send_timetable, name="send_timetable"),
 ]

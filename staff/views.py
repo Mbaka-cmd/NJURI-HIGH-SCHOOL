@@ -74,3 +74,24 @@ def staff_edit(request, pk):
         return redirect("staff_detail", pk=teacher.id)
     context = {"teacher": teacher}
     return render(request, "staff/staff_edit.html", context)
+
+@admin_required
+def send_timetable(request, pk):
+    from django.core.mail import send_mail
+    school = request.user.school
+    teacher = get_object_or_404(User, id=pk, school=school, is_teacher=True)
+    class_streams = Stream.objects.filter(school=school, class_teacher=teacher)
+    if not teacher.email:
+        messages.error(request, f'{teacher.get_full_name()} has no email.')
+        return redirect('staff_list')
+    if not class_streams.exists():
+        messages.error(request, f'{teacher.get_full_name()} is not a class teacher.')
+        return redirect('staff_list')
+    try:
+        stream = class_streams.first()
+        send_mail(subject=f'Class Timetable - {stream.full_name}', message=f'Dear {teacher.get_full_name()},\n\nPlease find your class timetable for {stream.full_name}.\n\nRegards,\n{school.name}', from_email='mercykathomi428@gmail.com', recipient_list=[teacher.email], fail_silently=False)
+        messages.success(request, f'Timetable sent to {teacher.email}!')
+    except Exception as e:
+        messages.error(request, f'Error: {e}')
+    return redirect('staff_list')
+

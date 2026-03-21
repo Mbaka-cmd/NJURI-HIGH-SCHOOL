@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col">
                 <h4 style="font-weight:800;margin:0;"><i class="bi bi-person-plus-fill me-2"></i>Add Teacher</h4>
-                <p style="opacity:0.75;margin:0;font-size:0.9rem;">Create a new teacher account</p>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">Add a new teacher to the school</p>
             </div>
             <div class="col-auto">
                 <a href="{% url 'staff_list' %}" class="btn" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
@@ -17,52 +17,54 @@
     </div>
 </section>
 
-<section style="padding:3rem 0 5rem;background:#f8f9fa;">
+<section style="padding:2rem 0 4rem;background:#f8f9fa;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-7">
-                {% if messages %}{% for message in messages %}
-                <div class="alert alert-danger alert-dismissible fade show mb-4">
-                    {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                {% endfor %}{% endif %}
-
-                <form method="post">
-                    {% csrf_token %}
-                    <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);margin-bottom:1.5rem;">
-                        <h5 style="font-weight:700;color:#C0392B;margin-bottom:1.5rem;">Personal Information</h5>
+                <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
+                    <form method="post">
+                        {% csrf_token %}
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">First Name <span style="color:#C0392B;">*</span></label>
-                                <input type="text" name="first_name" class="form-control" required>
+                                <label class="form-label fw-semibold">First Name *</label>
+                                <input type="text" name="first_name" class="form-control" required placeholder="e.g. Joan">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Last Name <span style="color:#C0392B;">*</span></label>
-                                <input type="text" name="last_name" class="form-control" required>
+                                <label class="form-label fw-semibold">Last Name *</label>
+                                <input type="text" name="last_name" class="form-control" required placeholder="e.g. Muthomi">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Email Address <span style="color:#C0392B;">*</span></label>
-                                <input type="email" name="email" class="form-control" required>
+                                <label class="form-label fw-semibold">Email Address *</label>
+                                <input type="email" name="email" class="form-control" required placeholder="e.g. joan@school.ac.ke">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Phone Number</label>
-                                <input type="text" name="phone" class="form-control" placeholder="+254...">
+                                <input type="text" name="phone" class="form-control" placeholder="e.g. 0712345678">
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Password <span style="color:#C0392B;">*</span></label>
-                                <input type="password" name="password" class="form-control" required minlength="8">
-                                <div style="font-size:0.8rem;color:#999;margin-top:4px;">Minimum 8 characters</div>
+                                <label class="form-label fw-semibold">Class Teacher Assignment</label>
+                                <select name="class_teacher_stream" class="form-control">
+                                    <option value="">— Not a class teacher —</option>
+                                    {% for stream in streams %}
+                                    <option value="{{ stream.id }}">{{ stream.full_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small class="text-muted">Assign this teacher as class teacher for a stream</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Password</label>
+                                <input type="text" name="password" class="form-control" value="Teacher2026!" placeholder="Default: Teacher2026!">
+                                <small class="text-muted">Teacher can change this after first login</small>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="d-flex gap-3 justify-content-end">
-                        <a href="{% url 'staff_list' %}" class="btn btn-lg" style="border-radius:10px;border:2px solid #ddd;color:#666;padding:0.8rem 2rem;">Cancel</a>
-                        <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;border-radius:10px;padding:0.8rem 3rem;font-weight:600;">
-                            <i class="bi bi-person-plus-fill me-2"></i>Add Teacher
-                        </button>
-                    </div>
-                </form>
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn" style="background:#C0392B;color:white;border-radius:10px;padding:0.7rem 2rem;font-weight:600;">
+                                <i class="bi bi-plus-circle-fill me-2"></i>Add Teacher
+                            </button>
+                            <a href="{% url 'staff_list' %}" class="btn btn-outline-secondary" style="border-radius:10px;padding:0.7rem 2rem;">Cancel</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

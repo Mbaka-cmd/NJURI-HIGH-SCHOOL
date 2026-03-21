@@ -1,145 +1,156 @@
 ﻿{% extends "base.html" %}
 {% block title %}Portal Login — {{ school.name|default:"Chuka Girls Secondary School" }}{% endblock %}
-
 {% block content %}
-<section style="min-height:85vh;display:flex;align-items:center;background:linear-gradient(135deg,#f5f5f5,#fafafa);padding:3rem 0;">
+<section style="min-height:85vh;display:flex;align-items:center;background:#f5f5f5;padding:3rem 0;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
-
-                <!-- LOGO & TITLE -->
                 <div class="text-center mb-4">
-                    <div style="width:75px;height:75px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 4px 15px rgba(192,57,43,0.3);">
+                    <div style="width:75px;height:75px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
                         <i class="bi bi-mortarboard-fill" style="font-size:2rem;color:white;"></i>
                     </div>
                     <h3 style="font-weight:800;color:#1a1a1a;">School Portal Login</h3>
                     <p style="color:#888;font-size:0.9rem;">{{ school.name|default:"Chuka Girls Secondary School" }}</p>
                 </div>
-
-                <!-- MESSAGES -->
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius:12px;font-size:0.88rem;">
+                {% if messages %}{% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" style="border-radius:12px;font-size:0.88rem;">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-                {% endfor %}
-                {% endif %}
-
-                <!-- LOGIN CARD -->
-                <div style="background:white;border-radius:20px;padding:2.5rem;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
-                    <form method="post">
-                        {% csrf_token %}
-
-                        <!-- EMAIL / ADM NUMBER -->
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold" style="font-size:0.9rem;color:#333;">Email or Admission Number</label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;">
-                                    <i class="bi bi-person-fill" style="color:#C0392B;"></i>
-                                </span>
-                                <input
-                                    type="text"
-                                    name="email"
-                                    class="form-control"
-                                    placeholder="e.g. adalyn@gmail.com or CGS02/2026"
-                                    required
-                                    autofocus
-                                    style="border-left:none;border-color:#e8d5d5;background:#fdf2f2;color:#333;"
-                                    onfocus="this.style.background='white';this.style.borderColor='#C0392B';"
-                                    onblur="this.style.background='#fdf2f2';this.style.borderColor='#e8d5d5';"
-                                >
-                            </div>
-                        </div>
-
-                        <!-- PASSWORD -->
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold" style="font-size:0.9rem;color:#333;">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;">
-                                    <i class="bi bi-lock-fill" style="color:#C0392B;"></i>
-                                </span>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="passwordInput"
-                                    class="form-control"
-                                    placeholder="Enter your password"
-                                    required
-                                    style="border-left:none;border-right:none;border-color:#e8d5d5;background:#fdf2f2;"
-                                    onfocus="this.style.background='white';this.style.borderColor='#C0392B';"
-                                    onblur="this.style.background='#fdf2f2';this.style.borderColor='#e8d5d5';"
-                                >
-                                <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-left:none;cursor:pointer;"
-                                    onclick="togglePassword()">
-                                    <i class="bi bi-eye-fill" id="eyeIcon" style="color:#999;"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- LOGIN HINTS -->
-                        <div style="background:#f8f9fa;border-radius:10px;padding:0.8rem;margin-bottom:1rem;font-size:0.8rem;color:#666;">
-                            <div><i class="bi bi-mortarboard-fill me-1" style="color:#C0392B;"></i><strong>Students:</strong> Username = <code>CGS02/2026</code> · Password = admission number</div>
-                            <div class="mt-1"><i class="bi bi-mortarboard-fill me-1" style="color:#C0392B;"></i><strong>Alt format:</strong> <code>Adalyn_CGS02/2026</code> · Password = admission number</div>
-                            <div class="mt-1"><i class="bi bi-people-fill me-1" style="color:#2ecc71;"></i><strong>Parents/Staff:</strong> Use your email address</div>
-                        </div>
-
-                        <!-- SUBMIT -->
-                        <button type="submit" class="btn btn-lg w-100" style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;border-radius:12px;font-weight:700;padding:0.85rem;font-size:1rem;border:none;box-shadow:0 4px 15px rgba(192,57,43,0.35);">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Login to Portal
+                {% endfor %}{% endif %}
+                <div style="background:white;border-radius:20px;padding:2rem;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+                    <div style="display:flex;background:#f4f4f4;border-radius:12px;padding:4px;margin-bottom:1.5rem;">
+                        <button onclick="switchTab('student')" id="tab-student" style="flex:1;padding:0.6rem;border:none;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;background:#C0392B;color:white;">
+                            <i class="bi bi-mortarboard-fill me-1"></i>Student / Parent
                         </button>
-                    </form>
-
-                    <hr style="border-color:#f0f0f0;margin:1.5rem 0;">
-
-                    <!-- PARENT REGISTER -->
-                    <div style="background:#f0fff5;border-radius:12px;padding:1rem;text-align:center;margin-bottom:1rem;border:1px solid #d4edda;">
-                        <p style="font-size:0.83rem;color:#555;margin-bottom:0.5rem;">
-                            <i class="bi bi-people-fill me-1" style="color:#2ecc71;"></i>New parent? Register to monitor your child
-                        </p>
-                        <a href="{% url 'parent_register' %}" class="btn btn-sm" style="background:#27ae60;color:white;border-radius:20px;font-weight:600;padding:0.4rem 1.5rem;font-size:0.83rem;">
-                            <i class="bi bi-person-plus-fill me-1"></i>Parent Registration
-                        </a>
+                        <button onclick="unlockStaff()" id="tab-staff" style="flex:1;padding:0.6rem;border:none;border-radius:10px;font-size:0.88rem;font-weight:600;cursor:pointer;background:transparent;color:#666;">
+                            <i class="bi bi-person-badge-fill me-1"></i>Staff
+                        </button>
                     </div>
-
-                    <!-- ROLE BADGES -->
-                    <div class="text-center">
-                        <p style="color:#aaa;font-size:0.8rem;margin-bottom:0.6rem;">Login as:</p>
-                        <div class="d-flex justify-content-center gap-2 flex-wrap">
-                            <span style="background:#f0f0f0;color:#555;padding:4px 12px;border-radius:20px;font-size:0.78rem;"><i class="bi bi-person-fill me-1" style="color:#C0392B;"></i>Parent</span>
-                            <span style="background:#f0f0f0;color:#555;padding:4px 12px;border-radius:20px;font-size:0.78rem;"><i class="bi bi-person-badge-fill me-1" style="color:#C0392B;"></i>Teacher</span>
-                            <span style="background:#f0f0f0;color:#555;padding:4px 12px;border-radius:20px;font-size:0.78rem;"><i class="bi bi-mortarboard-fill me-1" style="color:#C0392B;"></i>Student</span>
-                            <span style="background:#f0f0f0;color:#555;padding:4px 12px;border-radius:20px;font-size:0.78rem;"><i class="bi bi-shield-fill me-1" style="color:#C0392B;"></i>Admin</span>
+                    <div id="panel-student">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label style="font-size:0.88rem;font-weight:600;color:#333;">Admission Number or Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;"><i class="bi bi-person-fill" style="color:#C0392B;"></i></span>
+                                    <input type="text" name="email" class="form-control" placeholder="e.g. CGS02/2026 or parent@gmail.com" required autofocus style="border-left:none;border-color:#e8d5d5;">
+                                </div>
+                                <small style="color:#aaa;font-size:0.75rem;">Students: admission number &nbsp;|&nbsp; Parents: email address</small>
+                            </div>
+                            <div class="mb-3">
+                                <label style="font-size:0.88rem;font-weight:600;color:#333;">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;"><i class="bi bi-lock-fill" style="color:#C0392B;"></i></span>
+                                    <input type="password" name="password" id="pwd1" class="form-control" placeholder="Enter password" required style="border-left:none;border-right:none;border-color:#e8d5d5;">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;cursor:pointer;" onclick="togglePwd('pwd1','eye1')"><i class="bi bi-eye-fill" id="eye1" style="color:#999;"></i></span>
+                                </div>
+                                <small style="color:#aaa;font-size:0.75rem;">Students: default password is your admission number</small>
+                            </div>
+                            <button type="submit" class="btn w-100 mt-1" style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;border-radius:12px;font-weight:700;padding:0.8rem;border:none;">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Portal
+                            </button>
+                        </form>
+                        <hr style="border-color:#f0f0f0;margin:1.2rem 0;">
+                        <div style="background:#f0fff5;border-radius:10px;padding:0.8rem;text-align:center;border:1px solid #d4edda;">
+                            <p style="font-size:0.82rem;color:#555;margin-bottom:0.5rem;"><i class="bi bi-people-fill me-1" style="color:#27ae60;"></i>New parent? Register to monitor your child</p>
+                            <a href="{% url 'parent_register' %}" class="btn btn-sm" style="background:#27ae60;color:white;border-radius:20px;font-weight:600;padding:0.35rem 1.2rem;font-size:0.82rem;">
+                                <i class="bi bi-person-plus-fill me-1"></i>Parent Registration
+                            </a>
                         </div>
                     </div>
+                    <div id="panel-staff" style="display:none;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label style="font-size:0.88rem;font-weight:600;color:#333;margin-bottom:0.5rem;display:block;">I am a...</label>
+                                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="principal" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-building" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Principal
+                                        </div>
+                                    </label>
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="bursar" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-cash-stack" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Bursar
+                                        </div>
+                                    </label>
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="dean" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-people-fill" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Dean
+                                        </div>
+                                    </label>
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="admin" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-envelope-fill" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Secretary
+                                        </div>
+                                    </label>
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="teacher" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-person-badge-fill" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Teacher
+                                        </div>
+                                    </label>
+                                    <label style="cursor:pointer;text-align:center;">
+                                        <input type="radio" name="staff_role" value="school_admin" style="display:none;" onchange="selectRole(this)">
+                                        <div class="role-btn" style="border:2px solid #e0e0e0;border-radius:10px;padding:0.7rem 0.3rem;font-size:0.78rem;font-weight:600;color:#555;">
+                                            <i class="bi bi-speedometer2" style="display:block;font-size:1.3rem;margin-bottom:3px;"></i>Admin
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label style="font-size:0.88rem;font-weight:600;color:#333;">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;"><i class="bi bi-envelope-fill" style="color:#C0392B;"></i></span>
+                                    <input type="text" name="email" class="form-control" placeholder="e.g. joan@chukagirls.ac.ke" required style="border-left:none;border-color:#e8d5d5;">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label style="font-size:0.88rem;font-weight:600;color:#333;">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;border-right:none;"><i class="bi bi-lock-fill" style="color:#C0392B;"></i></span>
+                                    <input type="password" name="password" id="pwd2" class="form-control" placeholder="Enter password" required style="border-left:none;border-right:none;border-color:#e8d5d5;">
+                                    <span class="input-group-text" style="background:#fdf2f2;border-color:#e8d5d5;cursor:pointer;" onclick="togglePwd('pwd2','eye2')"><i class="bi bi-eye-fill" id="eye2" style="color:#999;"></i></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn w-100 mt-1" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d);color:white;border-radius:12px;font-weight:700;padding:0.8rem;border:none;">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Staff Login
+                            </button>
+                        </form>
+                    </div>
                 </div>
-
-                <!-- BACK LINK -->
                 <div class="text-center mt-3">
-                    <a href="{% url 'home' %}" style="color:#aaa;font-size:0.83rem;text-decoration:none;">
-                        <i class="bi bi-arrow-left me-1"></i>Back to School Website
-                    </a>
+                    <a href="{% url 'home' %}" style="color:#aaa;font-size:0.82rem;text-decoration:none;"><i class="bi bi-arrow-left me-1"></i>Back to School Website</a>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
-
 <script>
-function togglePassword() {
-    const input = document.getElementById('passwordInput');
-    const icon = document.getElementById('eyeIcon');
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.className = 'bi bi-eye-slash-fill';
-        icon.style.color = '#C0392B';
-    } else {
-        input.type = 'password';
-        icon.className = 'bi bi-eye-fill';
-        icon.style.color = '#999';
-    }
+function unlockStaff(){var code=prompt("Enter staff access code:");if(code==="BHAKITA2026"){document.getElementById("tab-staff-wrapper").style.display="flex";switchTab("staff");}else{alert("Invalid code.");}}
+function switchTab(tab){
+    var sp=document.getElementById('panel-student');
+    var sfp=document.getElementById('panel-staff');
+    var ts=document.getElementById('tab-student');
+    var tf=document.getElementById('tab-staff');
+    if(tab==='student'){sp.style.display='block';sfp.style.display='none';ts.style.background='#C0392B';ts.style.color='white';tf.style.background='transparent';tf.style.color='#666';}
+    else{sp.style.display='none';sfp.style.display='block';tf.style.background='#1a1a1a';tf.style.color='white';ts.style.background='transparent';ts.style.color='#666';}
+}
+function selectRole(radio){
+    document.querySelectorAll('.role-btn').forEach(function(btn){btn.style.border='2px solid #e0e0e0';btn.style.color='#555';btn.style.background='white';});
+    var sel=radio.nextElementSibling;sel.style.border='2px solid #C0392B';sel.style.color='#C0392B';sel.style.background='#fff0f0';
+}
+function togglePwd(inputId,iconId){
+    var input=document.getElementById(inputId);var icon=document.getElementById(iconId);
+    if(input.type==='password'){input.type='text';icon.className='bi bi-eye-slash-fill';icon.style.color='#C0392B';}
+    else{input.type='password';icon.className='bi bi-eye-fill';icon.style.color='#999';}
 }
 </script>
 {% endblock %}
+
 

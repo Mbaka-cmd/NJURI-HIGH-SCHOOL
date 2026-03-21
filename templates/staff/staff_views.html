@@ -1,0 +1,150 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.core.mail import send_mail
+from accounts.models import User
+from academics.models import Subject, Stream
+from schools.views import admin_required
+
+
+@admin_required
+def staff_list(request):
+    school = request.user.school
+    staff = User.objects.filter(school=school, is_teacher=True).order_by("last_name")
+    search = request.GET.get("search", "")
+    if search:
+        staff = (
+            User.objects.filter(school=school, is_teacher=True, first_name__icontains=search) |
+            User.objects.filter(school=school, is_teacher=True, last_name__icontains=search) |
+            User.objects.filter(school=school, is_teacher=True, email__icontains=search)
+        )
+    class_teachers_count = Stream.objects.filter(
+        school=school, class_teacher__isnull=False
+    ).count()
+    context = {
+        "staff": staff,
+        "search": search,
+        "total": staff.count(),
+        "class_teachers_count": class_teachers_count,
+    }
+    return render(request, "staff/staff_list.html", context)
+
+
+@admin_required
+def staff_add(request):
+    school = request.user.school
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone", "")
+        password = request.POST.get("password", "Teacher2026!")
+        class_teacher_stream = request.POST.get("class_teacher_stream", "")
+        try:
+            if User.objects.filter(email=email).exists():
+                messages.error(request, f"Email {email} already exists!")
+                return redirect("staff_add")
+            teacher = User.objects.create_user(
+                email=email, password=password,
+                first_name=first_name, last_name=last_name,
+                school=school, is_teacher=True, phone=phone,
+            )
+            # Assign as class teacher
+            if class_teacher_stream:
+                stream = Stream.objects.filter(id=class_teacher_stream, school=school).first()
+                if stream:
+                    stream.class_teacher = teacher
+                    stream.save()
+            messages.success(request, f"Teacher {teacher.get_full_name()} added successfully!")
+            return redirect("staff_list")
+        except Exception as e:
+            messages.error(request, f"Error adding teacher: {e}")
+    streams = Stream.objects.filter(school=school, class_teacher__isnull=True).order_by(
+        "class_level__level_order", "name"
+    )
+    context = {"streams": streams}
+    return render(request, "staff/staff_add.html", context)
+
+
+@admin_required
+def staff_detail(request, pk):
+    school = request.user.school
+    teacher = get_object_or_404(User, id=pk, school=school, is_teacher=True)
+    class_streams = Stream.objects.filter(school=school, class_teacher=teacher)
+    context = {"teacher": teacher, "class_streams": class_streams}
+    return render(request, "staff/staff_detail.html", context)
+
+
+@admin_required
+def staff_edit(request, pk):
+    school = request.user.school
+    teacher = get_object_or_404(User, id=pk, school=school, is_teacher=True)
+    if request.method == "POST":
+        teacher.first_name = request.POST.get("first_name")
+        teacher.last_name = request.POST.get("last_name")
+        teacher.phone = request.POST.get("phone", "")
+        teacher.is_active = "is_active" in request.POST
+        teacher.save()
+        # Update class teacher assignment
+        class_teacher_stream = request.POST.get("class_teacher_stream", "")
+        # Remove old assignments
+        Stream.objects.filter(school=school, class_teacher=teacher).update(class_teacher=None)
+        if class_teacher_stream:
+            stream = Stream.objects.filter(id=class_teacher_stream, school=school).first()
+            if stream:
+                stream.class_teacher = teacher
+                stream.save()
+        messages.success(request, f"Teacher {teacher.get_full_name()} updated!")
+        return redirect("staff_detail", pk=teacher.id)
+    all_streams = Stream.objects.filter(school=school).order_by("class_level__level_order", "name")
+    current_stream = Stream.objects.filter(school=school, class_teacher=teacher).first()
+    context = {"teacher": teacher, "all_streams": all_streams, "current_stream": current_stream}
+    return render(request, "staff/staff_edit.html", context)
+
+
+@admin_required
+def send_timetable(request, pk):
+    school = request.user.school
+    teacher = get_object_or_404(User, id=pk, school=school, is_teacher=True)
+    class_streams = Stream.objects.filter(school=school, class_teacher=teacher)
+
+    if not teacher.email:
+        messages.error(request, f"{teacher.get_full_name()} has no email address.")
+        return redirect("staff_list")
+
+    if not class_streams.exists():
+        messages.error(request, f"{teacher.get_full_name()} is not assigned as class teacher.")
+        return redirect("staff_list")
+
+    try:
+        from timetable.models import TimetableEntry
+        stream = class_streams.first()
+        entries = TimetableEntry.objects.filter(
+            stream=stream
+        ).select_related("subject", "teacher").order_by("day", "period")
+
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        timetable_text = f"TIMETABLE FOR {stream.full_name.upper()}\n"
+        timetable_text += f"School: {school.name}\n"
+        timetable_text += "=" * 50 + "\n\n"
+
+        for day in days:
+            day_entries = entries.filter(day=day)
+            if day_entries.exists():
+                timetable_text += f"{day.upper()}:\n"
+                for entry in day_entries:
+                    teacher_name = entry.teacher.get_full_name() if entry.teacher else "TBA"
+                    timetable_text += f"  Period {entry.period}: {entry.subject.name} — {teacher_name}\n"
+                timetable_text += "\n"
+
+        send_mail(
+            subject=f"Class Timetable — {stream.full_name} — {school.name}",
+            message=timetable_text,
+            from_email=f"{school.name} <mercykathomi428@gmail.com>",
+            recipient_list=[teacher.email],
+            fail_silently=False,
+        )
+        messages.success(request, f"Timetable sent to {teacher.get_full_name()} ({teacher.email})")
+    except Exception as e:
+        messages.error(request, f"Error sending timetable: {e}")
+
+    return redirect("staff_list")
