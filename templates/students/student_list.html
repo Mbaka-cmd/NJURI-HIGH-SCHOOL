@@ -1,10 +1,10 @@
 ﻿{% extends "base.html" %}
-{% block title %}Students — {{ request.user.school.name }}{% endblock %}
+{% block title %}Students â€” {{ request.user.school.name }}{% endblock %}
 
 {% block content %}
 
 <!-- HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+<section style="background: linear-gradient(135deg, #2D6A4F, #1B4332); padding: 2rem 0; color:white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -16,7 +16,7 @@
                 </p>
             </div>
             <div class="col-auto d-flex gap-2">
-                <a href="{% url 'student_add' %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
+                <a href="{% url 'student_add' %}" class="btn" style="background:white; color:#2D6A4F; border-radius:20px; font-weight:600;">
                     <i class="bi bi-person-plus-fill me-1"></i>Add Student
                 </a>
                 <a href="{% url 'student_bulk_import' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
@@ -38,7 +38,7 @@
                 <label class="form-label fw-semibold" style="font-size:0.85rem;">Search Student</label>
                 <div class="input-group">
                     <span class="input-group-text" style="background:#fff0f0; border-color:#dee2e6;">
-                        <i class="bi bi-search" style="color:#C0392B;"></i>
+                        <i class="bi bi-search" style="color:#2D6A4F;"></i>
                     </span>
                     <input type="text" name="search" class="form-control"
                            placeholder="Name or admission number..."
@@ -64,7 +64,7 @@
                 </select>
             </div>
             <div class="col-lg-2">
-                <button type="submit" class="btn w-100" style="background:#C0392B; color:white; border-radius:8px;">
+                <button type="submit" class="btn w-100" style="background:#2D6A4F; color:white; border-radius:8px;">
                     <i class="bi bi-funnel-fill me-1"></i>Filter
                 </button>
             </div>
@@ -79,7 +79,7 @@
         <div style="background:white; border-radius:15px; box-shadow:0 3px 15px rgba(0,0,0,0.07); overflow:hidden;">
             <div style="overflow-x:auto;">
                 <table class="table table-hover mb-0">
-                    <thead style="background: linear-gradient(135deg, #C0392B, #922B21); color:white;">
+                    <thead style="background: linear-gradient(135deg, #2D6A4F, #1B4332); color:white;">
                         <tr>
                             <th style="padding:1rem; font-weight:600; border:none;">#</th>
                             <th style="padding:1rem; font-weight:600; border:none;">Adm No.</th>
@@ -96,13 +96,13 @@
                         <tr style="border-bottom:1px solid #f0f0f0;">
                             <td style="padding:0.9rem 1rem; color:#666; font-size:0.85rem;">{{ forloop.counter }}</td>
                             <td style="padding:0.9rem 1rem;">
-                                <span style="background:#fff0f0; color:#C0392B; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">
+                                <span style="background:#fff0f0; color:#2D6A4F; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">
                                     {{ student.admission_number }}
                                 </span>
                             </td>
                             <td style="padding:0.9rem 1rem;">
                                 <div style="display:flex; align-items:center; gap:0.7rem;">
-                                    <div style="width:35px; height:35px; background:linear-gradient(135deg, #C0392B, #922B21); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                    <div style="width:35px; height:35px; background:linear-gradient(135deg, #2D6A4F, #1B4332); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                         <span style="color:white; font-weight:700; font-size:0.8rem;">
                                             {{ student.first_name|first }}{{ student.last_name|first }}
                                         </span>
@@ -134,7 +134,7 @@
                                 {% endif %}
                             </td>
                             <td style="padding:0.9rem 1rem; font-size:0.9rem;">
-                                {{ student.kcpe_marks|default:"—" }}
+                                {{ student.kcpe_marks|default:"â€”" }}
                             </td>
                             <td style="padding:0.9rem 1rem;">
                                 <span style="background:{% if student.status == 'active' %}#f0fff5; color:#2ecc71;{% else %}#fff8f0; color:#e67e22;{% endif %} padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">
@@ -166,7 +166,7 @@
             <p style="color:#bbb; font-size:0.9rem;">
                 {% if search %}No results for "{{ search }}"{% else %}No students added yet{% endif %}
             </p>
-            <a href="{% url 'student_add' %}" class="btn mt-2" style="background:#C0392B; color:white; border-radius:20px;">
+            <a href="{% url 'student_add' %}" class="btn mt-2" style="background:#2D6A4F; color:white; border-radius:20px;">
                 <i class="bi bi-person-plus-fill me-2"></i>Add First Student
             </a>
         </div>
@@ -175,5 +175,7 @@
 </section>
 
 {% endblock %}
+
+
 
 

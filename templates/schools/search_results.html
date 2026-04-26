@@ -2,14 +2,14 @@
 {% block title %}Search: {{ query }}{% endblock %}
 {% block content %}
 
-<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+<section style="background:linear-gradient(135deg,#2D6A4F,#1B4332);padding:2rem 0;color:white;">
     <div class="container">
         <h4 style="font-weight:800;margin:0 0 1rem;"><i class="bi bi-search me-2"></i>Global Search</h4>
         <form method="get" action="{% url 'global_search' %}">
             <div class="input-group" style="max-width:600px;">
                 <input type="text" name="q" value="{{ query }}" placeholder="Search students, exams, staff, invoices..."
                     class="form-control" style="border-radius:10px 0 0 10px;padding:0.7rem 1rem;font-size:1rem;border:none;">
-                <button type="submit" class="btn" style="background:white;color:#C0392B;border-radius:0 10px 10px 0;font-weight:700;padding:0 1.5rem;">
+                <button type="submit" class="btn" style="background:white;color:#2D6A4F;border-radius:0 10px 10px 0;font-weight:700;padding:0 1.5rem;">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="flex-grow-1">
                         <div style="font-weight:600;color:#1a1a1a;">{{ student.get_full_name }}</div>
-                        <div style="font-size:0.8rem;color:#999;">{{ student.admission_number }} Â· {{ student.current_stream.full_name|default:"No Stream" }}</div>
+                        <div style="font-size:0.8rem;color:#999;">{{ student.admission_number }} Ã‚Â· {{ student.current_stream.full_name|default:"No Stream" }}</div>
                     </div>
                     <i class="bi bi-chevron-right" style="color:#ccc;"></i>
                 </div>
@@ -86,7 +86,7 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;" onmouseover="this.style.background='#f5f0ff'" onmouseout="this.style.background='transparent'">
                     <div>
                         <div style="font-weight:600;color:#1a1a1a;">{{ exam.name }}</div>
-                        <div style="font-size:0.8rem;color:#999;">{{ exam.get_exam_type_display }} Â· {{ exam.academic_year.year }}</div>
+                        <div style="font-size:0.8rem;color:#999;">{{ exam.get_exam_type_display }} Ã‚Â· {{ exam.academic_year.year }}</div>
                     </div>
                     <i class="bi bi-chevron-right" style="color:#ccc;"></i>
                 </div>
@@ -103,7 +103,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem;border-radius:10px;margin-bottom:0.3rem;background:#f8f9fa;">
                 <div>
                     <div style="font-weight:600;color:#1a1a1a;">{{ invoice.student.get_full_name }}</div>
-                    <div style="font-size:0.8rem;color:#999;">{{ invoice.invoice_number }} Â· KES {{ invoice.total_expected|floatformat:0 }}</div>
+                    <div style="font-size:0.8rem;color:#999;">{{ invoice.invoice_number }} Ã‚Â· KES {{ invoice.total_expected|floatformat:0 }}</div>
                 </div>
                 <span style="background:{% if invoice.status == 'paid' %}#f0fff5;color:#2ecc71;{% else %}#fff0f0;color:#e74c3c;{% endif %};padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;">
                     {{ invoice.get_status_display }}
@@ -117,4 +117,6 @@
     </div>
 </section>
 {% endblock %}
+
+
 

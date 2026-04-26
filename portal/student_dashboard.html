@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% load static %}
-{% block title %}Student Dashboard — {{ student.get_full_name }}{% endblock %}
+{% block title %}Student Dashboard â€” {{ student.get_full_name }}{% endblock %}
 {% block content %}
 
 <section style="background:linear-gradient(135deg,#3498db,#2980b9);padding:2rem 0;color:white;">
@@ -8,7 +8,7 @@
         <div class="row align-items-center">
             <div class="col">
                 <h4 style="font-weight:800;margin:0;"><i class="bi bi-mortarboard-fill me-2"></i>Student Portal</h4>
-                <p style="opacity:0.75;margin:0;">Welcome back, <strong>{{ student.first_name }}</strong> — {{ student.current_stream.full_name|default:"—" }}</p>
+                <p style="opacity:0.75;margin:0;">Welcome back, <strong>{{ student.first_name }}</strong> â€” {{ student.current_stream.full_name|default:"â€”" }}</p>
             </div>
             <div class="col-auto">
                 <span style="background:rgba(255,255,255,0.2);padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">
@@ -26,7 +26,7 @@
         <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">
                 <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid #3498db;text-align:center;">
-                    <div style="font-size:1.8rem;font-weight:800;color:#3498db;">{{ student.current_stream.full_name|default:"—" }}</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#3498db;">{{ student.current_stream.full_name|default:"â€”" }}</div>
                     <div style="font-size:0.8rem;color:#999;">Current Class</div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="col-6 col-md-3">
                 <div style="background:white;border-radius:15px;padding:1.2rem;box-shadow:0 3px 15px rgba(0,0,0,0.07);border-left:4px solid #e67e22;text-align:center;">
-                    <div style="font-size:1.8rem;font-weight:800;color:#e67e22;">{{ student.kcpe_marks|default:"—" }}</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#e67e22;">{{ student.kcpe_marks|default:"â€”" }}</div>
                     <div style="font-size:0.8rem;color:#999;">KCPE Marks</div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:#f8f9fa;border-radius:10px;margin-bottom:0.5rem;">
                         <div>
                             <div style="font-weight:600;font-size:0.9rem;">{{ report.exam.name }}</div>
-                            <div style="font-size:0.75rem;color:#999;">{{ report.exam.get_exam_type_display }} · Position {{ report.stream_position }}/{{ report.stream_size }}</div>
+                            <div style="font-size:0.75rem;color:#999;">{{ report.exam.get_exam_type_display }} Â· Position {{ report.stream_position }}/{{ report.stream_size }}</div>
                         </div>
                         <div style="text-align:right;">
                             <div style="font-size:1.2rem;font-weight:800;color:#3498db;">{{ report.mean_grade }}</div>
@@ -105,7 +105,7 @@
                         </div>
                         <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
                             <span style="color:#999;">Stream</span>
-                            <span style="font-weight:600;">{{ student.current_stream.full_name|default:"—" }}</span>
+                            <span style="font-weight:600;">{{ student.current_stream.full_name|default:"â€”" }}</span>
                         </div>
                         <div style="padding:0.5rem 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">
                             <span style="color:#999;">Admitted</span>
@@ -122,3 +122,4 @@
     </div>
 </section>
 {% endblock %}
+

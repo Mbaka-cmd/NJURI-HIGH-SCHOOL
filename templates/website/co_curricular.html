@@ -1,13 +1,13 @@
 ﻿{% extends "base.html" %}
 {% load static %}
-{% block title %}Co-curricular Activities — {{ school.name }}{% endblock %}
+{% block title %}Co-curricular Activities â€” {{ school.name|default:"Njuri Senior School" }}{% endblock %}
 {% block content %}
 
 <!-- PAGE HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 4rem 0; color: white;">
+<section style="background:linear-gradient(135deg,#1B4332,#2D6A4F);padding:4rem 0;color:white;">
     <div class="container">
         <h1 style="font-weight:800;">Co-curricular Activities</h1>
-        <p style="opacity:0.85;">Beyond the Classroom — Shaping Complete Young Women</p>
+        <p style="opacity:0.85;">Beyond the Classroom â€” Shaping Complete Young Leaders at Njuri Senior School</p>
     </div>
 </section>
 
@@ -16,26 +16,26 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <h2 class="section-title">Holistic Development at Chuka Girls</h2>
-                <p class="text-muted mt-3" style="line-height:1.8;">At St. Bakhita Chuka Girls High School, we believe education goes far beyond the classroom. Our co-curricular programme is designed to nurture hidden talent, build character, develop leadership, and prepare our students for life in all its dimensions.</p>
-                <p class="text-muted" style="line-height:1.8;">From the drama stage to the athletics track, from the debate podium to the church choir, every girl at Chuka Girls is encouraged to discover her unique gift and pursue it with discipline and pride.</p>
+                <h2 class="section-title">Holistic Development at Njuri Senior School</h2>
+                <p class="text-muted mt-3" style="line-height:1.8;">At Njuri Senior School, we believe education goes far beyond the classroom. Our co-curricular programme nurtures hidden talent, builds character, develops leadership, and prepares our students for life in all its dimensions.</p>
+                <p class="text-muted" style="line-height:1.8;">From the athletics track to the drama stage, from the debate podium to the music hall, every learner at Njuri is encouraged to discover their unique gift and pursue it with discipline and pride â€” in line with our motto: Knowledge, Discipline and Service.</p>
                 <div class="row g-3 mt-2">
                     <div class="col-6">
-                        <div style="background:#fff0f0;border-radius:12px;padding:1.2rem;text-align:center;">
-                            <div style="font-size:2rem;font-weight:800;color:#C0392B;">10+</div>
-                            <div style="font-size:0.85rem;color:#666;">Active Clubs & Teams</div>
+                        <div style="background:#D8F3DC;border-radius:12px;padding:1.2rem;text-align:center;">
+                            <div style="font-size:2rem;font-weight:800;color:#2D6A4F;">10+</div>
+                            <div style="font-size:0.85rem;color:#666;">Active Clubs &amp; Teams</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div style="background:#fff0f0;border-radius:12px;padding:1.2rem;text-align:center;">
-                            <div style="font-size:2rem;font-weight:800;color:#C0392B;">100%</div>
+                        <div style="background:#D8F3DC;border-radius:12px;padding:1.2rem;text-align:center;">
+                            <div style="font-size:2rem;font-weight:800;color:#2D6A4F;">100%</div>
                             <div style="font-size:0.85rem;color:#666;">Student Participation</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <img src="{% static 'games bhakita.jpeg' %}" alt="Students at Chuka Girls" style="width:100%;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.15);">
+                <img src="{% static 'logo.png' %}" alt="Njuri Senior School Activities" style="width:100%;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.15);object-fit:cover;max-height:350px;">
             </div>
         </div>
     </div>
@@ -45,105 +45,104 @@
 <section style="padding:4rem 0;background:#f8f9fa;">
     <div class="container">
         <div class="text-center mb-5">
-            <span style="background:#fff0f0;color:#C0392B;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">SPORTS & ATHLETICS</span>
+            <span style="background:#D8F3DC;color:#2D6A4F;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">SPORTS &amp; ATHLETICS</span>
             <h3 style="font-weight:800;margin-top:1rem;color:#1a1a1a;">Champions on the Field</h3>
             <p class="text-muted">Our students compete at sub-county, county and national levels</p>
         </div>
         <div class="row g-4">
             <div class="col-lg-3 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-dribbble" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-dribbble" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Volleyball</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">A regular competitor in Tharaka-Nithi County games, consistently advancing to regional rounds.</p>
+                    <p class="text-muted" style="font-size:0.85rem;">A regular competitor in Tharaka-Nithi County games, advancing consistently to regional rounds.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-person-arms-up" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-person-arms-up" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Athletics</h6>
                     <p class="text-muted" style="font-size:0.85rem;">Track and field events including long distance, relay, and field events. Athletes have represented Tharaka-Nithi County nationally.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-trophy-fill" style="font-size:1.8rem;color:white;"></i></div>
-                    <h6 style="font-weight:700;color:#1a1a1a;">Handball</h6>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-trophy-fill" style="font-size:1.8rem;color:white;"></i></div>
+                    <h6 style="font-weight:700;color:#1a1a1a;">Football</h6>
                     <p class="text-muted" style="font-size:0.85rem;">An active team participating in inter-school competitions across the Mt. Kenya East region.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-activity" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-activity" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Aerobics</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">Physical fitness and discipline through structured aerobics during games periods and inter-school competitions.</p>
+                    <p class="text-muted" style="font-size:0.85rem;">Physical fitness and discipline through structured aerobics and inter-school competitions.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ARTS & CULTURE -->
+<!-- ARTS -->
 <section style="padding:4rem 0;background:white;">
     <div class="container">
         <div class="text-center mb-5">
-            <span style="background:#fff0f0;color:#C0392B;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">MUSIC, DRAMA & ARTS</span>
+            <span style="background:#D8F3DC;color:#2D6A4F;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">MUSIC, DRAMA &amp; ARTS</span>
             <h3 style="font-weight:800;margin-top:1rem;color:#1a1a1a;">Where Talent Meets the Stage</h3>
-            <p class="text-muted">Chuka Girls has a proud tradition in the Kenya Music & Cultural Festival</p>
+            <p class="text-muted">Njuri Senior School has a proud tradition in Kenya's national Music &amp; Cultural Festival</p>
         </div>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.05);height:100%;border-top:4px solid #C0392B;">
-                    <i class="bi bi-music-note-beamed" style="font-size:2.5rem;color:#C0392B;"></i>
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;height:100%;border-top:4px solid #2D6A4F;">
+                    <i class="bi bi-music-note-beamed" style="font-size:2.5rem;color:#2D6A4F;"></i>
                     <h5 style="font-weight:700;margin-top:1rem;color:#1a1a1a;">School Choir</h5>
-                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Our choir competes annually in the Kenya Music Festival, performing choral verse, set books, and traditional songs. A consistent performer at county and regional levels, showcasing the musical excellence of Chuka Girls.</p>
+                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Our choir competes annually in the Kenya Music Festival, performing choral verse, set books, and traditional songs at county and regional levels.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.05);height:100%;border-top:4px solid #C0392B;">
-                    <i class="bi bi-camera-reels" style="font-size:2.5rem;color:#C0392B;"></i>
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;height:100%;border-top:4px solid #52B788;">
+                    <i class="bi bi-camera-reels" style="font-size:2.5rem;color:#2D6A4F;"></i>
                     <h5 style="font-weight:700;margin-top:1rem;color:#1a1a1a;">Drama Club</h5>
-                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Participates in the Kenya National Drama Festival. Students perform original and set-book plays, developing public speaking, confidence, and creative expression. The club has achieved wins at sub-county and county festivals.</p>
+                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Participates in the Kenya National Drama Festival. Students perform original and set-book plays, developing confidence and creative expression.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;box-shadow:0 3px 15px rgba(0,0,0,0.05);height:100%;border-top:4px solid #C0392B;">
-                    <i class="bi bi-palette-fill" style="font-size:2.5rem;color:#C0392B;"></i>
-                    <h5 style="font-weight:700;margin-top:1rem;color:#1a1a1a;">Fine Art & Craft</h5>
-                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Students pursue visual arts, craft, and design as both a subject and co-curricular activity. Annual art exhibitions showcase creativity across all forms, and work is entered in national competition.</p>
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;height:100%;border-top:4px solid #1B4332;">
+                    <i class="bi bi-palette-fill" style="font-size:2.5rem;color:#2D6A4F;"></i>
+                    <h5 style="font-weight:700;margin-top:1rem;color:#1a1a1a;">Fine Art &amp; Craft</h5>
+                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">Students pursue visual arts, craft, and design as both a subject and co-curricular activity. Annual art exhibitions showcase creativity across all forms.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- RELIGIOUS & COMMUNITY -->
+<!-- CLUBS -->
 <section style="padding:4rem 0;background:#f8f9fa;">
     <div class="container">
         <div class="text-center mb-5">
-            <span style="background:#fff0f0;color:#C0392B;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">RELIGIOUS & COMMUNITY</span>
-            <h3 style="font-weight:800;margin-top:1rem;color:#1a1a1a;">Faith, Service & Leadership</h3>
-            <p class="text-muted">Grounded in the spirit of Saint Josephine Bakhita — service, compassion and faith</p>
+            <span style="background:#D8F3DC;color:#2D6A4F;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">CLUBS &amp; SOCIETIES</span>
+            <h3 style="font-weight:800;margin-top:1rem;color:#1a1a1a;">Faith, Service &amp; Leadership</h3>
         </div>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-heart-fill" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-heart-fill" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Christian Union (C.U)</h6>
-                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">One of the most active clubs at Chuka Girls. Members meet weekly for Bible study, worship, prayer, and evangelism. The C.U participates in county-level competitions and organizes school-wide spiritual events and fellowships.</p>
+                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">One of the most active clubs. Members meet weekly for Bible study, worship, and prayer. The C.U participates in county-level competitions and organizes school-wide spiritual events.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-tree-fill" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-tree-fill" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Environment Club</h6>
-                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">Dedicated to keeping the compound clean, green and beautiful. Organizes tree planting, clean-up campaigns, and the annual Environment Day. Chuka Girls is recognized as one of the cleanest schools in the region.</p>
+                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">Dedicated to keeping the compound clean and green. Organizes tree planting, clean-up campaigns, and the annual Environment Day.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div style="background:white;border-radius:15px;padding:2rem;box-shadow:0 5px 20px rgba(0,0,0,0.07);height:100%;">
-                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#C0392B,#922B21);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-shield-fill-check" style="font-size:1.8rem;color:white;"></i></div>
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;"><i class="bi bi-shield-fill-check" style="font-size:1.8rem;color:white;"></i></div>
                     <h6 style="font-weight:700;color:#1a1a1a;">Student Council</h6>
-                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">The elected student leadership body that represents students to the school administration. Council members develop real leadership, communication, and problem-solving skills that serve them well beyond school.</p>
+                    <p class="text-muted" style="font-size:0.85rem;line-height:1.7;">The elected student leadership body that represents students to the administration. Council members develop real leadership and communication skills.</p>
                 </div>
             </div>
         </div>
@@ -154,52 +153,26 @@
 <section style="padding:4rem 0;background:white;">
     <div class="container">
         <div class="text-center mb-5">
-            <span style="background:#fff0f0;color:#C0392B;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">ACADEMIC CLUBS</span>
+            <span style="background:#D8F3DC;color:#2D6A4F;padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;">ACADEMIC CLUBS</span>
             <h3 style="font-weight:800;margin-top:1rem;color:#1a1a1a;">Learning Beyond the Timetable</h3>
         </div>
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.05);">
-                    <i class="bi bi-journal-code" style="font-size:2rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:0.8rem;">Science Club</h6>
-                    <p class="text-muted" style="font-size:0.82rem;">Experiments, science fairs, and STEM competitions at county and national level.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.05);">
-                    <i class="bi bi-chat-square-quote" style="font-size:2rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:0.8rem;">Debate Club</h6>
-                    <p class="text-muted" style="font-size:0.82rem;">Public speaking, argumentation and inter-school debate competitions. Builds confidence and critical thinking.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.05);">
-                    <i class="bi bi-book-half" style="font-size:2rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:0.8rem;">Literature Club</h6>
-                    <p class="text-muted" style="font-size:0.82rem;">Reading, creative writing, and spoken word poetry. Complements the English and Kiswahili curriculum.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.05);">
-                    <i class="bi bi-calculator" style="font-size:2rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:0.8rem;">Mathematics Club</h6>
-                    <p class="text-muted" style="font-size:0.82rem;">Problem-solving competitions, peer tutoring and mathematics olympiad preparation.</p>
-                </div>
-            </div>
+            <div class="col-lg-3 col-md-6"><div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;"><i class="bi bi-journal-code" style="font-size:2rem;color:#2D6A4F;"></i><h6 style="font-weight:700;margin-top:0.8rem;">Science Club</h6><p class="text-muted" style="font-size:0.82rem;">Experiments, science fairs, and STEM competitions at county and national level.</p></div></div>
+            <div class="col-lg-3 col-md-6"><div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;"><i class="bi bi-chat-square-quote" style="font-size:2rem;color:#2D6A4F;"></i><h6 style="font-weight:700;margin-top:0.8rem;">Debate Club</h6><p class="text-muted" style="font-size:0.82rem;">Public speaking and inter-school debate competitions. Builds confidence and critical thinking.</p></div></div>
+            <div class="col-lg-3 col-md-6"><div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;"><i class="bi bi-book-half" style="font-size:2rem;color:#2D6A4F;"></i><h6 style="font-weight:700;margin-top:0.8rem;">Literature Club</h6><p class="text-muted" style="font-size:0.82rem;">Reading, creative writing, and spoken word poetry. Complements English and Kiswahili.</p></div></div>
+            <div class="col-lg-3 col-md-6"><div style="background:#f8f9fa;border-radius:15px;padding:1.5rem;text-align:center;"><i class="bi bi-calculator" style="font-size:2rem;color:#2D6A4F;"></i><h6 style="font-weight:700;margin-top:0.8rem;">Mathematics Club</h6><p class="text-muted" style="font-size:0.82rem;">Problem-solving competitions, peer tutoring and mathematics olympiad preparation.</p></div></div>
         </div>
     </div>
 </section>
 
 <!-- CTA -->
-<section style="padding:2rem 0;background:linear-gradient(135deg,#1a1a1a,#2d2d2d);">
+<section style="padding:2rem 0;background:linear-gradient(135deg,#1B4332,#2D6A4F);">
     <div class="container text-center">
-        <i class="bi bi-star-fill" style="font-size:2.5rem;color:#C0392B;"></i>
+        <i class="bi bi-star-fill" style="font-size:2.5rem;color:#52B788;"></i>
         <h3 style="color:white;font-weight:800;margin-top:1rem;">Join a Club or Team Today</h3>
-        <p style="color:rgba(255,255,255,0.7);max-width:600px;margin:1rem auto 2rem;">Every student at Chuka Girls is encouraged to participate in at least one co-curricular activity. Talent is discovered, nurtured and celebrated here.</p>
-        <a href="{% url 'contact' %}" class="btn btn-lg" style="background:#C0392B;color:white;border-radius:30px;padding:0.8rem 2.5rem;font-weight:600;"><i class="bi bi-envelope-fill me-2"></i>Contact the School</a>
+        <p style="color:rgba(255,255,255,0.7);max-width:600px;margin:1rem auto 2rem;">Every student at Njuri Senior School is encouraged to participate in at least one co-curricular activity. Talent is discovered, nurtured and celebrated here.</p>
+        <a href="{% url 'contact' %}" class="btn btn-lg" style="background:#52B788;color:#1B4332;border-radius:30px;padding:0.8rem 2.5rem;font-weight:700;"><i class="bi bi-envelope-fill me-2"></i>Contact the School</a>
     </div>
 </section>
-
 {% endblock %}
-
 

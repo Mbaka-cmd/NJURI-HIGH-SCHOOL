@@ -1,10 +1,10 @@
 ﻿{% extends "base.html" %}
-{% block title %}Invoices â€” {{ request.user.school.name }}{% endblock %}
+{% block title %}Invoices Ã¢â‚¬â€ {{ request.user.school.name }}{% endblock %}
 
 {% block content %}
 
 <!-- HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+<section style="background: linear-gradient(135deg, #2D6A4F, #1B4332); padding: 2rem 0; color:white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -12,7 +12,7 @@
                 <p style="opacity:0.75; margin:0; font-size:0.9rem;">All student fee invoices</p>
             </div>
             <div class="col-auto d-flex gap-2">
-                <a href="{% url 'generate_invoices' %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
+                <a href="{% url 'generate_invoices' %}" class="btn" style="background:white; color:#2D6A4F; border-radius:20px; font-weight:600;">
                     <i class="bi bi-plus-circle-fill me-1"></i>Generate
                 </a>
                 <a href="{% url 'fee_dashboard' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
@@ -40,7 +40,7 @@
                 </select>
             </div>
             <div class="col-lg-2">
-                <button type="submit" class="btn w-100" style="background:#C0392B; color:white; border-radius:8px;">
+                <button type="submit" class="btn w-100" style="background:#2D6A4F; color:white; border-radius:8px;">
                     <i class="bi bi-funnel-fill me-1"></i>Filter
                 </button>
             </div>
@@ -55,7 +55,7 @@
         <div style="background:white; border-radius:15px; box-shadow:0 3px 15px rgba(0,0,0,0.07); overflow:hidden;">
             <div style="overflow-x:auto;">
                 <table class="table table-hover mb-0">
-                    <thead style="background:linear-gradient(135deg, #C0392B, #922B21); color:white;">
+                    <thead style="background:linear-gradient(135deg, #2D6A4F, #1B4332); color:white;">
                         <tr>
                             <th style="padding:1rem; border:none;">Student</th>
                             <th style="padding:1rem; border:none;">Stream</th>
@@ -75,7 +75,7 @@
                                 <div style="font-size:0.75rem; color:#999;">{{ invoice.student.admission_number }}</div>
                             </td>
                             <td style="padding:0.9rem 1rem; font-size:0.85rem;">
-                                {{ invoice.student.current_stream.full_name|default:"â€”" }}
+                                {{ invoice.student.current_stream.full_name|default:"Ã¢â‚¬â€" }}
                             </td>
                             <td style="padding:0.9rem 1rem; font-size:0.85rem;">
                                 Term {{ invoice.term }} / {{ invoice.academic_year }}
@@ -86,7 +86,7 @@
                             <td style="padding:0.9rem 1rem; font-weight:600; color:#2ecc71;">
                                 KES {{ invoice.total_paid|floatformat:0 }}
                             </td>
-                            <td style="padding:0.9rem 1rem; font-weight:700; color:#C0392B;">
+                            <td style="padding:0.9rem 1rem; font-weight:700; color:#2D6A4F;">
                                 KES {{ invoice.balance|floatformat:0 }}
                             </td>
                             <td style="padding:0.9rem 1rem;">
@@ -95,7 +95,7 @@
                                 {% elif invoice.status == 'partial' %}
                                 <span style="background:#fff8f0; color:#e67e22; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Partial</span>
                                 {% elif invoice.status == 'overdue' %}
-                                <span style="background:#fff0f0; color:#C0392B; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Overdue</span>
+                                <span style="background:#fff0f0; color:#2D6A4F; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Overdue</span>
                                 {% else %}
                                 <span style="background:#f0f8ff; color:#3498db; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">Pending</span>
                                 {% endif %}
@@ -108,7 +108,7 @@
                                     <a href="{% url 'record_payment' invoice.id %}" class="btn btn-sm" style="background:#f0fff5; color:#2ecc71; border-radius:8px;">
                                         <i class="bi bi-cash"></i>
                                     </a>
-                                    <a href="{% url 'mpesa_stk_push' invoice.id %}" class="btn btn-sm" style="background:#fff0f0; color:#C0392B; border-radius:8px;">
+                                    <a href="{% url 'mpesa_stk_push' invoice.id %}" class="btn btn-sm" style="background:#fff0f0; color:#2D6A4F; border-radius:8px;">
                                         <i class="bi bi-phone-fill"></i>
                                     </a>
                                 </div>
@@ -123,7 +123,7 @@
         <div style="background:white; border-radius:15px; padding:4rem; text-align:center; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
             <i class="bi bi-receipt" style="font-size:4rem; color:#ddd; display:block; margin-bottom:1rem;"></i>
             <h5 style="color:#aaa;">No invoices found</h5>
-            <a href="{% url 'generate_invoices' %}" class="btn mt-2" style="background:#C0392B; color:white; border-radius:20px;">
+            <a href="{% url 'generate_invoices' %}" class="btn mt-2" style="background:#2D6A4F; color:white; border-radius:20px;">
                 <i class="bi bi-plus-circle-fill me-2"></i>Generate Invoices
             </a>
         </div>
@@ -132,5 +132,7 @@
 </section>
 
 {% endblock %}
+
+
 
 

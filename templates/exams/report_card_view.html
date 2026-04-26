@@ -1,5 +1,5 @@
 ﻿{% extends "base.html" %}
-{% block title %}Report Card â€” {{ report.student.get_full_name }}{% endblock %}
+{% block title %}Report Card Ã¢â‚¬â€ {{ report.student.get_full_name }}{% endblock %}
 {% block content %}
 <!-- PRINT BUTTON -->
 <div class="d-print-none" style="background:#1a1a1a;padding:0.8rem 0;">
@@ -7,7 +7,7 @@
         <a href="{% url 'report_card_list' report.exam.id %}" class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border-radius:20px;">
             <i class="bi bi-arrow-left me-1"></i>Back
         </a>
-        <button onclick="window.print()" class="btn btn-sm" style="background:#C0392B;color:white;border-radius:20px;">
+        <button onclick="window.print()" class="btn btn-sm" style="background:#2D6A4F;color:white;border-radius:20px;">
             <i class="bi bi-printer-fill me-1"></i>Print Report Card
         </button>
     </div>
@@ -18,12 +18,12 @@
     <div style="background:white;border-radius:15px;padding:2.5rem;box-shadow:0 5px 30px rgba(0,0,0,0.1);">
 
         <!-- HEADER -->
-        <div style="text-align:center;border-bottom:3px solid #C0392B;padding-bottom:1.5rem;margin-bottom:1.5rem;">
-            <h3 style="font-weight:900;color:#C0392B;margin:0;">{{ school.name|upper }}</h3>
+        <div style="text-align:center;border-bottom:3px solid #2D6A4F;padding-bottom:1.5rem;margin-bottom:1.5rem;">
+            <h3 style="font-weight:900;color:#2D6A4F;margin:0;">{{ school.name|upper }}</h3>
             <p style="color:#666;margin:0.3rem 0;font-size:0.9rem;">{{ school.address }}</p>
             <p style="color:#666;margin:0;font-size:0.9rem;">Tel: {{ school.phone }} | Email: {{ school.email }}</p>
             <h5 style="font-weight:700;margin-top:1rem;color:#1a1a1a;">STUDENT PROGRESS REPORT</h5>
-            <p style="color:#666;margin:0;">{{ report.exam.name }} â€” {{ report.exam.academic_year.year }} {{ report.exam.term.name }}</p>
+            <p style="color:#666;margin:0;">{{ report.exam.name }} Ã¢â‚¬â€ {{ report.exam.academic_year.year }} {{ report.exam.term.name }}</p>
         </div>
 
         <!-- STUDENT INFO -->
@@ -37,8 +37,8 @@
             </div>
             <div class="col-md-6">
                 <table style="width:100%;font-size:0.9rem;">
-                    <tr><td style="color:#666;padding:4px 0;width:50%;">Stream Position:</td><td style="font-weight:700;color:#C0392B;">{{ report.stream_position }} / {{ report.stream_size }}</td></tr>
-                    <tr><td style="color:#666;padding:4px 0;">Mean Grade:</td><td style="font-weight:700;font-size:1.1rem;color:#C0392B;">{{ report.mean_grade }}</td></tr>
+                    <tr><td style="color:#666;padding:4px 0;width:50%;">Stream Position:</td><td style="font-weight:700;color:#2D6A4F;">{{ report.stream_position }} / {{ report.stream_size }}</td></tr>
+                    <tr><td style="color:#666;padding:4px 0;">Mean Grade:</td><td style="font-weight:700;font-size:1.1rem;color:#2D6A4F;">{{ report.mean_grade }}</td></tr>
                     <tr><td style="color:#666;padding:4px 0;">Mean Score:</td><td style="font-weight:600;">{{ report.mean_score|floatformat:1 }}</td></tr>
                 </table>
             </div>
@@ -47,7 +47,7 @@
         <!-- RESULTS TABLE -->
         <table style="width:100%;border-collapse:collapse;margin-bottom:1.5rem;">
             <thead>
-                <tr style="background:linear-gradient(135deg,#C0392B,#922B21);color:white;">
+                <tr style="background:linear-gradient(135deg,#2D6A4F,#1B4332);color:white;">
                     <th style="padding:0.8rem;text-align:left;font-size:0.9rem;">Subject</th>
                     <th style="padding:0.8rem;text-align:center;font-size:0.9rem;">Score</th>
                     <th style="padding:0.8rem;text-align:center;font-size:0.9rem;">Grade</th>
@@ -62,7 +62,7 @@
                     <td style="padding:0.7rem 0.8rem;text-align:center;font-size:0.9rem;">
                         {% if result.is_absent %}ABS{% else %}{{ result.raw_score|floatformat:1 }}{% endif %}
                     </td>
-                    <td style="padding:0.7rem 0.8rem;text-align:center;font-weight:700;color:#C0392B;font-size:0.9rem;">{{ result.grade }}</td>
+                    <td style="padding:0.7rem 0.8rem;text-align:center;font-weight:700;color:#2D6A4F;font-size:0.9rem;">{{ result.grade }}</td>
                     <td style="padding:0.7rem 0.8rem;text-align:center;font-size:0.9rem;">{{ result.points }}</td>
                     <td style="padding:0.7rem 0.8rem;font-size:0.85rem;color:#666;">{{ result.teacher_remarks|default:"" }}</td>
                 </tr>
@@ -72,7 +72,7 @@
                 <tr style="background:#f8f9fa;font-weight:700;">
                     <td style="padding:0.8rem;font-size:0.9rem;">TOTAL</td>
                     <td style="padding:0.8rem;text-align:center;font-size:0.9rem;">{{ report.total_marks|floatformat:1 }}</td>
-                    <td style="padding:0.8rem;text-align:center;color:#C0392B;font-size:1rem;">{{ report.mean_grade }}</td>
+                    <td style="padding:0.8rem;text-align:center;color:#2D6A4F;font-size:1rem;">{{ report.mean_grade }}</td>
                     <td style="padding:0.8rem;text-align:center;font-size:0.9rem;">{{ report.total_points }}</td>
                     <td></td>
                 </tr>
@@ -84,14 +84,14 @@
             <div class="col-md-6">
                 <div style="background:#f8f9fa;border-radius:10px;padding:1rem;">
                     <p style="font-weight:700;margin-bottom:0.5rem;font-size:0.9rem;">Class Teacher's Remarks:</p>
-                    <p style="color:#666;font-size:0.9rem;min-height:40px;">{{ report.class_teacher_remarks|default:"â€”â€”" }}</p>
+                    <p style="color:#666;font-size:0.9rem;min-height:40px;">{{ report.class_teacher_remarks|default:"Ã¢â‚¬â€Ã¢â‚¬â€" }}</p>
                     <p style="font-weight:600;font-size:0.85rem;border-top:1px solid #ddd;padding-top:0.5rem;margin:0;">Signature: _______________</p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div style="background:#f8f9fa;border-radius:10px;padding:1rem;">
                     <p style="font-weight:700;margin-bottom:0.5rem;font-size:0.9rem;">Principal's Remarks:</p>
-                    <p style="color:#666;font-size:0.9rem;min-height:40px;">{{ report.principal_remarks|default:"â€”â€”" }}</p>
+                    <p style="color:#666;font-size:0.9rem;min-height:40px;">{{ report.principal_remarks|default:"Ã¢â‚¬â€Ã¢â‚¬â€" }}</p>
                     <p style="font-weight:600;font-size:0.85rem;border-top:1px solid #ddd;padding-top:0.5rem;margin:0;">Signature: _______________</p>
                 </div>
             </div>
@@ -99,16 +99,16 @@
 
         <!-- FEE BALANCE -->
         <div style="background:{% if report.fee_balance > 0 %}#fff0f0{% else %}#f0fff5{% endif %};border-radius:10px;padding:1rem;text-align:center;margin-bottom:1.5rem;">
-            <span style="font-weight:700;color:{% if report.fee_balance > 0 %}#C0392B{% else %}#2ecc71{% endif %};">
+            <span style="font-weight:700;color:{% if report.fee_balance > 0 %}#2D6A4F{% else %}#2ecc71{% endif %};">
                 Fee Balance: KES {{ report.fee_balance|floatformat:0 }}
-                {% if report.fee_balance > 0 %}â€” Please clear fees before next term{% else %}â€” Fully Paid âœ“{% endif %}
+                {% if report.fee_balance > 0 %}Ã¢â‚¬â€ Please clear fees before next term{% else %}Ã¢â‚¬â€ Fully Paid Ã¢Å“â€œ{% endif %}
             </span>
         </div>
 
         <!-- FOOTER -->
         <div style="text-align:center;border-top:2px solid #f0f0f0;padding-top:1rem;">
             <p style="color:#999;font-size:0.8rem;margin:0;">{{ school.name }} | Generated on {% now "F d, Y" %}</p>
-            <p style="color:#C0392B;font-size:0.85rem;font-weight:600;margin:0.3rem 0 0;">"{{ school.motto|default:'Excellence in Education' }}"</p>
+            <p style="color:#2D6A4F;font-size:0.85rem;font-weight:600;margin:0.3rem 0 0;">"{{ school.motto|default:'Excellence in Education' }}"</p>
         </div>
     </div>
 </div>
@@ -122,6 +122,8 @@
 }
 </style>
 {% endblock %}
+
+
 
 
 

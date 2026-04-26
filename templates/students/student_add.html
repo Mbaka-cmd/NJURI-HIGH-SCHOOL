@@ -1,10 +1,10 @@
 ﻿{% extends "base.html" %}
-{% block title %}Add Student â€” {{ request.user.school.name }}{% endblock %}
+{% block title %}Add Student Ã¢â‚¬â€ {{ request.user.school.name }}{% endblock %}
 
 {% block content %}
 
 <!-- HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+<section style="background: linear-gradient(135deg, #2D6A4F, #1B4332); padding: 2rem 0; color:white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -42,12 +42,12 @@
 
                     <!-- PERSONAL INFO -->
                     <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
-                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#2D6A4F; margin-bottom:1.5rem;">
                             <i class="bi bi-person-fill me-2"></i>Personal Information
                         </h5>
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">First Name <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">First Name <span style="color:#2D6A4F;">*</span></label>
                                 <input type="text" name="first_name" class="form-control" required placeholder="e.g. Jane">
                             </div>
                             <div class="col-md-4">
@@ -55,11 +55,11 @@
                                 <input type="text" name="middle_name" class="form-control" placeholder="Optional">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Last Name <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">Last Name <span style="color:#2D6A4F;">*</span></label>
                                 <input type="text" name="last_name" class="form-control" required placeholder="e.g. Wanjiku">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Date of Birth <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">Date of Birth <span style="color:#2D6A4F;">*</span></label>
                                 <input type="date" name="date_of_birth" class="form-control" required>
                             </div>
                             <div class="col-md-4">
@@ -79,16 +79,16 @@
 
                     <!-- ADMISSION INFO -->
                     <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
-                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#2D6A4F; margin-bottom:1.5rem;">
                             <i class="bi bi-card-text me-2"></i>Admission Details
                         </h5>
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Admission Number <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">Admission Number <span style="color:#2D6A4F;">*</span></label>
                                 <input type="text" name="admission_number" class="form-control" required placeholder="e.g. CGS/2026/001">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Admission Date <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">Admission Date <span style="color:#2D6A4F;">*</span></label>
                                 <input type="date" name="admission_date" class="form-control" required>
                             </div>
                             <div class="col-md-4">
@@ -100,7 +100,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Current Stream <span style="color:#C0392B;">*</span></label>
+                                <label class="form-label fw-semibold">Current Stream <span style="color:#2D6A4F;">*</span></label>
                                 <select name="current_stream" class="form-select" required>
                                     <option value="">-- Select Stream --</option>
                                     {% for stream in streams %}
@@ -117,7 +117,7 @@
 
                     <!-- BOARDING INFO -->
                     <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); margin-bottom:1.5rem;">
-                        <h5 style="font-weight:700; color:#C0392B; margin-bottom:1.5rem;">
+                        <h5 style="font-weight:700; color:#2D6A4F; margin-bottom:1.5rem;">
                             <i class="bi bi-house-fill me-2"></i>Boarding Information
                         </h5>
                         <div class="row g-3 align-items-center">
@@ -139,7 +139,7 @@
                         <a href="{% url 'student_list' %}" class="btn btn-lg" style="border-radius:10px; border:2px solid #ddd; color:#666; padding:0.8rem 2rem;">
                             Cancel
                         </a>
-                        <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg, #C0392B, #922B21); color:white; border-radius:10px; padding:0.8rem 3rem; font-weight:600;">
+                        <button type="submit" class="btn btn-lg" style="background:linear-gradient(135deg, #2D6A4F, #1B4332); color:white; border-radius:10px; padding:0.8rem 3rem; font-weight:600;">
                             <i class="bi bi-person-plus-fill me-2"></i>Add Student
                         </button>
                     </div>
@@ -151,4 +151,6 @@
 </section>
 
 {% endblock %}
+
+
 

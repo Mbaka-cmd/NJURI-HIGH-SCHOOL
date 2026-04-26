@@ -1,10 +1,10 @@
 ﻿{% extends "base.html" %}
-{% block title %}Fee Management â€” {{ request.user.school.name }}{% endblock %}
+{% block title %}Fee Management Ã¢â‚¬â€ {{ request.user.school.name }}{% endblock %}
 
 {% block content %}
 
 <!-- HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 2rem 0; color:white;">
+<section style="background: linear-gradient(135deg, #2D6A4F, #1B4332); padding: 2rem 0; color:white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -14,7 +14,7 @@
                 <p style="opacity:0.75; margin:0; font-size:0.9rem;">Track payments, invoices and M-Pesa collections</p>
             </div>
             <div class="col-auto d-flex gap-2">
-                <a href="{% url 'generate_invoices' %}" class="btn" style="background:white; color:#C0392B; border-radius:20px; font-weight:600;">
+                <a href="{% url 'generate_invoices' %}" class="btn" style="background:white; color:#2D6A4F; border-radius:20px; font-weight:600;">
                     <i class="bi bi-plus-circle-fill me-1"></i>Generate Invoices
                 </a>
                 <a href="{% url 'invoice_list' %}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border-radius:20px;">
@@ -51,9 +51,9 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #C0392B;">
+                <div style="background:white; border-radius:15px; padding:1.5rem; box-shadow:0 3px 15px rgba(0,0,0,0.07); border-left:4px solid #2D6A4F;">
                     <div style="font-size:0.8rem; color:#666; text-transform:uppercase; font-weight:600;">Partial</div>
-                    <div style="font-size:2.5rem; font-weight:800; color:#C0392B;">{{ total_partial }}</div>
+                    <div style="font-size:2.5rem; font-weight:800; color:#2D6A4F;">{{ total_partial }}</div>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="col-lg-6">
                 <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
                     <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.5rem;">
-                        <i class="bi bi-bar-chart-fill me-2" style="color:#C0392B;"></i>Collection Summary
+                        <i class="bi bi-bar-chart-fill me-2" style="color:#2D6A4F;"></i>Collection Summary
                     </h5>
                     <div class="d-flex justify-content-between mb-2">
                         <span style="color:#666;">Total Expected</span>
@@ -81,8 +81,8 @@
                     <div style="text-align:right; font-size:0.85rem; color:#666; margin-top:0.5rem;">{{ pct }}% collected</div>
                     {% endif %}
                     <div class="d-flex justify-content-between mt-2">
-                        <span style="color:#C0392B; font-weight:600;">Outstanding</span>
-                        <span style="font-weight:700; color:#C0392B;">KES {{ total_expected|add:"-"|add:total_collected|floatformat:0 }}</span>
+                        <span style="color:#2D6A4F; font-weight:600;">Outstanding</span>
+                        <span style="font-weight:700; color:#2D6A4F;">KES {{ total_expected|add:"-"|add:total_collected|floatformat:0 }}</span>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
             <div class="col-lg-6">
                 <div style="background:white; border-radius:15px; padding:2rem; box-shadow:0 3px 15px rgba(0,0,0,0.07);">
                     <h5 style="font-weight:700; color:#1a1a1a; margin-bottom:1.5rem;">
-                        <i class="bi bi-clock-history me-2" style="color:#C0392B;"></i>Recent Payments
+                        <i class="bi bi-clock-history me-2" style="color:#2D6A4F;"></i>Recent Payments
                     </h5>
                     {% if recent_payments %}
                         {% for payment in recent_payments %}
@@ -99,7 +99,7 @@
                             <div>
                                 <div style="font-weight:600; font-size:0.9rem;">{{ payment.student.get_full_name }}</div>
                                 <div style="font-size:0.75rem; color:#999;">
-                                    {{ payment.get_method_display }} Â· {{ payment.paid_at|date:"M d, Y" }}
+                                    {{ payment.get_method_display }} Ã‚Â· {{ payment.paid_at|date:"M d, Y" }}
                                 </div>
                             </div>
                             <span style="font-weight:700; color:#2ecc71;">KES {{ payment.amount|floatformat:0 }}</span>
@@ -118,4 +118,6 @@
 </section>
 
 {% endblock %}
+
+
 

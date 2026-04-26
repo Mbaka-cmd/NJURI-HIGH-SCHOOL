@@ -1,7 +1,7 @@
 ﻿{% extends "base.html" %}
 {% block title %}Add Teacher{% endblock %}
 {% block content %}
-<section style="background:linear-gradient(135deg,#C0392B,#922B21);padding:2rem 0;color:white;">
+<section style="background:linear-gradient(135deg,#2D6A4F,#1B4332);padding:2rem 0;color:white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -44,7 +44,7 @@
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Class Teacher Assignment</label>
                                 <select name="class_teacher_stream" class="form-control">
-                                    <option value="">— Not a class teacher —</option>
+                                    <option value="">â€” Not a class teacher â€”</option>
                                     {% for stream in streams %}
                                     <option value="{{ stream.id }}">{{ stream.full_name }}</option>
                                     {% endfor %}
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="mt-4 d-flex gap-2">
-                            <button type="submit" class="btn" style="background:#C0392B;color:white;border-radius:10px;padding:0.7rem 2rem;font-weight:600;">
+                            <button type="submit" class="btn" style="background:#2D6A4F;color:white;border-radius:10px;padding:0.7rem 2rem;font-weight:600;">
                                 <i class="bi bi-plus-circle-fill me-2"></i>Add Teacher
                             </button>
                             <a href="{% url 'staff_list' %}" class="btn btn-outline-secondary" style="border-radius:10px;padding:0.7rem 2rem;">Cancel</a>
@@ -70,3 +70,5 @@
     </div>
 </section>
 {% endblock %}
+
+

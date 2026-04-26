@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block title %}{{ student.get_full_name }} — Details{% endblock %}
+﻿{% extends "base.html" %}
+{% block title %}{{ student.get_full_name }} â€” Details{% endblock %}
 {% block content %}
 
 <section style="background:linear-gradient(135deg,#2ecc71,#27ae60);padding:2rem 0;color:white;">
@@ -8,7 +8,7 @@
             <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
         </a>
         <h4 style="font-weight:800;margin:0.3rem 0 0;">{{ student.get_full_name }}</h4>
-        <p style="opacity:0.75;margin:0;">{{ student.current_stream.full_name|default:"—" }} · Adm: {{ student.admission_number }}</p>
+        <p style="opacity:0.75;margin:0;">{{ student.current_stream.full_name|default:"â€”" }} Â· Adm: {{ student.admission_number }}</p>
     </div>
 </section>
 
@@ -42,7 +42,7 @@
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:#f8f9fa;border-radius:10px;margin-bottom:0.5rem;">
                         <div>
                             <div style="font-weight:600;font-size:0.9rem;">{{ report.exam.name }}</div>
-                            <div style="font-size:0.75rem;color:#999;">Position {{ report.stream_position }}/{{ report.stream_size }} · {{ report.subjects_sat }} subjects</div>
+                            <div style="font-size:0.75rem;color:#999;">Position {{ report.stream_position }}/{{ report.stream_size }} Â· {{ report.subjects_sat }} subjects</div>
                         </div>
                         <div style="text-align:right;">
                             <div style="font-size:1.3rem;font-weight:800;color:#2ecc71;">{{ report.mean_grade }}</div>
@@ -58,3 +58,4 @@
     </div>
 </section>
 {% endblock %}
+

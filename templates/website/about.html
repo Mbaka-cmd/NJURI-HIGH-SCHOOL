@@ -1,99 +1,67 @@
 ﻿{% extends "base.html" %}
-{% block title %}About Us — {{ school.name }}{% endblock %}
-
+{% block title %}About Us â€” {{ school.name|default:"Njuri Senior School" }}{% endblock %}
 {% block content %}
 
 <!-- PAGE HEADER -->
-<section style="background: linear-gradient(135deg, #C0392B, #922B21); padding: 4rem 0; color: white;">
+<section style="background:linear-gradient(135deg,#1B4332,#2D6A4F);padding:4rem 0;color:white;">
     <div class="container">
         <h1 style="font-weight:800;">About Us</h1>
-        <p style="opacity:0.85;">Learn more about St. Bakhita Chuka Girls High School</p>
+        <p style="opacity:0.85;">Learn more about {{ school.name|default:"Njuri Senior School" }}</p>
     </div>
 </section>
 
-<!-- ABOUT CONTENT -->
-<section style="padding: 5rem 0;">
+<!-- OUR STORY -->
+<section style="padding:5rem 0;">
     <div class="container">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
                 <h2 class="section-title">Our Story</h2>
-                <p class="mt-3">Chuka Girls Secondary School, officially known as <strong>St. Bakhita Chuka Girls High School</strong>, is a government-run Extra County girls boarding school located along Kiagondu Forest Road, Karingari, Chuka - in the heart of Tharaka-Nithi County, Kenya.</p>
-                <p>Named after Saint Josephine Bakhita - a symbol of resilience, faith, and grace - the school has long served as a foundation for young women from across the Eastern Region and beyond. Operating under the Ministry of Education and the Teachers Service Commission, the school offers Forms 1 through 4 under Kenya's national KCSE curriculum.</p>
-                <p>With over 500 students, more than 30 qualified TSC-registered teachers, and 16 streams across four forms, we are committed to nurturing capable, disciplined, and morally grounded young women. Our alumni include some of Kenya's most distinguished public servants, among them <strong>Chief Justice Martha Koome</strong> - the first woman to hold that office in the Republic of Kenya.</p>
-
+                <p class="mt-3">Njuri Senior School (formerly Njuri High School) is a C2 Public Mixed Boarding School located in Magumoni Location, Meru South Sub-County, Tharaka-Nithi County.</p>
+                <p>Formerly known as Njuri High School, the institution was upgraded to a Senior School under Kenya's new Competency-Based Curriculum (CBC) framework â€” now serving Grade 10, 11, and 12 learners through three CBC pathways: STEM, Social Sciences, and Arts &amp; Sports.</p>
+                <p>Under the leadership of Principal Rutere Henry Mwenda, the school has grown to an enrollment of 925 students, continuing its proud tradition of academic excellence and community service in Tharaka-Nithi County.</p>
                 <div class="row g-3 mt-2">
                     <div class="col-6">
-                        <div style="background:#fff0f0; border-radius:10px; padding:1rem; text-align:center;">
-                            <div style="font-size:2rem; font-weight:800; color:#C0392B;">500+</div>
-                            <div style="font-size:0.85rem; color:#666;">Students</div>
+                        <div class="text-center p-3 rounded" style="background:#D8F3DC;">
+                            <div class="fs-3 fw-bold" style="color:#2D6A4F;">925</div>
+                            <small class="text-muted">Students</small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div style="background:#fff0f0; border-radius:10px; padding:1rem; text-align:center;">
-                            <div style="font-size:2rem; font-weight:800; color:#C0392B;">30+</div>
-                            <div style="font-size:0.85rem; color:#666;">Teachers</div>
+                        <div class="text-center p-3 rounded" style="background:#D8F3DC;">
+                            <div class="fs-3 fw-bold" style="color:#2D6A4F;">3</div>
+                            <small class="text-muted">CBC Pathways</small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div style="background:#fff0f0; border-radius:10px; padding:1rem; text-align:center;">
-                            <div style="font-size:2rem; font-weight:800; color:#C0392B;">16</div>
-                            <div style="font-size:0.85rem; color:#666;">Streams</div>
+                        <div class="text-center p-3 rounded" style="background:#D8F3DC;">
+                            <div class="fs-3 fw-bold" style="color:#2D6A4F;">16</div>
+                            <small class="text-muted">Streams</small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div style="background:#fff0f0; border-radius:10px; padding:1rem; text-align:center;">
-                            <div style="font-size:2rem; font-weight:800; color:#C0392B;">14</div>
-                            <div style="font-size:0.85rem; color:#666;">Subjects</div>
+                        <div class="text-center p-3 rounded" style="background:#D8F3DC;">
+                            <div class="fs-3 fw-bold" style="color:#2D6A4F;">C2</div>
+                            <small class="text-muted">Category</small>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div style="background: linear-gradient(135deg, #C0392B, #922B21); border-radius:20px; padding:2.5rem; color:white;">
-                    <h4 style="font-weight:700; margin-bottom:1.5rem;">
-                        <i class="bi bi-info-circle-fill me-2"></i>School Profile
-                    </h4>
-                    <table class="table table-borderless" style="color:white; margin:0;">
-                        <tr>
-                            <td style="opacity:0.75; width:45%;">Official Name</td>
-                            <td style="font-weight:600;">St. Bakhita Chuka Girls High School</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Category</td>
-                            <td style="font-weight:600;">Extra County (C2)</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Type</td>
-                            <td style="font-weight:600;">Girls Boarding</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Ownership</td>
-                            <td style="font-weight:600;">Public / Government</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">KNEC Code</td>
-                            <td style="font-weight:600;">19308304</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">County</td>
-                            <td style="font-weight:600;">Tharaka-Nithi</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Location</td>
-                            <td style="font-weight:600;">Kiagondu Forest Road, Karingari, Chuka</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Motto</td>
-                            <td style="font-weight:600; font-style:italic;">Today's Effort is Tomorrow's Success</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">Patron Saint</td>
-                            <td style="font-weight:600;">Saint Josephine Bakhita</td>
-                        </tr>
-                        <tr>
-                            <td style="opacity:0.75;">School Colors</td>
-                            <td style="font-weight:600;">Red & White</td>
-                        </tr>
+                <div style="background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:20px;padding:2.5rem;color:white;">
+                    <h4 class="mb-4"><i class="bi bi-info-circle-fill me-2"></i>School Profile</h4>
+                    <table class="table table-borderless text-white mb-0">
+                        <tr><td style="opacity:0.75;width:40%;">Official Name</td><td class="fw-bold">Njuri Senior School</td></tr>
+                        <tr><td style="opacity:0.75;">Former Name</td><td class="fw-bold">Njuri High School</td></tr>
+                        <tr><td style="opacity:0.75;">Category</td><td class="fw-bold">C2 (Extra County)</td></tr>
+                        <tr><td style="opacity:0.75;">Type</td><td class="fw-bold">Public Mixed Boarding</td></tr>
+                        <tr><td style="opacity:0.75;">Ownership</td><td class="fw-bold">Public</td></tr>
+                        <tr><td style="opacity:0.75;">KNEC Code</td><td class="fw-bold">19308504</td></tr>
+                        <tr><td style="opacity:0.75;">UIC Code</td><td class="fw-bold">XR7B</td></tr>
+                        <tr><td style="opacity:0.75;">County</td><td class="fw-bold">Tharaka-Nithi</td></tr>
+                        <tr><td style="opacity:0.75;">Sub-County</td><td class="fw-bold">Meru South</td></tr>
+                        <tr><td style="opacity:0.75;">Principal</td><td class="fw-bold">Rutere Henry Mwenda</td></tr>
+                        <tr><td style="opacity:0.75;">Motto</td><td class="fw-bold fst-italic">Centre of Excellence</td></tr>
+                        <tr><td style="opacity:0.75;">Colors</td><td class="fw-bold">Green &amp; White</td></tr>
                     </table>
                 </div>
             </div>
@@ -101,40 +69,31 @@
     </div>
 </section>
 
-<!-- MISSION VISION VALUES -->
-<section style="padding: 5rem 0; background:#f8f9fa;">
+<!-- MISSION / VISION / VALUES -->
+<section style="padding:5rem 0;background:#f8f9fa;">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">
-                <div style="background:white; border-radius:15px; padding:2rem; height:100%; box-shadow:0 5px 20px rgba(0,0,0,0.08); border-top: 4px solid #C0392B;">
-                    <div style="width:60px; height:60px; background:#C0392B; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
-                        <i class="bi bi-eye-fill" style="color:white; font-size:1.5rem;"></i>
-                    </div>
-                    <h4 style="font-weight:700; color:#C0392B;">Our Vision</h4>
-                    <p class="text-muted">To be a centre of excellence in girls' education in Kenya - producing confident, competent, and morally grounded young women who positively transform their communities and the nation.</p>
+                <div class="p-4 bg-white rounded shadow-sm h-100" style="border-top:4px solid #2D6A4F;">
+                    <h4 style="color:#2D6A4F;" class="fw-bold">Vision</h4>
+                    <p class="text-muted">To be a center of excellence that produces disciplined, knowledgeable, and service-oriented leaders ready to transform society.</p>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div style="background:white; border-radius:15px; padding:2rem; height:100%; box-shadow:0 5px 20px rgba(0,0,0,0.08); border-top: 4px solid #C0392B;">
-                    <div style="width:60px; height:60px; background:#C0392B; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
-                        <i class="bi bi-bullseye" style="color:white; font-size:1.5rem;"></i>
-                    </div>
-                    <h4 style="font-weight:700; color:#C0392B;">Our Mission</h4>
-                    <p class="text-muted">To provide quality, holistic education in a disciplined, safe, and faith-based environment that nurtures academic excellence, moral integrity, and social responsibility in every student.</p>
+                <div class="p-4 bg-white rounded shadow-sm h-100" style="border-top:4px solid #52B788;">
+                    <h4 style="color:#2D6A4F;" class="fw-bold">Mission</h4>
+                    <p class="text-muted">To provide quality, holistic education through the CBC framework, nurturing discipline, academic excellence, and a spirit of service among all learners.</p>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div style="background:white; border-radius:15px; padding:2rem; height:100%; box-shadow:0 5px 20px rgba(0,0,0,0.08); border-top: 4px solid #C0392B;">
-                    <div style="width:60px; height:60px; background:#C0392B; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
-                        <i class="bi bi-heart-fill" style="color:white; font-size:1.5rem;"></i>
-                    </div>
-                    <h4 style="font-weight:700; color:#C0392B;">Our Values</h4>
-                    <ul class="text-muted" style="padding-left:1.2rem;">
-                        <li>Academic Excellence</li>
-                        <li>Faith & Moral Integrity</li>
-                        <li>Discipline & Respect</li>
-                        <li>Responsibility & Service</li>
-                        <li>Innovation & Resilience</li>
+                <div class="p-4 bg-white rounded shadow-sm h-100" style="border-top:4px solid #1B4332;">
+                    <h4 style="color:#2D6A4F;" class="fw-bold">Core Values</h4>
+                    <ul class="text-muted">
+                        <li>Knowledge</li>
+                        <li>Discipline</li>
+                        <li>Service</li>
+                        <li>Integrity</li>
+                        <li>Excellence</li>
                     </ul>
                 </div>
             </div>
@@ -142,70 +101,71 @@
     </div>
 </section>
 
-<!-- NOTABLE ALUMNI -->
+<!-- CBC PATHWAYS -->
 <section style="padding:5rem 0;background:white;">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title text-center">Notable Alumni</h2>
-            <p class="text-muted mt-3">Our graduates carry the spirit of St. Bakhita into every corner of Kenya</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-7 col-md-10">
-                <div style="background:linear-gradient(135deg,#f8f9fa,#fff);border-radius:20px;padding:2.5rem;box-shadow:0 8px 30px rgba(0,0,0,0.10);border-left:5px solid #C0392B;display:flex;gap:2rem;align-items:center;flex-wrap:wrap;">
-                    <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#C0392B,#922B21);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-person-fill" style="font-size:3rem;color:white;"></i>
-                    </div>
-                    <div style="flex:1;min-width:200px;">
-                        <h4 style="font-weight:800;color:#1a1a1a;margin-bottom:0.3rem;">Hon. Martha Koome</h4>
-                        <span style="background:#fff0f0;color:#C0392B;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Chief Justice of Kenya</span>
-                        <p class="text-muted mt-2 mb-0" style="font-size:0.92rem;">The 15th Chief Justice of the Republic of Kenya and the first woman to hold the office. A proud alumna of St. Bakhita Chuka Girls High School, she visited the school in 2019 and continues to be an inspiration to every student who walks through our gates.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FACILITIES -->
-<section style="padding:5rem 0;background:#f8f9fa;">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title text-center">Our Facilities</h2>
-            <p class="text-muted mt-3">A well-equipped campus built for learning, living, and growing</p>
+            <h2 class="section-title text-center">CBC Academic Pathways</h2>
+            <p class="text-muted mt-3">Grades 10, 11 &amp; 12 â€” Competency Based Curriculum</p>
         </div>
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div style="background:white;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);">
-                    <i class="bi bi-flask-fill" style="font-size:2.5rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:1rem;">Science Laboratories</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">Fully equipped Physics, Chemistry, and Biology labs for hands-on learning.</p>
+            <div class="col-lg-4">
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;text-align:center;border-top:4px solid #2D6A4F;height:100%;">
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#2D6A4F,#1B4332);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-cpu-fill" style="font-size:1.8rem;color:white;"></i></div>
+                    <h5 style="font-weight:700;color:#1B4332;">STEM</h5>
+                    <p class="text-muted" style="font-size:0.9rem;">Science, Technology, Engineering and Mathematics. Prepares students for medicine, engineering, technology and applied sciences.</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:white;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);">
-                    <i class="bi bi-pc-display" style="font-size:2.5rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:1rem;">Computer Lab</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">ICT laboratory for computer studies and digital skills development.</p>
+            <div class="col-lg-4">
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;text-align:center;border-top:4px solid #52B788;height:100%;">
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#52B788,#2D6A4F);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-globe2" style="font-size:1.8rem;color:white;"></i></div>
+                    <h5 style="font-weight:700;color:#1B4332;">Social Sciences</h5>
+                    <p class="text-muted" style="font-size:0.9rem;">Humanities and Business Studies. Prepares students for law, education, business, journalism, and social sciences at university.</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:white;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);">
-                    <i class="bi bi-book-fill" style="font-size:2.5rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:1rem;">Library</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">A well-stocked library supporting research, reading, and academic excellence.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div style="background:white;border-radius:15px;padding:1.5rem;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.07);">
-                    <i class="bi bi-house-door-fill" style="font-size:2.5rem;color:#C0392B;"></i>
-                    <h6 style="font-weight:700;margin-top:1rem;">Boarding Hostels</h6>
-                    <p class="text-muted" style="font-size:0.85rem;">Safe, supervised dormitories with proper sanitation facilities for all boarders.</p>
+            <div class="col-lg-4">
+                <div style="background:#f8f9fa;border-radius:15px;padding:2rem;text-align:center;border-top:4px solid #1B4332;height:100%;">
+                    <div style="width:65px;height:65px;background:linear-gradient(135deg,#1B4332,#2D6A4F);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-music-note-beamed" style="font-size:1.8rem;color:white;"></i></div>
+                    <h5 style="font-weight:700;color:#1B4332;">Arts &amp; Sports</h5>
+                    <p class="text-muted" style="font-size:0.9rem;">Performing Arts, Visual Arts and Physical Education. For students with creative and sporting talent seeking careers in these fields.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- CONTACT QUICK INFO -->
+<section style="padding:3rem 0;background:linear-gradient(135deg,#1B4332,#2D6A4F);">
+    <div class="container text-center">
+        <h3 style="color:white;font-weight:800;">Get In Touch</h3>
+        <p style="color:#D8F3DC;margin:1rem 0 2rem;">We welcome enquiries from parents, students, and the public.</p>
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-3">
+                <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;">
+                    <i class="bi bi-telephone-fill" style="color:#52B788;font-size:1.5rem;"></i>
+                    <div style="color:white;font-weight:600;margin-top:0.5rem;">Phone</div>
+                    <div style="color:#D8F3DC;font-size:0.85rem;">0722 454 131</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;">
+                    <i class="bi bi-envelope-fill" style="color:#52B788;font-size:1.5rem;"></i>
+                    <div style="color:white;font-weight:600;margin-top:0.5rem;">Email</div>
+                    <div style="color:#D8F3DC;font-size:0.85rem;">njurihschool@yahoo.com</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;">
+                    <i class="bi bi-geo-alt-fill" style="color:#52B788;font-size:1.5rem;"></i>
+                    <div style="color:white;font-weight:600;margin-top:0.5rem;">Location</div>
+                    <div style="color:#D8F3DC;font-size:0.85rem;">Meru South, Tharaka-Nithi</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="{% url 'contact' %}" class="btn btn-lg" style="background:#52B788;color:#1B4332;border-radius:30px;padding:0.8rem 2.5rem;font-weight:700;"><i class="bi bi-envelope-fill me-2"></i>Contact Us</a>
+        </div>
+    </div>
+</section>
 {% endblock %}
-
 

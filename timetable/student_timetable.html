@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}My Timetable{% endblock %}
 {% block content %}
 
 <section style="background:linear-gradient(135deg,#8e44ad,#6c3483);padding:2rem 0;color:white;">
     <div class="container">
         <h4 style="font-weight:800;margin:0;"><i class="bi bi-calendar3 me-2"></i>My Class Timetable</h4>
-        <p style="opacity:0.8;margin:0.3rem 0 0;font-size:0.9rem;">{{ stream.full_name }} — {{ selected_year.year }}</p>
+        <p style="opacity:0.8;margin:0.3rem 0 0;font-size:0.9rem;">{{ stream.full_name }} â€” {{ selected_year.year }}</p>
     </div>
 </section>
 
@@ -34,7 +34,7 @@
                             <td style="text-align:center;padding:0.4rem;vertical-align:middle;">
                                 {% if period in break_periods %}
                                 <span style="color:#e67e22;font-weight:600;font-size:0.78rem;">
-                                    {% if period == '5' %}☕ BREAK{% else %}🍽️ LUNCH{% endif %}
+                                    {% if period == '5' %}â˜• BREAK{% else %}ðŸ½ï¸ LUNCH{% endif %}
                                 </span>
                                 {% elif cell and cell.subject %}
                                 <div style="background:#f0e6ff;border-radius:8px;padding:0.3rem;">
@@ -44,7 +44,7 @@
                                     {% endif %}
                                 </div>
                                 {% else %}
-                                <span style="color:#ddd;">—</span>
+                                <span style="color:#ddd;">â€”</span>
                                 {% endif %}
                             </td>
                             {% endwith %}
@@ -71,3 +71,4 @@
     </div>
 </section>
 {% endblock %}
+

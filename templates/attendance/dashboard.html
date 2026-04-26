@@ -1,6 +1,6 @@
 ﻿{% extends "base.html" %}
 {% load static %}
-{% block title %}Attendance — {{ school.name }}{% endblock %}
+{% block title %}Attendance â€” {{ school.name }}{% endblock %}
 {% block content %}
 
 <section style="background:linear-gradient(135deg,#2ecc71,#27ae60);padding:2rem 0;color:white;">
@@ -8,7 +8,7 @@
         <div class="row align-items-center">
             <div class="col">
                 <h4 style="font-weight:800;margin:0;"><i class="bi bi-person-check-fill me-2"></i>Attendance Management</h4>
-                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ school.name }} — Daily Attendance Tracking</p>
+                <p style="opacity:0.75;margin:0;font-size:0.9rem;">{{ school.name }} â€” Daily Attendance Tracking</p>
             </div>
             <div class="col-auto d-flex gap-2">
                 <a href="{% url 'take_attendance' %}" class="btn" style="background:white;color:#27ae60;border-radius:20px;font-weight:600;"><i class="bi bi-plus-circle-fill me-1"></i>Take Attendance</a>
@@ -97,5 +97,7 @@
     </div>
 </section>
 {% endblock %}
+
+
 
 
