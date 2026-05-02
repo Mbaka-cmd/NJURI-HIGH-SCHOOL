@@ -1,120 +1,100 @@
-﻿{% extends "base.html" %}
+﻿{% extends 'base.html' %}
 {% load static %}
-{% block title %}Gallery â€” {{ school.name }}{% endblock %}
+
+{% block title %}Gallery — Njuri Senior School{% endblock %}
+
 {% block content %}
 
-<!-- PAGE HEADER -->
-<section style="background: linear-gradient(135deg, #2D6A4F, #1B4332); padding: 4rem 0; color: white;">
-    <div class="container">
-        <h1 style="font-weight:800;">Gallery</h1>
-        <p style="opacity:0.85;">Life at Njuri High School High School</p>
-    </div>
+<!-- Page Header -->
+<section style="background: linear-gradient(135deg, #1a5c3a 0%, #2d8653 100%); padding: 60px 0 40px; color: white;">
+  <div class="container">
+    <h1 class="fw-bold">Gallery</h1>
+    <p class="mb-0 opacity-75">Life at Njuri Senior School — Centre of Excellence</p>
+  </div>
 </section>
 
-<!-- GALLERY GRID -->
-<section style="padding:5rem 0;background:#f8f9fa;">
-    <div class="container">
+<!-- Gallery Grid -->
+<section class="py-5">
+  <div class="container">
 
-        <!-- NOTABLE VISITS -->
-        <div class="mb-5">
-            <h4 style="font-weight:700;color:#2D6A4F;margin-bottom:1.5rem;"><i class="bi bi-star-fill me-2"></i>Notable Visits & Alumni</h4>
-            <div class="row g-4">
-                <div class="col-lg-6 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'Martha Koome and former principal Florence K Mutwiri.jpeg' %}" alt="Chief Justice Martha Koome with former Principal Florence K Mutwiri" style="width:100%;height:300px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">CJ Martha Koome & Former Principal Florence K. Mutwiri</h6>
-                            <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>2023 Â· Notable Alumni Visit</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'Martha Koome.jpeg' %}" alt="Chief Justice Martha Koome" style="width:100%;height:300px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Hon. Martha Koome â€” Chief Justice of Kenya</h6>
-                            <small class="text-muted"><i class="bi bi-mortarboard-fill me-1"></i>Proud Alumna of Njuri High School</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row g-4">
+
+      <!-- Image 1 -->
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="gallery-card position-relative overflow-hidden rounded-3 shadow">
+          <img src="{% static 'random_njuri.jpg' %}"
+               alt="Njuri Senior School Campus"
+               class="img-fluid w-100"
+               style="height: 320px; object-fit: cover; transition: transform 0.4s ease;">
+          <div class="gallery-overlay position-absolute bottom-0 start-0 end-0 p-3"
+               style="background: linear-gradient(transparent, rgba(26,92,58,0.85));">
+            <p class="text-white mb-0 fw-semibold">School Campus</p>
+          </div>
         </div>
+      </div>
 
-        <!-- SCHOOL LIFE -->
-        <div class="mb-5">
-            <h4 style="font-weight:700;color:#2D6A4F;margin-bottom:1.5rem;"><i class="bi bi-camera-fill me-2"></i>School Life</h4>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'ASSEMBLY BHAKITA.jpeg' %}" alt="School Assembly" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Morning Assembly</h6>
-                            <small class="text-muted"><i class="bi bi-people-fill me-1"></i>Daily School Assembly</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'games bhakita.jpeg' %}" alt="School Games" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Sports & Games</h6>
-                            <small class="text-muted"><i class="bi bi-trophy-fill me-1"></i>Co-curricular Activities</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'C.U bhakita.jpeg' %}" alt="Christian Union" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Christian Union (C.U)</h6>
-                            <small class="text-muted"><i class="bi bi-heart-fill me-1"></i>Faith & Spiritual Life</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'ENVIRONMENT DAY.jpeg' %}" alt="Environment Day" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Environment Day</h6>
-                            <small class="text-muted"><i class="bi bi-tree-fill me-1"></i>Community & Environment</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'icon photo.jpeg' %}" alt="Njuri High School" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">Njuri High School</h6>
-                            <small class="text-muted"><i class="bi bi-building me-1"></i>School Campus</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div style="border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.10);background:white;">
-                        <img src="{% static 'BACKGROUND BHAKITA.jpeg' %}" alt="Njuri High School Campus" style="width:100%;height:240px;object-fit:cover;">
-                        <div style="padding:1rem 1.2rem;">
-                            <h6 style="font-weight:700;color:#1a1a1a;margin-bottom:0.2rem;">School Campus</h6>
-                            <small class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>Karingari, Chuka</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Image 2 -->
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="gallery-card position-relative overflow-hidden rounded-3 shadow">
+          <img src="{% static 'staff_njuri.jpg' %}"
+               alt="Njuri Senior School Staff"
+               class="img-fluid w-100"
+               style="height: 320px; object-fit: cover; transition: transform 0.4s ease;">
+          <div class="gallery-overlay position-absolute bottom-0 start-0 end-0 p-3"
+               style="background: linear-gradient(transparent, rgba(26,92,58,0.85));">
+            <p class="text-white mb-0 fw-semibold">Our Staff</p>
+          </div>
         </div>
+      </div>
 
-        <!-- MORE PHOTOS COMING -->
-        <div style="background:white;border-radius:15px;padding:3rem;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.07);">
-            <i class="bi bi-camera2" style="font-size:3rem;color:#2D6A4F;opacity:0.4;"></i>
-            <h5 style="font-weight:700;color:#1a1a1a;margin-top:1rem;">More Photos Coming Soon</h5>
-            <p class="text-muted">We are continuously updating our gallery with the latest events, activities, and achievements from our school community.</p>
-            <a href="{% url 'contact' %}" class="btn" style="background:#2D6A4F;color:white;border-radius:25px;padding:0.6rem 2rem;font-weight:600;"><i class="bi bi-envelope me-2"></i>Contact Us</a>
+      <!-- Image 3 -->
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="gallery-card position-relative overflow-hidden rounded-3 shadow">
+          <img src="{% static 'teachers_njuri.jpg' %}"
+               alt="Njuri Senior School Teachers"
+               class="img-fluid w-100"
+               style="height: 320px; object-fit: cover; transition: transform 0.4s ease;">
+          <div class="gallery-overlay position-absolute bottom-0 start-0 end-0 p-3"
+               style="background: linear-gradient(transparent, rgba(26,92,58,0.85));">
+            <p class="text-white mb-0 fw-semibold">Teachers & Faculty</p>
+          </div>
         </div>
+      </div>
 
+      <!-- Image 4 -->
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="gallery-card position-relative overflow-hidden rounded-3 shadow">
+          <img src="{% static 'tour_7.jpg' %}"
+               alt="Njuri Senior School Tour"
+               class="img-fluid w-100"
+               style="height: 320px; object-fit: cover; transition: transform 0.4s ease;">
+          <div class="gallery-overlay position-absolute bottom-0 start-0 end-0 p-3"
+               style="background: linear-gradient(transparent, rgba(26,92,58,0.85));">
+            <p class="text-white mb-0 fw-semibold">School Life</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row -->
+
+    <!-- Bottom note -->
+    <div class="text-center mt-5">
+      <p class="text-muted" style="font-size: 0.9rem;">
+        📸 More photos coming soon. Follow our activities for updates.
+      </p>
     </div>
+
+  </div>
 </section>
+
+<!-- Hover effect -->
+<style>
+  .gallery-card:hover img {
+    transform: scale(1.05);
+  }
+  .gallery-card {
+    cursor: pointer;
+  }
+</style>
 
 {% endblock %}
-
-
-
-
-

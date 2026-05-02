@@ -1,138 +1,105 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
-{% block title %}KCSE Results â€” {{ school.name|default:"Njuri High School" }}{% endblock %}
+
+{% block title %}KCSE Results — Njuri Senior School{% endblock %}
 
 {% block content %}
 
-<!-- HEADER -->
-<section style="background:linear-gradient(135deg,#2D6A4F,#1B4332);padding:2.5rem 0;color:white;">
-    <div class="container text-center">
-        <h1 style="font-weight:800;font-size:1.8rem;margin-bottom:0.3rem;">KCSE Examination Results</h1>
-        <p style="opacity:0.8;font-size:0.95rem;margin:0;">Njuri High School High School Â· KNEC Code: 19308304</p>
-    </div>
+<!-- Page Header -->
+<section style="background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); padding: 60px 0 40px; color: white;">
+  <div class="container text-center">
+    <h1 class="fw-bold mb-2">KCSE Examination Results</h1>
+    <p class="mb-0" style="opacity:0.8;">Njuri Senior School &mdash; KNEC Code: 19308504</p>
+  </div>
 </section>
 
-<section style="padding:2.5rem 0;background:#f4f4f4;">
-    <div class="container" style="max-width:860px;">
+<!-- Results Content -->
+<section class="py-5" style="background: #f8f9fa;">
+  <div class="container" style="max-width: 860px;">
 
-        {% if results %}
-        {% for result in results %}
-        {% if result.is_published %}
+    <!-- 2013 Result Card -->
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden;">
+      <div class="card-header d-flex justify-content-between align-items-center py-3 px-4"
+           style="background: #1a1a1a; color: white;">
+        <h5 class="mb-0 fw-bold" style="font-size: 1rem;">KCSE 2013 &mdash; Performance Report</h5>
+        <span class="badge py-2 px-3" style="background: #2D6A4F; border-radius: 20px; font-size: 0.8rem;">Mean Grade: B</span>
+      </div>
+      <div class="card-body p-4">
 
-        <!-- YEAR REPORT CARD -->
-        <div style="background:white;border-radius:4px;margin-bottom:2.5rem;border:1px solid #ddd;overflow:hidden;">
-
-            <!-- YEAR HEADER -->
-            <div style="background:#1a1a1a;padding:0.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center;">
-                <h2 style="color:white;font-size:1.1rem;font-weight:700;margin:0;">KCSE {{ result.year }} â€” Performance Report</h2>
-                <span style="background:#2D6A4F;color:white;padding:4px 14px;border-radius:3px;font-size:0.88rem;font-weight:700;">Mean Grade: {{ result.mean_grade }}</span>
-            </div>
-
-            <div style="padding:1.5rem;">
-
-                <!-- SUMMARY -->
-                {% if result.summary %}
-                <p style="color:#444;font-size:0.88rem;border-left:3px solid #2D6A4F;padding-left:0.8rem;margin-bottom:1.2rem;font-style:italic;">{{ result.summary }}</p>
-                {% endif %}
-
-                <!-- KEY FIGURES TABLE -->
-                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:1.5rem;">
-                    <thead>
-                        <tr style="background:#f8f8f8;border-bottom:2px solid #2D6A4F;">
-                            <th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">Candidates Sat</th>
-                            <th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">Mean Grade</th>
-                            {% if result.mean_points %}<th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">Mean Points</th>{% endif %}
-                            <th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">University Qualifiers</th>
-                            <th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">Pass Rate</th>
-                            {% if result.county_position %}<th style="padding:8px 12px;text-align:left;font-weight:600;color:#333;">County Position</th>{% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#1a1a1a;">{{ result.candidates_sat }}</td>
-                            <td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#2D6A4F;">{{ result.mean_grade }}</td>
-                            {% if result.mean_points %}<td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#1a1a1a;">{{ result.mean_points }}</td>{% endif %}
-                            <td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#1a1a1a;">{{ result.university_qualifiers }}</td>
-                            <td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#1a1a1a;">{{ result.pass_rate }}%</td>
-                            {% if result.county_position %}<td style="padding:10px 12px;font-weight:700;font-size:1rem;color:#1a1a1a;">{{ result.county_position }}</td>{% endif %}
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- GRADE DISTRIBUTION TABLE -->
-                <h6 style="font-size:0.82rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.6rem;border-bottom:1px solid #eee;padding-bottom:0.4rem;">Grade Distribution</h6>
-                <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-                    <thead>
-                        <tr style="background:#f8f8f8;">
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">A</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">A-</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">B+</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">B</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">B-</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">C+</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">C</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">C-</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">D+</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">D</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">D-</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:600;color:#555;border:1px solid #e0e0e0;">E</th>
-                            <th style="padding:7px 10px;text-align:center;font-weight:700;color:#1a1a1a;border:1px solid #e0e0e0;background:#f0f0f0;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_a_plain %}700{% else %}400{% endif %};color:{% if result.count_a_plain %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_a_plain|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_a_minus %}700{% else %}400{% endif %};color:{% if result.count_a_minus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_a_minus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_b_plus %}700{% else %}400{% endif %};color:{% if result.count_b_plus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_b_plus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_b_plain %}700{% else %}400{% endif %};color:{% if result.count_b_plain %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_b_plain|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_b_minus %}700{% else %}400{% endif %};color:{% if result.count_b_minus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_b_minus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_c_plus %}700{% else %}400{% endif %};color:{% if result.count_c_plus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_c_plus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_c_plain %}700{% else %}400{% endif %};color:{% if result.count_c_plain %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_c_plain|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_c_minus %}700{% else %}400{% endif %};color:{% if result.count_c_minus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_c_minus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_d_plus %}700{% else %}400{% endif %};color:{% if result.count_d_plus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_d_plus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_d_plain %}700{% else %}400{% endif %};color:{% if result.count_d_plain %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_d_plain|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_d_minus %}700{% else %}400{% endif %};color:{% if result.count_d_minus %}#1a1a1a{% else %}#bbb{% endif %};">{{ result.count_d_minus|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:{% if result.count_e %}700{% else %}400{% endif %};color:{% if result.count_e %}#2D6A4F{% else %}#bbb{% endif %};">{{ result.count_e|default:"â€”" }}</td>
-                            <td style="padding:9px 10px;text-align:center;border:1px solid #e0e0e0;font-weight:700;color:#1a1a1a;background:#f0f0f0;">{{ result.candidates_sat }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- TOP STUDENT -->
-                {% if result.top_student_name %}
-                <div style="margin-top:1rem;padding:0.7rem 1rem;background:#fffbf0;border:1px solid #f0e0a0;border-radius:3px;font-size:0.85rem;display:flex;justify-content:space-between;align-items:center;">
-                    <span style="color:#666;">ðŸ† Top Student</span>
-                    <strong style="color:#1a1a1a;">{{ result.top_student_name }}{% if result.top_student_grade %} â€” Grade {{ result.top_student_grade }}{% endif %}{% if result.top_student_points %} ({{ result.top_student_points }} pts){% endif %}</strong>
-                </div>
-                {% endif %}
-
-            </div>
+        <div class="alert mb-4" style="border-left: 4px solid #2D6A4F; background: #f0faf4; border-radius: 0 8px 8px 0;">
+          <p class="mb-0" style="font-size: 0.9rem; color: #444;">
+            Njuri High School posted a mean score of <strong>67.626</strong> in the 2013 KCSE, earning a mean grade of <strong>B</strong>
+            and ranking <strong>#66 nationally</strong> in the County Schools category.
+          </p>
         </div>
 
-        {% endif %}
-        {% endfor %}
-
-        {% else %}
-        <div style="background:white;border-radius:4px;padding:3rem;text-align:center;border:1px solid #ddd;">
-            <p style="color:#666;font-size:0.95rem;">KCSE results will be published here once available.</p>
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered mb-0" style="font-size: 0.9rem;">
+            <thead>
+              <tr style="background: #2D6A4F; color: white;">
+                <th>Mean Score</th>
+                <th>Mean Grade</th>
+                <th>National Ranking</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>67.626</strong></td>
+                <td style="color: #2D6A4F; font-weight: 700;">B</td>
+                <td><strong>#66</strong></td>
+                <td>County Schools</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        {% endif %}
 
-        <!-- KNEC INFO -->
-        <div style="background:white;border:1px solid #ddd;border-radius:4px;padding:1.2rem 1.5rem;">
-            <h6 style="font-size:0.82rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.8rem;">Check Individual Results</h6>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <p style="font-size:0.85rem;margin:0;color:#444;"><strong>Via SMS:</strong> Send <code style="background:#f4f4f4;padding:2px 6px;border-radius:3px;">INDEX_NUMBERKCSE</code> to <strong>20076</strong></p>
-                </div>
-                <div class="col-md-6">
-                    <p style="font-size:0.85rem;margin:0;color:#444;"><strong>Via Portal:</strong> Visit <a href="https://www.knec.ac.ke" target="_blank" style="color:#2D6A4F;">www.knec.ac.ke</a> for full individual results</p>
-                </div>
-            </div>
-        </div>
-
+        <p class="mb-0" style="font-size: 0.8rem; color: #888;">
+          <i class="bi bi-info-circle me-1"></i>
+          Source: KNEC National Rankings 2013. Njuri High School was listed in the Top 100 County Schools nationally.
+        </p>
+      </div>
     </div>
+
+    <!-- Recent Years Notice -->
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden;">
+      <div class="card-header py-3 px-4" style="background: #1a1a1a; color: white;">
+        <h5 class="mb-0 fw-bold" style="font-size: 1rem;">Recent Results</h5>
+      </div>
+      <div class="card-body p-4 text-center py-5">
+        <div style="width: 64px; height: 64px; background: #D8F3DC; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+          <i class="bi bi-clock-history" style="font-size: 1.8rem; color: #2D6A4F;"></i>
+        </div>
+        <h6 class="fw-bold" style="color: #333;">Results Being Updated</h6>
+        <p style="color: #777; font-size: 0.9rem; max-width: 420px; margin: 0 auto;">
+          Detailed KCSE results for 2014–2024 are being compiled. Contact the school office directly
+          for the most current performance data.
+        </p>
+        <div class="mt-3">
+          <a href="{% url 'contact' %}" class="btn btn-sm" style="background: #2D6A4F; color: white; border-radius: 20px; padding: 0.4rem 1.2rem;">
+            <i class="bi bi-envelope me-1"></i> Contact School
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CBC Transition Note -->
+    <div class="card border-0 shadow-sm" style="border-radius: 12px; border-left: 4px solid #52B788 !important; overflow: hidden;">
+      <div class="card-body p-4">
+        <h6 class="fw-bold mb-2" style="color: #2D6A4F;">
+          <i class="bi bi-info-circle-fill me-2"></i>CBC Transition
+        </h6>
+        <p class="mb-0" style="font-size: 0.88rem; color: #555;">
+          Njuri High School has transitioned to <strong>Njuri Senior School</strong> under Kenya's
+          Competency Based Curriculum (CBC) framework. The school now serves Grade 10, 11, and 12
+          learners across three pathways: <strong>STEM</strong>, <strong>Social Sciences</strong>,
+          and <strong>Arts &amp; Sports</strong>. KCSE examinations as previously structured are
+          being replaced by the new CBC assessment system.
+        </p>
+      </div>
+    </div>
+
+  </div>
 </section>
+
 {% endblock %}
-
-
