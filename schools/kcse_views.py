@@ -8,7 +8,7 @@ import openpyxl
 
 
 def get_school():
-    return School.objects.first()
+    return School.objects.filter(slug="njuri-high-school").first()
 
 
 @login_required
@@ -114,3 +114,4 @@ def kcse_toggle_publish(request, year):
     status = "published" if result.is_published else "unpublished"
     messages.success(request, f'KCSE {year} results {status}.')
     return redirect('kcse_upload')
+

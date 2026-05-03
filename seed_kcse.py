@@ -1,8 +1,8 @@
-# Run with: Get-Content "seed_kcse.py" | python manage.py shell
+﻿# Run with: Get-Content "seed_kcse.py" | python manage.py shell
 from website.models import KCSEResult
 from schools.models import School
 
-school = School.objects.first()
+school = School.objects.filter(slug="njuri-high-school").first()
 if not school:
     print("ERROR: No school found. Create one in /admin/ first.")
 else:
@@ -48,7 +48,7 @@ else:
             'is_published': True,
             'top_student_name': 'Mercy Mutheu',
             'top_student_grade': 'A',
-            'summary': 'Historic performance — all 270 candidates qualified for university. Top student Mercy Mutheu attained grade A. Principal Joan Muthomi celebrated the achievement as the school\'s best result.'
+            'summary': 'Historic performance â€” all 270 candidates qualified for university. Top student Mercy Mutheu attained grade A. Principal Joan Muthomi celebrated the achievement as the school\'s best result.'
         }
     )
     print("2023 results saved!")

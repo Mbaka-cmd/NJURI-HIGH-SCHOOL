@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand
+﻿from django.core.management.base import BaseCommand
 from website.models import KCSEResult
 from schools.models import School
 
@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Seed KCSE results data'
 
     def handle(self, *args, **kwargs):
-        school = School.objects.first()
+        school = School.objects.filter(slug="njuri-high-school").first()
         if not school:
             self.stderr.write("ERROR: No school found. Create one in /admin/ first.")
             return

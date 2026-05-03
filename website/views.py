@@ -85,3 +85,4 @@ def news_detail(request, slug):
         "recent": recent,
     }
     return render(request, "website/news_detail.html", context)
+

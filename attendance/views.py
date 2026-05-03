@@ -9,7 +9,7 @@ from schools.models import School
 
 
 def get_school():
-    return School.objects.first()
+    return School.objects.filter(slug="njuri-high-school").first()
 
 
 @login_required
@@ -104,4 +104,5 @@ def student_attendance_report(request, student_id):
         'late': late,
         'rate': rate,
     })
+
 
