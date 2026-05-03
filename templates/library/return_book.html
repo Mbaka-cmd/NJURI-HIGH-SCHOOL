@@ -1,7 +1,7 @@
 ﻿{% extends 'base.html' %}
 {% block title %}Return Book{% endblock %}
 {% block content %}
-<div style="background:linear-gradient(135deg,#8B1A1A,#c0392b);padding:2rem;color:white;margin-bottom:2rem;">
+<div style="background:linear-gradient(135deg,#8B1A1A,#2d6a4f);padding:2rem;color:white;margin-bottom:2rem;">
   <div style="max-width:600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;">
     <h1 style="margin:0;font-size:1.8rem;">Return Book</h1>
     <a href="{% url 'library_dashboard' %}" style="background:rgba(255,255,255,0.2);color:white;padding:0.6rem 1.2rem;border-radius:8px;text-decoration:none;font-weight:600;">Back</a>
@@ -13,9 +13,9 @@
       <div style="background:#f8f9fa;border-radius:8px;padding:1rem;"><div style="font-size:0.75rem;color:#999;margin-bottom:0.3rem;">Student</div><div style="font-weight:600;">{{ record.student.first_name }} {{ record.student.last_name }}</div><div style="font-size:0.8rem;color:#777;">{{ record.student.admission_number }}</div></div>
       <div style="background:#f8f9fa;border-radius:8px;padding:1rem;"><div style="font-size:0.75rem;color:#999;margin-bottom:0.3rem;">Book</div><div style="font-weight:600;">{{ record.book.title }}</div><div style="font-size:0.8rem;color:#777;">{{ record.book.author }}</div></div>
       <div style="background:#f8f9fa;border-radius:8px;padding:1rem;"><div style="font-size:0.75rem;color:#999;margin-bottom:0.3rem;">Borrowed</div><div style="font-weight:600;">{{ record.borrowed_at|date:"d M Y H:i" }}</div></div>
-      <div style="background:{% if record.is_overdue %}#fff0f0{% else %}#f0fff5{% endif %};border-radius:8px;padding:1rem;"><div style="font-size:0.75rem;color:#999;margin-bottom:0.3rem;">Due</div><div style="font-weight:600;color:{% if record.is_overdue %}#e74c3c{% else %}#27ae60{% endif %};">{{ record.due_at|date:"d M Y H:i" }}</div></div>
+      <div style="background:{% if record.is_overdue %}#fff0f0{% else %}#f0fff5{% endif %};border-radius:8px;padding:1rem;"><div style="font-size:0.75rem;color:#999;margin-bottom:0.3rem;">Due</div><div style="font-weight:600;color:{% if record.is_overdue %}#52b788{% else %}#27ae60{% endif %};">{{ record.due_at|date:"d M Y H:i" }}</div></div>
     </div>
-    {% if record.is_overdue %}<div style="background:#fff0f0;border:1px solid #e74c3c;border-radius:8px;padding:1rem;margin-bottom:1.5rem;color:#c0392b;"><strong>Overdue!</strong> {{ record.overdue_days }} day(s) late. Fine: KES {{ record.fine_amount }}</div>{% endif %}
+    {% if record.is_overdue %}<div style="background:#fff0f0;border:1px solid #52b788;border-radius:8px;padding:1rem;margin-bottom:1.5rem;color:#2d6a4f;"><strong>Overdue!</strong> {{ record.overdue_days }} day(s) late. Fine: KES {{ record.fine_amount }}</div>{% endif %}
     <form method="post">{% csrf_token %}<button type="submit" style="width:100%;background:#27ae60;color:white;padding:0.875rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;">Confirm Return</button></form>
   </div>
 </div>

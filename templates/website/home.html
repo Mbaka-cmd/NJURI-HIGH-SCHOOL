@@ -1,13 +1,12 @@
 ﻿{% extends "base.html" %}
 {% load static %}
-{% block title %}Home — {{ school.name|default:"Njuri High School" }}{% endblock %}
+{% block title %}Home � {{ school.name|default:"Njuri High School" }}{% endblock %}
 
 {% block content %}
 
-<!-- HERO SECTION — NJURI GREEN THEME -->
+<!-- HERO SECTION � NJURI GREEN THEME -->
 <section class="hero-section py-5" style="
-  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #52B788 100%);
-  min-height: 85vh;
+background: linear-gradient(rgba(10,40,25,0.78), rgba(10,40,25,0.78)), url(/static/background.jpg) center/cover no-repeat; min-height: 85vh;
   display: flex;
   align-items: center;
   position: relative;
@@ -27,7 +26,7 @@
         <div class="mb-3">
           <span class="badge px-3 py-2" style="background:rgba(82,183,136,0.3);
             border:1px solid #52B788;color:#D8F3DC;border-radius:20px;font-size:0.85rem;">
-            <i class="bi bi-award-fill me-2"></i>C2 Public Boarding School · Est. Tharaka-Nithi
+            <i class="bi bi-award-fill me-2"></i>C2 Public Boarding School � Est. Tharaka-Nithi
           </span>
         </div>
  
@@ -141,7 +140,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="fw-bold" style="color:#1B4332;">CBC Academic Pathways</h2>
-      <p class="text-muted">Grades 10, 11 & 12 — Competency Based Curriculum</p>
+      <p class="text-muted">Grades 10, 11 & 12 � Competency Based Curriculum</p>
     </div>
     <div class="row g-4">
       <div class="col-md-4">
@@ -233,50 +232,24 @@
     </div>
 </section>
 
-<!-- NOTABLE ALUMNI -->
-<section style="padding:3rem 0;background:white;">
-    <div class="container">
-        <div class="text-center mb-4">
-            <h2 class="section-title text-center">Notable Alumni</h2>
-            <p class="text-muted mt-3">Njuri High School is proud to have nurtured leaders and innovators</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-7 col-md-10">
-                <div style="background:linear-gradient(135deg,#f8f9fa,#fff);border-radius:20px;padding:2rem;box-shadow:0 8px 30px rgba(0,0,0,0.10);border-left:5px solid #2D6A4F;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
-                    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#2D6A4F,#1B4332);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-person-fill" style="font-size:2.5rem;color:white;"></i>
-                    </div>
-                    <div style="flex:1;min-width:200px;">
-                        <h4 style="font-weight:800;color:#1a1a1a;margin-bottom:0.3rem;">Our Proud Alumni</h4>
-                        <span style="background:#fff0f0;color:#2D6A4F;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Success Stories</span>
-                        <p class="text-muted mt-2 mb-0" style="font-size:0.88rem;">Njuri High School alumni continue to make an impact in academia, business, public service, and their communities across Kenya and beyond.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- KCSE PERFORMANCE BANNER -->
-{% if latest_kcse %}
 <section style="padding:2.5rem 0;background:linear-gradient(135deg,#2D6A4F,#1B4332);">
     <div class="container">
         <div class="text-center mb-3">
-            <h2 style="color:white;font-weight:800;font-size:1.8rem;">KCSE {{ latest_kcse.year }} Performance</h2>
+            <h2 style="color:white;font-weight:800;font-size:1.8rem;">KCSE 2013 Performance</h2>
+            <p style="color:rgba(255,255,255,0.75);font-size:0.95rem;">Mean Score: 67.626 · Ranked <strong style="color:#52B788;">#66 Nationally</strong> in County Schools Category</p>
         </div>
         <div class="row g-3 justify-content-center">
-            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">{{ latest_kcse.candidates_sat }}</div><div style="font-size:0.8rem;opacity:0.8;">Candidates</div></div></div>
-            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">{{ latest_kcse.mean_grade }}</div><div style="font-size:0.8rem;opacity:0.8;">Mean Grade</div></div></div>
-            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">{{ latest_kcse.university_qualifiers }}</div><div style="font-size:0.8rem;opacity:0.8;">Uni Qualifiers</div></div></div>
-            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">{{ latest_kcse.pass_rate }}%</div><div style="font-size:0.8rem;opacity:0.8;">Pass Rate</div></div></div>
+            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">67.626</div><div style="font-size:0.8rem;opacity:0.8;">Mean Score</div></div></div>
+            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">B</div><div style="font-size:0.8rem;opacity:0.8;">Mean Grade</div></div></div>
+            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">#66</div><div style="font-size:0.8rem;opacity:0.8;">National Ranking</div></div></div>
+            <div class="col-lg-2 col-md-4 col-6"><div style="background:rgba(255,255,255,0.15);border-radius:15px;padding:1rem;text-align:center;color:white;"><div style="font-size:2rem;font-weight:800;">County</div><div style="font-size:0.8rem;opacity:0.8;">Category</div></div></div>
         </div>
         <div class="text-center mt-3">
             <a href="{% url 'kcse_results' %}" class="btn btn-light" style="border-radius:30px;color:#2D6A4F;font-weight:600;"><i class="bi bi-bar-chart-fill me-2"></i>View Full Results</a>
         </div>
     </div>
 </section>
-{% endif %}
-
 <!-- NEWS & EVENTS -->
 {% if news %}
 <section style="padding:3rem 0;background:white;">
@@ -320,7 +293,7 @@
                     <p style="font-size:0.9rem;color:#444;font-style:italic;">{{ comment.comment }}</p>
                     <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #f0f0f0;">
                         <strong style="color:#1a1a1a;font-size:0.9rem;">{{ comment.author_name }}</strong>
-                        <div style="color:gold;font-size:0.82rem;">{% for i in "12345" %}{% if forloop.counter <= comment.rating %}★{% endif %}{% endfor %}</div>
+                        <div style="color:gold;font-size:0.82rem;">{% for i in "12345" %}{% if forloop.counter <= comment.rating %}?{% endif %}{% endfor %}</div>
                     </div>
                 </div>
             </div>
@@ -387,3 +360,9 @@
 </section>
 
 {% endblock %}
+
+
+
+
+
+

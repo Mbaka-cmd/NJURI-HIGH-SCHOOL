@@ -14,10 +14,10 @@
 <section style="background:#1a1a1a;padding:0.8rem 0;">
     <div class="container">
         <div class="d-flex gap-2 flex-wrap justify-content-center">
-            <a href="{% url 'news_list' %}" class="btn btn-sm {% if not post_type %}btn-danger{% else %}btn-outline-light{% endif %}" style="border-radius:20px;">All</a>
-            <a href="{% url 'news_list' %}?type=news" class="btn btn-sm {% if post_type == 'news' %}btn-danger{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-newspaper me-1"></i>News</a>
-            <a href="{% url 'news_list' %}?type=event" class="btn btn-sm {% if post_type == 'event' %}btn-danger{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-calendar-event me-1"></i>Events</a>
-            <a href="{% url 'news_list' %}?type=notice" class="btn btn-sm {% if post_type == 'notice' %}btn-danger{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-megaphone me-1"></i>Notices</a>
+            <a href="{% url 'news_list' %}" class="btn btn-sm {% if not post_type %}btn-success{% else %}btn-outline-light{% endif %}" style="border-radius:20px;">All</a>
+            <a href="{% url 'news_list' %}?type=news" class="btn btn-sm {% if post_type == 'news' %}btn-success{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-newspaper me-1"></i>News</a>
+            <a href="{% url 'news_list' %}?type=event" class="btn btn-sm {% if post_type == 'event' %}btn-success{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-calendar-event me-1"></i>Events</a>
+            <a href="{% url 'news_list' %}?type=notice" class="btn btn-sm {% if post_type == 'notice' %}btn-success{% else %}btn-outline-light{% endif %}" style="border-radius:20px;"><i class="bi bi-megaphone me-1"></i>Notices</a>
         </div>
     </div>
 </section>

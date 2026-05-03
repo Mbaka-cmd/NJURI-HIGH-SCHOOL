@@ -1,7 +1,7 @@
 ﻿{% extends 'base.html' %}
 {% block title %}Books - Library{% endblock %}
 {% block content %}
-<div style="background:linear-gradient(135deg,#8B1A1A,#c0392b);padding:2rem;color:white;margin-bottom:2rem;">
+<div style="background:linear-gradient(135deg,#8B1A1A,#2d6a4f);padding:2rem;color:white;margin-bottom:2rem;">
   <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
     <div><h1 style="margin:0;font-size:1.8rem;">ðŸ“‹ Book Catalog</h1></div>
     <div style="display:flex;gap:0.75rem;">
@@ -25,7 +25,7 @@
   <div style="background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);overflow:hidden;">
     <table style="width:100%;border-collapse:collapse;">
       <thead><tr style="background:#f8f9fa;"><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Title</th><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Author</th><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Category</th><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Copies</th><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Available</th><th style="padding:0.875rem 1rem;text-align:left;font-size:0.8rem;color:#666;border:none;">Shelf</th></tr></thead>
-      <tbody>{% for book in books %}<tr style="border-top:1px solid #f0f0f0;"><td style="padding:0.875rem 1rem;font-weight:600;">{{ book.title }}</td><td style="padding:0.875rem 1rem;color:#555;">{{ book.author }}</td><td style="padding:0.875rem 1rem;"><span style="background:#f0f8ff;color:#3498db;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.75rem;">{{ book.get_category_display }}</span></td><td style="padding:0.875rem 1rem;">{{ book.total_copies }}</td><td style="padding:0.875rem 1rem;"><span style="color:{% if book.available_copies > 0 %}#27ae60{% else %}#e74c3c{% endif %};font-weight:600;">{{ book.available_copies }}</span></td><td style="padding:0.875rem 1rem;color:#777;">{{ book.shelf_location|default:"-" }}</td></tr>{% empty %}<tr><td colspan="6" style="padding:2rem;text-align:center;color:#999;">No books found</td></tr>{% endfor %}</tbody>
+      <tbody>{% for book in books %}<tr style="border-top:1px solid #f0f0f0;"><td style="padding:0.875rem 1rem;font-weight:600;">{{ book.title }}</td><td style="padding:0.875rem 1rem;color:#555;">{{ book.author }}</td><td style="padding:0.875rem 1rem;"><span style="background:#f0f8ff;color:#3498db;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.75rem;">{{ book.get_category_display }}</span></td><td style="padding:0.875rem 1rem;">{{ book.total_copies }}</td><td style="padding:0.875rem 1rem;"><span style="color:{% if book.available_copies > 0 %}#27ae60{% else %}#52b788{% endif %};font-weight:600;">{{ book.available_copies }}</span></td><td style="padding:0.875rem 1rem;color:#777;">{{ book.shelf_location|default:"-" }}</td></tr>{% empty %}<tr><td colspan="6" style="padding:2rem;text-align:center;color:#999;">No books found</td></tr>{% endfor %}</tbody>
     </table>
   </div>
 </div>

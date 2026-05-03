@@ -27,7 +27,7 @@
             </div>
             <div class="col-4">
                 <div style="background:white;border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);">
-                    <div style="font-size:2rem;font-weight:800;color:#e74c3c;">{{ session.total_absent }}</div>
+                    <div style="font-size:2rem;font-weight:800;color:#52b788;">{{ session.total_absent }}</div>
                     <div style="font-size:0.8rem;color:#888;">Absent</div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                                 {% if record.status == 'present' %}
                                 <span style="background:#f0fff5;color:#27ae60;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Present</span>
                                 {% elif record.status == 'absent' %}
-                                <span style="background:#fff0f0;color:#e74c3c;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Absent</span>
+                                <span style="background:#fff0f0;color:#52b788;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Absent</span>
                                 {% elif record.status == 'late' %}
                                 <span style="background:#fffbf0;color:#e67e22;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">Late</span>
                                 {% else %}

@@ -78,7 +78,7 @@
 <strong>Message sent:</strong> "{{ message_sent }}"</div>
 {% if errors %}
 <div style="background:#fff5f5;border-radius:10px;padding:1rem;margin-top:0.8rem;max-height:150px;overflow-y:auto;">
-<strong style="color:#e74c3c;font-size:0.85rem;">Errors:</strong>
+<strong style="color:#52b788;font-size:0.85rem;">Errors:</strong>
 {% for error in errors %}<div style="font-size:0.8rem;color:#666;padding:0.2rem 0;">{{ error }}</div>{% endfor %}
 </div>{% endif %}
 </div>{% endif %}
@@ -87,7 +87,7 @@
 function toggleCustom(val){document.getElementById('custom_phones_div').style.display=val==='custom'?'block':'none';}
 document.getElementById('smsMessage').addEventListener('input',function(){
 var len=this.value.length,el=document.getElementById('charCount');
-el.textContent=len+' / 160';el.style.color=len>160?'#e74c3c':'#27ae60';});
+el.textContent=len+' / 160';el.style.color=len>160?'#52b788':'#27ae60';});
 </script>
 {% endblock %}
 
